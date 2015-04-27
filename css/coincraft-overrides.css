@@ -362,5 +362,20 @@ table .delete:hover, table .edit:hover {
   margin: auto 0;
 }
 
+.stats-table p {
+  margin: 0;
+}
 
+.stats-table tbody tr td, .stats-table thead tr th{
+  text-align: center;
+  vertical-align: middle;
+  padding: 20px;
+}
 
+.stats-table td.stat, .stats-table th.stat {
+  width: 28%;
+}
+
+.stats-table th.stat p {
+  margin-bottom: 8px;
+}
