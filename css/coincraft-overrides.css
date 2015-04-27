@@ -57,6 +57,10 @@ body {
   margin-right: 30px;
 }
 
+.page-header .nav > li.nav-active > a { /*had to do inline*/
+  color: #FFC700 !important;
+}
+
 .page-header .nav {
   margin-top: 10px;
   margin-bottom: -10px;
@@ -357,4 +361,6 @@ table .delete:hover, table .edit:hover {
   vertical-align: middle;
   margin: auto 0;
 }
+
+
 
