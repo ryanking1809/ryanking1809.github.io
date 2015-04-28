@@ -36,8 +36,8 @@
 
         <nav id="sidebar" class="sidebar nav-collapse collapse widget">
     <ul id="side-nav" class="side-nav">
-        <li class="business active">
-            <a href="timesheet-weekly.html">My Timesheet</a>
+        <li class="business">
+            <a href="#">My Timesheet</a>
         </li>
     </ul>
 </nav>
@@ -50,19 +50,19 @@
         </li>
         
         <li class="panel business-category">
-            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Ryan King</span></a>
+            <a href="#" data-parent="#side-nav"> <span class="name">Ryan King</span></a>
+        </li>
+        <li class="panel business-category active">
+            <a href="#" data-parent="#side-nav"> <span class="name">Andrew Magee</span></a>
         </li>
         <li class="panel business-category">
-            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Andrew Magee</span></a>
+            <a href="#" data-parent="#side-nav"> <span class="name">Le Corbusier</span></a>
         </li>
-        <li class="panel business-category">
-            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Le Corbusier</span></a>
+        <li class="panel business-category active">
+            <a href="#" data-parent="#side-nav"> <span class="name">Marion Griffin</span></a>
         </li>
-        <li class="panel business-category">
-            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Marion Griffin</span></a>
-        </li>
-        <li class="panel business-category">
-            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Frank Llloyd Wright</span></a>
+        <li class="panel business-category active">
+            <a href="#" data-parent="#side-nav"> <span class="name">Frank Llloyd Wright</span></a>
         </li>
     </ul>
 </nav>
@@ -1233,15 +1233,17 @@
 
 
 <!-- jquery plugins -->
-<script src="lib/jquery-maskedinput/jquery.maskedinput.js"></script>
-<script src="lib/parsley/parsley.js"> </script>
 <script src="lib/icheck.js/jquery.icheck.js"></script>
-<script src="lib/select2.js"></script>
+<script src="lib/sparkline/jquery.sparkline.js"></script>
+<script src="lib/jquery-ui-1.10.3.custom.js"></script>
+<script src="lib/jquery.slimscroll.js"></script>
 <script src="lib/jquery.autogrow-textarea.js"></script>
 
 
 <!--backbone and friends -->
 <script src="lib/backbone/underscore-min.js"></script>
+<script src="lib/backbone/backbone-min.js"></script>
+<script src="lib/backbone/backbone.localStorage-min.js"></script>
 
 <!-- bootstrap default plugins -->
 <script src="lib/bootstrap/transition.js"></script>
@@ -1250,73 +1252,24 @@
 <script src="lib/bootstrap/tooltip.js"></script>
 <script src="lib/bootstrap/popover.js"></script>
 <script src="lib/bootstrap/button.js"></script>
+<script src="lib/bootstrap/tab.js"> </script>
 <script src="lib/bootstrap/dropdown.js"></script>
-<script src="lib/bootstrap/modal.js"></script>
 
-<!-- bootstrap custom plugins -->
-<script src="lib/bootstrap-datepicker.js"></script>
 <script src="lib/bootstrap-select/bootstrap-select.js"></script>
-<script src="lib/wysihtml5/wysihtml5-0.3.0_rc2.js"></script>
-<script src="lib/bootstrap-wysihtml5/bootstrap-wysihtml5.js"></script>
-<script src="lib/bootstrap-switch.js"></script>
-<script src="lib/bootstrap-colorpicker.js"></script>
-<script src="lib/bootstrap-slider-3.0.1/bootstrap-slider.min.js"></script>
+
+<script src="js/forms-elemets.js"></script>
+<script src="lib/select2.js"></script>
+<script src="lib/bootstrap/modal.js"></script>
 
 <!-- basic application js-->
 <script src="js/app.js"></script>
 <script src="js/settings.js"></script>
-
-<!-- page specific -->
+<script src="js/forms.js"></script>
 <script src="js/forms-elemets.js"></script>
 
-<script type="text/template" id="settings-template">
-    <div class="setting clearfix">
-        <div>Background</div>
-        <div id="background-toggle" class="pull-left btn-group" data-toggle="buttons-radio">
-            <% dark = background == 'dark'; light = background == 'light';%>
-            <button type="button" data-value="dark" class="btn btn-sm btn-inverse <%= dark? 'active' : '' %>">Dark</button>
-            <button type="button" data-value="light" class="btn btn-sm btn-inverse <%= light? 'active' : '' %>">Light</button>
-        </div>
-    </div>
-    <div class="setting clearfix">
-        <div>Sidebar on the</div>
-        <div id="sidebar-toggle" class="pull-left btn-group" data-toggle="buttons-radio">
-            <% onRight = sidebar == 'right'%>
-            <button type="button" data-value="left" class="btn btn-sm btn-inverse <%= onRight? '' : 'active' %>">Left</button>
-            <button type="button" data-value="right" class="btn btn-sm btn-inverse <%= onRight? 'active' : '' %>">Right</button>
-        </div>
-    </div>
-    <div class="setting clearfix">
-        <div>Sidebar</div>
-        <div id="display-sidebar-toggle" class="pull-left btn-group" data-toggle="buttons-radio">
-            <% display = displaySidebar%>
-            <button type="button" data-value="true" class="btn btn-sm btn-inverse <%= display? 'active' : '' %>">Show</button>
-            <button type="button" data-value="false" class="btn btn-sm btn-inverse <%= display? '' : 'active' %>">Hide</button>
-        </div>
-    </div>
-    <div class="setting clearfix">
-        <div>Transparent</div>
-        <div>
-            <a href="../" class="btn btn-sm btn-inverse">&nbsp; Switch &nbsp;   <i class="fa fa-angle-right"></i></a>
-        </div>
-    </div>
-</script>
-
-<script type="text/template" id="sidebar-settings-template">
-        <% auto = sidebarState == 'auto'%>
-        <% if (auto) {%>
-            <button type="button"
-                    data-value="icons"
-                    class="btn-icons btn btn-inverse btn-sm">Icons</button>
-    <button type="button"
-            data-value="auto"
-            class="btn-auto btn btn-inverse btn-sm">Auto</button>
-        <%} else {%>
-            <button type="button"
-                    data-value="auto"
-                    class="btn btn-inverse btn-sm">Auto</button>
-        <% } %>
-</script>
+<!-- page specific -->
+<script src="js/index.js"></script>
+<script src="js/chat.js"></script>
 
 <script type="text/template" id="message-template">
         <div class="sender pull-left">
@@ -1383,6 +1336,12 @@
             data-value="auto"
             class="btn btn-inverse btn-sm">Auto</button>
     <% } %>
+</script>
+
+<script type="text/javascript">
+    $(".sidebar li").click(function() {
+        $(this).toggleClass("active");
+    });
 </script>
 
 

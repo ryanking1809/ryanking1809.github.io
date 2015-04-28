@@ -124,7 +124,7 @@ nav .business {
   padding: 0 !important;
 }
 
-.sidebar.staff {
+.sidebar.below {
   margin-top: 40px;
 }
 
@@ -378,4 +378,10 @@ table .delete:hover, table .edit:hover {
 
 .stats-table th.stat p {
   margin-bottom: 8px;
+}
+
+
+.sidebar-heading {
+  margin: 40px 0 20px;
+  color: white;
 }
