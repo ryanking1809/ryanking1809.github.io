@@ -42,7 +42,8 @@ body {
 
 .resource-calendar-wrap {
   width: 100%;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow-y: visible;
 }
 
 .page-header .nav > li > a {
