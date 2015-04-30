@@ -1302,8 +1302,8 @@
 <script src="js/chat.js"></script>
 
 <script>
-    $(".project-nav .business-category").click(function() {
-        $(this).toggleClass("active");
+    $(".project-nav .business-category > a").click(function() {
+        $(this).parent("li").toggleClass("active");
     });
 
 </script>
