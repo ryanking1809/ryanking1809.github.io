@@ -45,8 +45,19 @@
 <nav id="sidebar" class="sidebar nav-collapse collapse widget below">
     <ul id="side-nav" class="side-nav">
         <li class="business">
-            <a href="timesheet-reports.html">Reports</a>
+            <a href="#">Reports</a>
         </li>
+        
+        <li class="panel business-category">
+            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Staff - This Week</span></a>
+        </li>
+        <li class="panel business-category">
+            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Projects - Last Month</span></a>
+        </li>
+        <li class="panel business-category">
+            <a href="timesheet-reports.html" data-parent="#side-nav"> <span class="name">Documentation Phases - All Time</span></a>
+        </li>
+        <li class="new business-category" data-toggle="modal" data-target="#export-modal"><a href="#">+ New Report</a></li>
     </ul>
 </nav>
 
