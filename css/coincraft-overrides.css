@@ -410,6 +410,12 @@ table .delete:hover, table .edit:hover {
 }
 
 .name-input {
-  margin: 0 1em 1.8em 0;
+  margin: 0 0 1.8em 0;
+  width: 48%;
+  float: left !important;
+
+}
+.name-input.first {
+  margin-right: 4%;
 
 }
