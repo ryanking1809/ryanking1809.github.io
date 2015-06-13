@@ -408,3 +408,8 @@ table .delete:hover, table .edit:hover {
 .report-table .no-hover tr:first-child td {
   border-top: none;
 }
+
+.name-input {
+  margin: 0 1em 1.8em 0;
+
+}
