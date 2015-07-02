@@ -23,7 +23,7 @@
 */
 /*.absolute-wrapper{
     position: fixed;
-    width: 270px;
+    width: 100%;
     height: 100%;
     background-color: transparent;
     border-right: 1px solid #e7e7e7;
@@ -31,7 +31,6 @@
 
 .side-menu {
   position: fixed;
-  width: 270px;
   height: 88%;
   background-color: transparent;
   overflow-y: scroll;
@@ -46,8 +45,11 @@
 }
 .side-menu .navbar-nav .active > a {
   background-color: #FFC700;
-  margin-right: -1px;
 }
+.side-menu .navbar-nav .active > a:focus, .side-menu .navbar-nav .active > a:hover {
+  background-color: #FFC700;
+}
+
 .side-menu .navbar-nav li {
   display: block;
   width: 100%;
@@ -84,22 +86,43 @@
   width: 100%;
 }
 .side-menu #dropdown .panel-body .navbar-nav li {
-  padding-left: 15px;
-  border-bottom: 1px solid #e7e7e7;
+/*  padding-left: 15px;
+*/  border-bottom: 1px solid #e7e7e7;
 }
 .side-menu #dropdown .panel-body .navbar-nav li:last-child {
   border-bottom: none;
 }
 .side-menu #dropdown .panel-body .panel > a {
-  margin-left: -20px;
+  /*margin-left: -20px;
   padding-left: 35px;
-}
+*/}
 .side-menu #dropdown .panel-body .panel-body {
-  margin-left: -15px;
+  /*margin-left: -15px;*/
 }
 .side-menu #dropdown .panel-body .panel-body li {
-  padding-left: 30px;
+  /*padding-left: 30px;*/
 }
+
+.side-menu .dropdown li a {
+  /*padding-left: 30px;*/
+/*  outline: 1px solid green;
+*/  padding-left: 20px;
+}
+
+.side-menu .dropdown .dropdown li a {
+  /*padding-left: 30px;*/
+/*  outline: 1px solid red;
+*/  padding: 12px 12px 12px 30px;
+    font-size: .98em;
+}
+
+.side-menu .dropdown .dropdown .dropdown li a {
+  /*padding-left: 30px;*/
+/*  outline: 1px solid blue;*/  
+    padding: 9px 9px 9px 40px;
+    font-size: .98em;
+}
+
 .side-menu #dropdown .panel-body .panel-body li:last-child {
   border-bottom: 1px solid #e7e7e7;
 }
@@ -160,7 +183,7 @@
 }
 /* Main body section */
 .side-body {
-  margin-left: 270px;
+  margin-left: 100%;
 }
 /* small screen */
 @media (max-width: 768px) {
@@ -177,7 +200,7 @@
   /* Slide in animation */
   @-moz-keyframes slidein {
     0% {
-      left: -270px;
+      left: -100%;
     }
     100% {
       left: 10px;
@@ -185,7 +208,7 @@
   }
   @-webkit-keyframes slidein {
     0% {
-      left: -270px;
+      left: -100%;
     }
     100% {
       left: 10px;
@@ -193,7 +216,7 @@
   }
   @keyframes slidein {
     0% {
-      left: -270px;
+      left: -100%;
     }
     100% {
       left: 10px;
@@ -204,7 +227,7 @@
       left: 0;
     }
     100% {
-      left: -270px;
+      left: -100%;
     }
   }
   @-webkit-keyframes slideout {
@@ -212,7 +235,7 @@
       left: 0;
     }
     100% {
-      left: -270px;
+      left: -100%;
     }
   }
   @keyframes slideout {
@@ -220,7 +243,7 @@
       left: 0;
     }
     100% {
-      left: -270px;
+      left: -100%;
     }
   }
   /* Slide side menu*/
@@ -236,8 +259,8 @@
   .side-menu-container > .navbar-nav {
     /* Add position:absolute for scrollable menu -> see top comment */
     position: fixed;
-    left: -270px;
-    width: 270px;
+    left: -100%;
+    width: 100%;
     top: 43px;
     height: 100%;
     border-right: 1px solid #e7e7e7;
@@ -264,7 +287,7 @@
       left: 0;
     }
     100% {
-      left: 270px;
+      left: 100%;
     }
   }
   @-webkit-keyframes bodyslidein {
@@ -272,7 +295,7 @@
       left: 0;
     }
     100% {
-      left: 270px;
+      left: 100%;
     }
   }
   @keyframes bodyslidein {
@@ -280,19 +303,19 @@
       left: 0;
     }
     100% {
-      left: 270px;
+      left: 100%;
     }
   }
   @-moz-keyframes bodyslideout {
     0% {
-      left: 270px;
+      left: 100%;
     }
     100% {
       left: 0;
     }
   @-webkit-keyframes bodyslideout {
     0% {
-      left: 270px;
+      left: 100%;
     }
     100% {
       left: 0;
@@ -300,7 +323,7 @@
   }
   @keyframes bodyslideout {
     0% {
-      left: 270px;
+      left: 100%;
     }
     100% {
       left: 0;

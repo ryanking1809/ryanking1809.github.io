@@ -2,6 +2,7 @@ body {
   font-weight: normal;
   padding-bottom: 100px;
   background-image: url("../img/triangles.png") !important;
+  background-attachment: fixed !important;
   background-color: rgba(74, 121, 147, 0.89);
   background: radial-gradient(farthest-side ellipse at 10% 0, rgba(74, 121, 147, 0.89), rgba(226, 226, 226, 0.87), rgba(185, 135, 131, 0.87)), url("../img/bgnoise_lg_dark.png");
   background: -webkit-radial-gradient(10% 0, farthest-side ellipse, rgba(74, 121, 147, 0.89), rgba(226, 226, 226, 0.87), rgba(185, 135, 131, 0.87)), url("../img/bgnoise_lg_dark.png");
