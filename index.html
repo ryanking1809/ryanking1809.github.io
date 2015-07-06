@@ -26,6 +26,10 @@
 }
 
 </style>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+  <script src="http://cdn.oesmith.co.uk/morris-0.4.1.min.js"></script>
+<meta charset=utf-8 />
 </head>
 <body>
 
@@ -266,92 +270,80 @@
         <div class="row">
         
             <div class="col-md-10 col-md-offset-2">
-                <h2 class="page-title">My Practice</h2>
+                <h2 class="page-title">CC Arch Studio</h2>
             </div>
             <div class="col-md-10 col-md-offset-2">
 
                 <section class="widget" style="text-align:center;">
-                <img style="display: inline-block; width: 80%; max-width: 1200px;" src="img/graph.png" />
+
+                <img style="display: inline-block; width: 90%; max-width: 1200px;" src="img/cc-graph.png" />
                 </section>
 
+ <section class="widget" style="text-align:center;">
+    <div class="btn-group" style="float:left">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-original-title="" title="">
+                                            &nbsp; This Month &nbsp;
+                                            <i class="fa fa-caret-down"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Separated link</a></li>
+                                        </ul>
+                                    </div><div style="clear:both">
+                <img style="display: inline-block; width: 70%; max-width: 1200px; " src="img/donuts.png" />
+                </div></section>
 
 
+<section class="widget" style="vertical-align:middle">
 
-<section class="widget">
+                <script type="text/javascript">
+                $( document ).ready(function() {
+                Morris.Donut({
+                  element: 'donut-example',
+                  data: [
+                    {label: "Projects", value: 30},
+                    {label: "Marketing", value: 20},
+                    {label: "Admin", value: 10}
+                  ]
+                });
+                });
+                </script>
+
+
                     
-                     <table class="table stats-table">
+                   <div id="donut-example" style=" width:30%; padding-left: 4em; display:inline-block"></div>  
+
+                <div style="width:50%; display:inline-block; padding: 0 0 3em 6em">
+                   <table class="table table-hover phase-table">
                                 <thead>                            
                                 <tr>
-                                <th></th>
-                                <th class="stat"><p>Hourly Budgets</p>
-                                    <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-sm btn-inverse" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Percentage
-                                        </label>
-                                        <label class="btn btn-sm btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Actuals
-                                        </label>
-                                    </div>
-                                </th>
-                                <th class="stat"><p>Financial Budgets</p>
-                                    <div class="btn-group" data-toggle="buttons">
-                                    <label class="btn btn-sm btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Percentage
-                                        </label>
-                                        <label class="btn btn-sm btn-inverse" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Actuals
-                                        </label>
-                                        </div>
-                                </th>
-                                <th class="stat"><p>Revenue</p>
-                                    <div class="btn-group" data-toggle="buttons">
-                                        <label class="btn btn-sm btn-inverse" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Revenue
-                                        </label>
-                                        <label class="btn btn-sm btn-inverse" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Profit
-                                        </label>
-                                        <label class="btn btn-sm btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-inverse">
-                                            <input type="radio"> Earnings Ratio
-                                        </label>
-                                    </div>
-                                </th>
+                                <th>Cost-Centre</th>
+                                <th>Percentage Hours</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>Scheduled</td>
-                                    <td class="res-hours stat">
-                                    <p class="large">180/200</p>
-                                    <p>Hours Scheduled</p>
-                                    </td>
-                                    <td class="res-hours stat">
-                                        <p class="large">90%</p>
-                                        <p>Budget Scheduled</p>
-                                    </td>
-                                    <td class="res-hours stat">
-                                        <p class="large">3</p>
-                                        <p>Earnings Ratio</p>
-                                    </td>
+                                <th>Projects</th>
+                                <th>50%</th>
                                 </tr>
                                 <tr>
-                                    <td>Actual</td>
-                                    <td class="res-hours stat">
-                                    <p class="large">40/200</p>
-                                    <p>Hours Logged</p>
-                                    </td>
-                                    <td class="res-hours stat">
-                                        <p class="large">20%</p>
-                                        <p>Budget Used</p>
-                                    </td>
-                                    <td class="res-hours stat">
-                                        <p class="large">6.4</p>
-                                        <p>Earnings Ratio</p>
-                                    </td>
+                                <th>Marketing</th>
+                                <th>30%</th>
                                 </tr>
-                                
+                                <tr>
+                                <th>Admin</th>
+                                <th>20%</th>
+                                </tr>
                                 </tbody>
                                 </table>
+                                <button style="float:right" type="button" class="btn btn-default" data-placement="top" data-original-title=".btn .btn-default">
+                                        Add Cost-Centre
+                                    </button>
+                                </div>
+
                                 
                 </section>
 
@@ -359,362 +351,41 @@
 
 
 
-                <section class="widget">
-                    <h4>Resource Scheduling</h4>
-                <div class="resource-calendar-wrap">
-                    <table class="resource-calendar">   
-<tr>
-<td></td>
-<td class="labels">
-<div class="calendar-labels top">
-        <div data-week-no="1" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-01" class="cell label length-7"><p>Week 1 (01 Jan 2015 - 07 Jan 2015)</p></div>
-            </div>
-        </div>
-            <div data-week-no="2" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-08" class="cell label length-7"><p>Week 2 (08 Jan 2015 - 14 Jan 2015)</p></div>
-            </div>
-        </div>
-            <div data-week-no="3" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-15" class="cell label length-7"><p>Week 3 (15 Jan 2015 - 21 Jan 2015)</p></div>
-            </div>
-        </div>
-            <div data-week-no="4" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-15" class="cell label length-7"><p>Week 4 (22 Jan 2015 - 28 Jan 2015)</p></div>
-            </div>
-        </div>
-    </div>
-<div class="calendar-labels">
-        <div data-week-no="1" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-01" class="cell label mon"><p><span class="day-label">Mon</span><br>01</p></div>
-                <div data-date="2015-01-02" class="cell label tue"><p><span class="day-label">Tue</span><br>02</p></div>
-                <div data-date="2015-01-03" class="cell label wed"><p><span class="day-label">Wed</span><br>03</p></div>
-                <div data-date="2015-01-04" class="cell label thu"><p><span class="day-label">Thu</span><br>04</p></div>
-                <div data-date="2015-01-05" class="cell label fri"><p><span class="day-label">Fri</span><br>05</p></div>
-                <div data-date="2015-01-06" class="cell label sat"><p><span class="day-label">Sat</span><br>06</p></div>
-                <div data-date="2015-01-07" class="cell label sun"><p><span class="day-label">Sun</span><br>07</p></div>
-            </div>
-        </div>
-            <div data-week-no="2" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-08" class="cell label mon"><p><span class="day-label">Mon</span><br>08</p></div>
-                <div data-date="2015-01-09" class="cell label tue"><p><span class="day-label">Tue</span><br>09</p></div>
-                <div data-date="2015-01-10" class="cell label wed"><p><span class="day-label">Wed</span><br>10</p></div>
-                <div data-date="2015-01-11" class="cell label thu"><p><span class="day-label">Thu</span><br>11</p></div>
-                <div data-date="2015-01-12" class="cell label fri"><p><span class="day-label">Fri</span><br>12</p></div>
-                <div data-date="2015-01-13" class="cell label sat"><p><span class="day-label">Sat</span><br>13</p></div>
-                <div data-date="2015-01-14" class="cell label sun"><p><span class="day-label">Sun</span><br>14</p></div>
-            </div>
-        </div>
-            <div data-week-no="3" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-15" class="cell label mon"><p><span class="day-label">Mon</span><br>15</p></div>
-                <div data-date="2015-01-16" class="cell label tue"><p><span class="day-label">Tue</span><br>16</p></div>
-                <div data-date="2015-01-17" class="cell label wed"><p><span class="day-label">Wed</span><br>17</p></div>
-                <div data-date="2015-01-18" class="cell label thu"><p><span class="day-label">Thu</span><br>18</p></div>
-                <div data-date="2015-01-19" class="cell label fri"><p><span class="day-label">Fri</span><br>19</p></div>
-                <div data-date="2015-01-20" class="cell label sat"><p><span class="day-label">Sat</span><br>20</p></div>
-                <div data-date="2015-01-21" class="cell label sun"><p><span class="day-label">Sun</span><br>21</p></div>
-            </div>
-        </div>
-            <div data-week-no="4" class="week-container">
-            <div class="week-row">
-                <div data-date="2015-01-15" class="cell label mon"><p><span class="day-label">Mon</span><br>15</p></div>
-                <div data-date="2015-01-23" class="cell label tue"><p><span class="day-label">Tue</span><br>23</p></div>
-                <div data-date="2015-01-24" class="cell label wed"><p><span class="day-label">Wed</span><br>24</p></div>
-                <div data-date="2015-01-25" class="cell label thu"><p><span class="day-label">Thu</span><br>25</p></div>
-                <div data-date="2015-01-26" class="cell label fri"><p><span class="day-label">Fri</span><br>26</p></div>
-                <div data-date="2015-01-27" class="cell label sat"><p><span class="day-label">Sat</span><br>27</p></div>
-                <div data-date="2015-01-28" class="cell label sun"><p><span class="day-label">Sun</span><br>28</p></div>
-            </div>
-        </div>
-    </div>
-    </td></tr>
-    <tr>
-    <td class="person-name">Ryan King</td>
-    <td>
-    <div data-person-id="1" class="person-calendar">
-        <div data-week-no="1" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>&nbsp;</p></div>
-                <div class="cell sab length-2"><p>Project 1</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-04" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-05" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>8</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>8</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>8</p></div>
-                <div data-date="2015-01-04" class="cell day thu"><p>8</p></div>
-                <div data-date="2015-01-05" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="2" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div class="cell sab length-3"><p>Super Really Really Really Really Long Name</p></div>
-                <div data-date="2015-01-11" class="cell day thu neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-12" class="cell day fri neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div class="cell sab length-5 active"><p>Ryan's House</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-08" class="cell day mon negative"><p>-8</p></div>
-                <div data-date="2015-01-09" class="cell day tue negative"><p>-8</p></div>
-                <div data-date="2015-01-10" class="cell day wed negative"><p>-8</p></div>
-                <div data-date="2015-01-11" class="cell day thu neutral"><p>0</p></div>
-                <div data-date="2015-01-12" class="cell day fri neutral"><p>0</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="3" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>&nbsp;</p></div>
-                <div class="cell sab length-3 active"><p>Ryan's House</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-16" class="cell day tue negative"><p>&nbsp;</p></div>
-                <div data-date="2015-01-17" class="cell day wed negative"><p>&nbsp;</p></div>
-                <div data-date="2015-01-18" class="cell day thu negative"><p>&nbsp;</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>8</p></div>
-                <div data-date="2015-01-16" class="cell day tue negative"><p>-8</p></div>
-                <div data-date="2015-01-17" class="cell day wed negative"><p>-8</p></div>
-                <div data-date="2015-01-18" class="cell day thu negative"><p>-8</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="4" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>8</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>8</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>8</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>8</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-    </div>
-    </td></tr>
-    <tr>
-    <td class="person-name">Andrew Magee</td>
-    <td>
-        <div class="person-calendar" data-person-id="2">
-        <div data-week-no="1" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>&nbsp;</p></div>
-                <div class="cell day sab"><p>&nbsp;</p></div>
-                <div data-date="2015-01-05" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>&nbsp;</p></div>
-                <div data-date="2015-01-04" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-05" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-01" class="cell day mon out-range"><p>8</p></div>
-                <div data-date="2015-01-02" class="cell day tue out-range"><p>8</p></div>
-                <div data-date="2015-01-03" class="cell day wed out-range"><p>8</p></div>
-                <div data-date="2015-01-04" class="cell day thu"><p>8</p></div>
-                <div data-date="2015-01-05" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-06" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-07" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="2" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div class="cell sab length-4 active"><p>Super Really Really Really Really Long Name</p></div>
-                <div data-date="2015-01-12" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-08" class="cell day mon neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-09" class="cell day tue neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-10" class="cell day wed neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-11" class="cell day thu neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-12" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-08" class="cell day mon neutral"><p>0</p></div>
-                <div data-date="2015-01-09" class="cell day tue neutral"><p>0</p></div>
-                <div data-date="2015-01-10" class="cell day wed neutral"><p>0</p></div>
-                <div data-date="2015-01-11" class="cell day thu neutral"><p>0</p></div>
-                <div data-date="2015-01-12" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-13" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-14" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="3" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-16" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-17" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-18" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-16" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-17" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-18" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-15" class="cell day mon"><p>8</p></div>
-                <div data-date="2015-01-16" class="cell day tue"><p>8</p></div>
-                <div data-date="2015-01-17" class="cell day wed"><p>8</p></div>
-                <div data-date="2015-01-18" class="cell day thu"><p>8</p></div>
-                <div data-date="2015-01-19" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-20" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-21" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-            <div data-week-no="4" class="week-container">
-            <div data-row-no="1" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="2" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>&nbsp;</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>&nbsp;</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>&nbsp;</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>&nbsp;</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>&nbsp;</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>&nbsp;</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>&nbsp;</p></div>
-            </div>
-            <div data-row-no="3" class="week-row">
-                <div data-date="2015-01-22" class="cell day mon"><p>8</p></div>
-                <div data-date="2015-01-23" class="cell day tue"><p>8</p></div>
-                <div data-date="2015-01-24" class="cell day wed"><p>8</p></div>
-                <div data-date="2015-01-25" class="cell day thu"><p>8</p></div>
-                <div data-date="2015-01-26" class="cell day fri"><p>8</p></div>
-                <div data-date="2015-01-27" class="cell day sat neutral"><p>0</p></div>
-                <div data-date="2015-01-28" class="cell day sun neutral"><p>0</p></div>
-            </div>
-        </div>
-    </div>
-    </td></tr>
-    </table></div>
-
-                </section>
+                
 
 
 
 
 
 
-                <section class="widget">
+                <section class="widget col-md-5 float:right">
                     
                      <table class="table table-hover phase-table">
                                 <thead>                            
                                 <tr>
-                                <th class="name">Staff Member</th>
                                 <th class="name">Project</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Hours / Day</th>
                                 <th class="edit"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
 
                                 <tr>
-                                    <td class="name">Ryan King<br /><span class="clash">Clash: 18 Apr 2015 - 01 May 2015</span></td>
-                                    <td class="name"><span class="proj-label"> Ronchamp: Concept Design</span><br /><span class="cat-label">Projects</span></td>
-                                    <td>01 Apr 2015</td>
-                                    <td>01 May 2015</td>
-                                    <td>6</td>
+                                    <td class="name">Villa Savoye</td>
                                     <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="name">Andrew Magee</td>
-                                    <td class="name"><span class="proj-label"> Ronchamp: Concept Design</span><br /><span class="cat-label">Projects</span></td>
-                                    <td>01 Jun 2015</td>
-                                    <td>01 Jul 2015</td>
-                                    <td>4</td>
+                                    <td class="name">Walsh St</td>
                                     <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="name">Le Corbusier</td>
-                                    <td class="name"><span class="proj-label"> Ronchamp: Concept Design</span><br /><span class="cat-label">Projects</span></td>
-                                    <td>01 Apr 2015</td>
-                                    <td>01 Jul 2015</td>
-                                    <td>8</td>
+                                    <td class="name">Sydney Opera House</td>
+                                    <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="name">Falling Water</td>
                                     <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
                                 </tr>
 
@@ -722,7 +393,39 @@
 
                                 </tbody>
                                 </table>
-                                <button class="btn btn-inverse"  data-toggle="modal" data-target="#alloc-modal">+ Schedule Time</button>
+                                <button class="btn btn-inverse"  data-toggle="modal" data-target="#alloc-modal">+ Add Project</button>
+                </section>
+                <section class="widget col-md-5 col-md-offset-1">
+                    
+                     <table class="table table-hover phase-table">
+                                <thead>                            
+                                <tr>
+                                <th class="name">Staff Member</th>
+                                <th class="edit"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr>
+                                    <td class="name">Ryan King</td>
+                                    <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="name">Andrew Magee</td>
+                                    <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
+                                </tr>
+
+                                <tr>
+                                    <td class="name">Le Corbusier</td>
+                                    <td class="edit" data-toggle="modal" data-target="#alloc-modal"><i class="glyphicon glyphicon-edit"></i></td>
+                                </tr>
+
+                                </tr>
+
+                                </tbody>
+                                </table>
+                                <button class="btn btn-inverse"  data-toggle="modal" data-target="#alloc-modal">+ Add Staff Member</button>
                 </section>
                 
             </div>
