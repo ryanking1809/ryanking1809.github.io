@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Menu</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="../../../node_modules/react-bootstrap/dist/react-bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/menu.css">
+  </head>
+  <body>
+    <script type="text/jsx">
+      // Your code here
+var Collapse = ReactBootstrap.Collapse;
+
+      var Menu = React.createClass({
+
+      getInitialState: function(){
+         return {
+           menuItems: [
+             "Apples",
+             "Broccoli",
+             "Chicken",
+             "Duck",
+             "Eggs",
+             "Fish",
+             "Granola",
+             "Hash Browns"
+           ],
+           active: "Apples"
+         }
+      },
+
+      changeActive: function(name) {
+        this.setState({active: name});
+      },
+
+      render: function(){
+        var active = this.state.active
+        var click = this.changeActive
+        return (
+          <div className="side-menu">
+          <ul>
+          {
+            this.state.menuItems.map(function(item) {
+              return (<MenuItem name={item} active={active == item} click={click}/>);
+            })
+           }
+          </ul>
+          </div>
+        );
+      }
+    });
+
+
+    var MenuItem = React.createClass({
+      menuClick: function(name) {
+        this.props.click(this.props.name);
+      },
+
+      render: function(){
+        console.log("here too");
+              var style = "";
+              if (this.props.active) {style = "active";}
+              return (
+                <li className={style} onClick={this.menuClick}>{this.props.name}</li>                
+                )
+            }
+    });
+
+    React.render(<Menu/>, $('body')[0])
+    
+    </script>
+  </body>
+</html>
