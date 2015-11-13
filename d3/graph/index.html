@@ -10,89 +10,138 @@
 </head>
 </head>
 <body>
-  <<script>
-    // data
-    var dataA = [{
-      x: 0,
-      y: 100,
-    }, {
-      x: 100,
-      y: 150,
-    }, {
-      x: 200,
-      y: 350,
-    }, {
-      x: 300,
-      y: 200,
-    }, ];
+  <body>
+    <div class="container">
+    <div id="chart"></div>
+  </div>
+    <script>
 
-    var dataB = [{
-      x: 0,
-      y: 200,
-    }, {
-      x: 100,
-      y: 100,
-    }, {
-      x: 200,
-      y: 250,
-    }];
-    
-    var area = d3.svg.line()
-      .x(function(d){
-        return d.x;
-      })
-      .y(function(d){
-        return d.y;
-      });
-      
-    var svg = d3.select('body')
-      .append('svg')
-      .attr('width', 500)
-      .attr('height', 500);
 
-    // Graph shapes
-    var graphA = svg.append("path")
-      .datum(dataA)
-      .attr("class", "area")
-      .attr("d", area)
-      .style({
-        fill: 'none'
-      });
+// Accepts array or coordinate arrays [[{X:,Y:}]] - not X & Y must be upper case, d3.js requires lowercase
+function boolean2D(subj_paths, clip_paths, clip_type_key) {
 
-    var graphB = svg.append("path")
-      .datum(dataB)
-      .attr("class", "area")
-      .attr("d", area)
-      .style({
-        fill: 'none'
-      });
-      
-    var AminusB = greinerHormann.diff(dataA, dataB);
-    var BminusA = greinerHormann.diff(dataB, dataA);
-    
-    // Graph shapes
-    AminusB.forEach(function(d){
-      svg.append("path")
-      .datum(d)
-      .attr("class", "area")
-      .attr("d", area)
-      .style({
-        fill: 'steelblue',
-        opacity: 0.8
-      });
+  var clip_type = {
+    "union" : ClipperLib.ClipType.ctUnion,
+    "difference" : ClipperLib.ClipType.ctDifference,
+    "intersection" : ClipperLib.ClipType.ctIntersection,
+    "exclusion" : ClipperLib.ClipType.ctXor,
+  };
+
+  var cpr = new ClipperLib.Clipper();
+
+  cpr.AddPaths(subj_paths, ClipperLib.PolyType.ptSubject, true);  // true means closed path
+  cpr.AddPaths(clip_paths, ClipperLib.PolyType.ptClip, true);
+
+  var solution_paths = new ClipperLib.Paths();
+  var succeeded = cpr.Execute(clip_type[clip_type_key], solution_paths, ClipperLib.PolyFillType.pftNonZero, ClipperLib.PolyFillType.pftNonZero);
+
+  a = [];
+
+  // Convert to lowercase for D3.js
+
+  solution_paths.forEach(function(d) {
+    b = []
+    d.forEach(function(c) {
+      b.push({x:c.X, y:c.Y});
     });
-    
-    // Graph shapes
-    BminusA.forEach(function(d){
+    a.push(b);
+  });
+  console.log(a);
+  return a;
+}
+ 
+
+var lineFunction = d3.svg.line()
+.x(function(d) { return d.x; })
+.y(function(d) { return d.y; })
+.interpolate("linear");
+
+
+function invertY(pathArray,height) {
+  pathArray.forEach(function(path) {
+    path.forEach(function(d) {
+      d.Y = height - d.Y;
+    });
+  });
+  return pathArray;
+}
+
+
+var height = 400,
+    width = 300;
+
+var rev = [[
+    { X: 0, Y: 0, },
+    { X: 0, Y: 100, },
+    { X: 100, Y: 150, },
+    { X: 200, Y: 350, },
+    { X: 300, Y: 200, },
+    { X: 300, Y: 0, },
+]];
+
+var exp = [[
+    { X: 0, Y: 0, },
+    { X: 0, Y: 200, },
+    { X: 100, Y: 250, },
+    { X: 200, Y: 100, },
+    { X: 300, Y: 150, },
+    { X: 300, Y: 0, },
+]];
+
+rev = invertY(rev,height);
+exp = invertY(exp,height);
+
+
+
+// conatainers
+
+var svg = d3.select('#chart').append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .style('background', '#C9D7D6');
+
+prof = boolean2D(rev,exp,"difference");
+
+
+prof.forEach(function(d){
       svg.append("path")
-      .datum(d)
-      .attr("class", "area")
-      .attr("d", area)
+      .attr("d", lineFunction(d))
       .style({
         fill: 'orange',
         opacity: 0.8
       });
     });
+
+
+loss = boolean2D(exp,rev,"difference");
+
+loss.forEach(function(d){
+      svg.append("path")
+      .attr("d", lineFunction(d))
+      .style({
+        fill: 'red',
+        opacity: 0.8
+      });
+    });
+
+
+even = boolean2D(rev,exp,"intersection");;
+
+even.forEach(function(d){
+      svg.append("path")
+      .attr("d", lineFunction(d))
+      .style({
+        fill: 'grey',
+        opacity: 0.8
+      });
+    });
+
+
+    </script>
+
+
+  </body>
+</html>
       
   </script>
 </body>

@@ -1,0 +1,123 @@
+body {
+	font-family: "Open Sans", sans-serif;
+	color: #444;
+	vertical-align: text-top;
+}
+
+.time-widget {
+	width: 7em;
+	table-layout:fixed;
+	border-collapse: collapse;
+	margin: .5em;
+	display: inline-table;
+}
+
+.time-widget.expanded {
+	width: 20em;
+}
+
+
+.time-widget td {
+	text-align:center;
+	border: 1px solid #ddd;
+}
+
+table.time-widget td:first-child {
+	border-left: 1px solid #ccc;
+}
+table.time-widget td:last-child {
+	border-right: 1px solid #ccc;
+}
+table.time-widget tr:first-child td {
+	border-top: 1px solid #d9d9d9;
+}
+table.time-widget tr:last-child td, .time-widget td[rowspan="2"], .time-widget td[rowspan="3"] {
+	border-bottom: 1px solid #b3b3b3;
+	box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+
+.time-widget.expanded tr:nth-last-child(2) td{
+	border-bottom: 1px solid #b3b3b3;
+	box-shadow: 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.time-widget tr {
+	height: 3em;
+}
+
+
+.time-cell {
+	width: 4em;
+	color: #666;
+	box-shadow: inset 0px 4px 5px rgba(97, 143, 176, 0.05);
+	cursor:text;
+}
+
+.time-cell:hover {
+	color: #444;
+	box-shadow: inset 0px 3px 5px rgba(97, 143, 176, 0.075);
+}
+
+.time-cell input{
+	width: 100%;
+	border:none;
+	text-align:center;
+	background: transparent;
+}
+
+.button-cell {
+	width: 2em;
+	cursor: pointer;
+	color: #666;
+	background-color: #fcfcfc;
+}
+
+.button-cell:hover {
+	background-color: #fafafa;
+	color: #444;
+}
+
+.button-cell i{
+
+}
+
+.comment-cell{
+	font-size: .9em;
+	font-style: italic;
+	color: #777;
+	padding: 1em;
+	box-shadow: inset 0px 4px 5px rgba(97, 143, 176, 0.05);
+	background-color: #fdfdfd;
+	cursor:text;
+}
+
+.comment-cell:hover{
+	color: #666;
+	box-shadow: inset 0px 4px 5px rgba(97, 143, 176, 0.075);
+}
+
+.comment-cell span:focus, .time-cell input:focus {
+	outline: none;
+}
+
+.button-cell.up {
+	padding:0;
+	background-color: #fcfcfc;
+}
+
+.button-cell.up:hover {
+	background-color: #fff;
+}
+
+.button-cell.add, .button-cell.del{
+	font-size:.8em;
+	color: #888;
+	background-color: #fff;
+}
+
+.button-cell.add:hover, .button-cell.del{
+	color: #555;
+	background-color: #fcfcfc;
+}
+
