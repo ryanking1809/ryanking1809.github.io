@@ -1,0 +1,45 @@
+body {
+	background-color: #444;
+	text-align:center;
+	margin: 0;
+}
+
+div {
+}
+
+.layout {
+	width: 100%;
+	min-width: 58em;
+	max-width: 120em;
+	height: 40em;
+	background-color: transparent;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.menu {
+	width: 15%;
+	min-width: 9em;
+	max-width: 15em;
+}
+
+.content {
+	width: 60%;
+	min-width: 29em;
+	max-width: 60em;
+}
+
+.info {
+	width: 25%;
+	min-width: 15em;
+	max-width: 25em;
+}
+
+.widget {
+	width: 98%;
+	height: 30em;
+	background-color: white;
+	margin: 1%
+}
