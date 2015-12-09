@@ -9,18 +9,20 @@ div {
 
 .layout {
 	width: 100%;
-	min-width: 58em;
+	min-width: 59em; /*approx 960px remove 1em for scrollbar*/
 	max-width: 120em;
-	height: 40em;
+	min-height: 100%;
 	background-color: transparent;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: center;
 	flex-direction: row;
+	padding: 0.5em;
+	box-sizing: border-box;
 }
 
 .menu {
-	width: 15%;
+	width: 17%;
 	min-width: 9em;
 	max-width: 15em;
 }
@@ -32,14 +34,18 @@ div {
 }
 
 .info {
-	width: 25%;
+	width: 23%;
 	min-width: 15em;
 	max-width: 25em;
 }
+.column {
+	padding: 0.5em;
+	box-sizing: border-box;
+}
 
 .widget {
-	width: 98%;
-	height: 30em;
+	width: 100%;
 	background-color: white;
-	margin: 1%
+	box-sizing: border-box;
+	margin: 1em 0;
 }
