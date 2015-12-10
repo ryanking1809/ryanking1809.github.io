@@ -13,11 +13,11 @@ div {
 	max-width: 120em;
 	min-height: 100%;
 	background-color: transparent;
+	padding: 0.5em;
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: center;
 	flex-direction: row;
-	padding: 0.5em;
 	box-sizing: border-box;
 }
 
@@ -25,21 +25,34 @@ div {
 	width: 17%;
 	min-width: 9em;
 	max-width: 15em;
+	padding: 0.5em;
 }
 
 .content {
-	width: 60%;
+	width: 83%;
+	min-width: 44em;
+	max-width: 85em;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+
+.body {
+	width: 72%;
 	min-width: 29em;
 	max-width: 60em;
+	padding: 0.5em;
 }
 
 .info {
-	width: 23%;
+	width: 28%;
 	min-width: 15em;
 	max-width: 25em;
-}
-.column {
 	padding: 0.5em;
+}
+.column, .sub-column {
 	box-sizing: border-box;
 }
 
