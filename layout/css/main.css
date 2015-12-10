@@ -36,13 +36,12 @@ div {
 	flex-wrap: nowrap;
 	justify-content: center;
 	flex-direction: row;
-	box-sizing: border-box;
 }
 
 .body {
 	width: 72%;
 	min-width: 29em;
-	max-width: 60em;
+	max-width: 61em;
 	padding: 0.5em;
 }
 
