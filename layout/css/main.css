@@ -1,6 +1,6 @@
 body {
 	background-color: #444;
-	text-align:center;
+	/* text-align:center; */
 	margin: 0;
 }
 
@@ -21,14 +21,14 @@ div {
 	box-sizing: border-box;
 }
 
-.menu {
+.column.menu {
 	width: 17%;
 	min-width: 9em;
 	max-width: 15em;
 	padding: 0.5em;
 }
 
-.content {
+.column.content {
 	width: 83%;
 	min-width: 44em;
 	max-width: 85em;
@@ -38,14 +38,14 @@ div {
 	flex-direction: row;
 }
 
-.body {
+.sub-column.body {
 	width: 72%;
 	min-width: 29em;
 	max-width: 61em;
 	padding: 0.5em;
 }
 
-.info {
+.sub-column.info {
 	width: 28%;
 	min-width: 15em;
 	max-width: 25em;

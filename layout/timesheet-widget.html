@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Project Dropdown</title>
+    <title>Timesheet Widget</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -12,17 +12,17 @@
     <link rel="stylesheet" type="text/css" href="css/widget.css">
 
     <script>
-    $( document ).ready(function() {
-      $('.day').click(function(){
-        $('.timebox').remove();
-        offset = $(this).offset()
-        console.log($(this).offset());
-        timebox = $('<div class="timebox"></div>');
-        $('body').append(timebox);
-        timebox.offset(offset);
-        console.log(timebox.offset());
-      });
-    });
+    // $( document ).ready(function() {
+    //   $('.day').click(function(){
+    //     $('.timebox').remove();
+    //     offset = $(this).offset()
+    //     console.log($(this).offset());
+    //     timebox = $('<div class="timebox"></div>');
+    //     $('body').append(timebox);
+    //     timebox.offset(offset);
+    //     console.log(timebox.offset());
+    //   });
+    // });
     </script>
 
   </head>
@@ -50,7 +50,7 @@
           
 
           <tr class="heading">
-            <td class="sel">Projects</td>
+            <td>Projects</td>
             <td class="day">Mon<br /><span class="date">(Nov 09)</span></td>
             <td class="day">Tue<br /><span class="date">(Nov 10)</span></td>
             <td class="day">Wed<br /><span class="date">(Nov 11)</span></td>
@@ -110,7 +110,7 @@
             <td class="del"><i class="fa fa-times"></i></td>
           </tr>
 
-          <tr class="heading" ><td class="sel" colspan="1" style="border-right: none;">Marketing</td><td colspan="8" style="border-left: none;"></td></tr>
+          <tr class="heading" ><td colspan="1" style="border-right: none;">Marketing</td><td colspan="8" style="border-left: none;"></td></tr>
           <tr>
             <td class="sel">
               <div class="project-dropdown">
@@ -144,7 +144,7 @@
             <td class="del"><i class="fa fa-times"></i></td>
           </tr>
 
-          <tr class="heading" ><td class="sel" colspan="1" style="border-right: none;">Admin</td><td colspan="8" style="border-left: none;"></td>
+          <tr class="heading" ><td colspan="1" style="border-right: none;">Admin</td><td colspan="8" style="border-left: none;"></td>
 </tr>
           <tr>
             <td class="sel">
@@ -178,9 +178,9 @@
             <td class="day we"><input type="text" value="3:00" class="time-input" ></td>
             <td class="del"><i class="fa fa-times"></i></td>
           </tr>
-          <tr class="heading"><td colspan="9" style="border-left: none; height: 1em;"></td></tr>
+          <tr class="heading"><td colspan="9" style="border-left: none; height: 2em;"></td></tr>
           <tr class="total">
-            <td>+ Add New Time Entry</td>
+            <td  class="sel">+ Add New Time Entry</td>
             <td class="day">0:00</td>
             <td class="day">0:00</td>
             <td class="day">0:00</td>
@@ -188,7 +188,7 @@
             <td class="day">0:00</td>
             <td class="day we">0:00</td>
             <td class="day we">0:00</td>
-            <td style="border-left:none;" class="del"></td>
+            <td style="border-left:none;"></td>
           </tr>
         </table>
       </div>
