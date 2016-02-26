@@ -1,0 +1,594 @@
+body {
+	padding: 0;
+	margin: 0;
+	font-family: "Open Sans", sans-serif;
+    letter-spacing: .05em;
+
+}
+
+section {
+	/* height: 40em; */
+	position: relative;/*needed to get z-index working*/
+	box-shadow: 0px 6px 22px 2px rgba(0,0,0,0.4);
+	overflow: hidden;
+	text-align: center;
+	padding: 3em;
+}
+
+
+a, a:visited, a:active {
+	color: #444;
+}
+
+.grey-bg {
+	background: #E6E6E6;
+	color: #444444;
+}
+
+.black-pattern-bg {
+	background-image: url(../images/triangles-bg.png);
+	color: white;
+}
+
+.black-bg {
+	background: #444;
+	color: white;
+}
+
+#intro {
+	z-index: 7;
+	border-bottom: solid 1px #888888;
+}
+
+
+section h1 {
+	font-size: 2.5em;
+	font-weight: 300;
+	margin: .5em;
+}
+
+video#bgvid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(polina.jpg) no-repeat;
+    background-size: cover;
+    opacity: 0.7;
+}
+
+.logo {
+    height: 5em;
+    float: left;
+    margin: 0.3em 1em;
+}
+
+.tagline-video {
+	text-align: center;
+	margin: 5em 0;
+}
+
+.tagline-video .video {
+  max-width: 36em;
+  width: 100%;
+  height: 20em;
+  display: inline-block;
+  box-shadow: 0px 6px 22px 2px rgba(0,0,0,0.4);
+  margin: 3em 0 1.5em;
+  clear: both;
+}
+
+.tagline-video p {
+    font-size: 1.2em;
+    font-style: italic;    
+    color: #FFC708;
+}
+
+
+#graph {
+	/*neat background effect*/
+	/*background: linear-gradient(to bottom right, rgba(0, 243, 255, 0.28), rgba(255, 196, 13, 0.6) 89%), url(../images/triangles-bg.png);*/
+	z-index: 6;
+	padding: 0;
+	position: relative;
+}
+
+#graph img {
+	width: 100%;
+}
+
+#graph .graph-img {
+    position: relative;
+    z-index: 1;
+    bottom: -6px;
+    margin: 0;
+}
+
+#graph .graph-bottom {
+    background-color: #565656;
+    position: relative;
+    z-index: 2;
+    padding: 1em;
+    text-align: center;
+}
+
+#graph .slider-img {
+    max-width: 32em;
+    margin: 0 0 7% 0;
+}
+
+#graph .fun-text {
+    color: white;
+    text-align: center;
+    max-width: 33em;
+    display: inline-block;
+    margin-bottom: 3em;
+}
+
+.fun-text h1 {
+    font-family: 'Amatic SC', cursive;
+    text-align: center
+}
+
+.fun-text p {
+    font-style: italic;
+    font-weight: 300;
+}
+
+@media screen and (min-width: 1090px) {
+    #graph .fun-text {
+      float: left;
+      margin-bottom: 0;
+  }
+}
+
+#planning {
+	background: #E6E6E6;
+	z-index: 5;
+}
+
+#planning .planning-project, #planning .planning-staff {
+  max-width: 25em;
+}
+
+#planning .planning-profit {
+  width: 10em;
+  margin-bottom: 3em;
+}
+
+#planning .fun-text {
+  margin-bottom: 4em;
+}
+
+#planning .planning-images {
+  margin: 3em 0;
+}
+
+#planning .profit-container {
+  display: inline-block;
+}
+
+@media screen and (max-width: 1080px) {
+    #planning .planning-profit {
+      margin-bottom: 0;
+    }
+    #planning .profit-container {
+      display: block;
+    }
+}
+
+#clients {
+	z-index: 4;
+}
+
+#clients img {
+	width: 10em;
+  padding: 3em 5em;
+}
+
+#clients img.smaller {
+  width: 8em;
+}
+
+#clients .client-container {
+  width: 100%;
+  max-width: 70em;
+  display: inline-block;
+}
+
+@media screen and (max-width: 1050px) {
+    #clients img {
+      width: 8em;
+      padding: 1em 3em;
+    }
+
+    #clients img.smaller {
+      width: 6em;
+    }
+
+    #clients {
+      padding-left: 0;
+      padding-right: 0;
+    }
+}
+
+#features {
+	z-index: 3;
+}
+
+#features .feature-container {
+  width: 100%;
+  max-width: 70em;
+  display: inline-block;
+}
+
+#features .feature {
+	width: 11em;
+	vertical-align: top;
+	margin: 2em;
+  display: inline-block;
+}
+
+#features img {
+    height: 4em;
+    opacity: 0.7;
+}
+
+#features h3 {
+	/* height: 2.5em; */
+    margin: 1em 0 .5em;
+    vertical-align: bottom;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+#features span {
+	font-size: .8em;
+}
+
+@media screen and (max-width: 1050px) {
+  #features .feature {
+    width: 10em;
+    margin: 1em;
+  } 
+  #features {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+#price-calc {
+	z-index: 2;
+}
+
+#footer {
+	z-index: 1;
+	padding: 3em 3em 1.5em 3em;
+}
+
+#footer .signup-btn {
+    margin: 1% 1%;
+    width: 17%;
+    display: inline-block;
+}
+
+@media screen and (max-width: 1170px) {
+  #footer .signup-btn {
+    width: 12%;
+}
+  #footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #footer .signup-btn {
+    width: 45%;
+}
+  #footer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+#footer .cc-icon {
+	height: 16em;
+}
+
+#footer .copyright {
+    margin-top: 2.5em;
+    font-size: .8em;
+    font-weight: 300;
+    font-style: italic;
+}
+
+#navigation {
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    text-align: right;
+    box-shadow: 0px 6px 22px 2px rgba(0,0,0,0.4);
+    border-bottom: 2px solid rgb(255, 203, 5);
+    background-color: rgba(68, 68, 68, 0.9);
+}
+
+#navigation ul, #navigation li{
+	display: inline-block;
+}
+
+#navigation ul {
+	margin-right: 1em;
+}
+
+#navigation li {
+	margin: .5em;
+	padding: .5em;
+	cursor: pointer;
+}
+
+#navigation li a {
+	color: white;
+	text-decoration: none;
+}
+
+#navigation li:hover, #navigation li a:hover, #navigation li.selected {
+	color: rgb(255, 203, 5);
+}
+
+#navigation li.boxed, .signup-btn {
+    border: solid 2px white;
+    padding: 0.8em;
+    font-size: .9em;
+    border-radius: 0.9em;
+    color: white;
+}
+#navigation li.boxed:hover, .signup-btn:hover {
+	border-color: rgb(255, 203, 5);
+	background-color: rgba(255, 203, 5,.1);
+	color: rgb(255, 203, 5);
+}
+
+
+@media screen and (max-width: 1000px) {
+  #intro {
+    padding-top: 12em;
+  }
+  #navigation {
+    text-align: center;
+  }
+  .logo {
+    float: none;
+    margin-top: 2em;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  #intro {
+    padding-top: 15em;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #intro {
+    padding-top: 17em;
+  }
+}
+
+.signup-btn {
+	padding: .8em 5em;
+	cursor: pointer;
+	font-weight: 600;
+  display: inline-block;
+}
+
+.signup-btn.dark {
+	color: #444;
+	border-color: #444;
+}
+
+.signup-btn.dark:hover {
+	color: #444;
+    border-color: #FFC708;
+    background-color: rgba(255, 199, 8, 0.3);
+}
+
+.price-widget {
+	max-width: 36em;
+	display: inline-block;
+	margin-bottom: 2em;
+}
+
+.price-widget table{
+	background: white;
+	display: inline-block;
+    box-shadow: 4px 4px 10px 0px rgba(0,0,0,0.4);
+	border-collapse: collapse;
+	margin: 1em;
+}
+
+.price-widget table td{
+	border: 1px solid #ccc;
+	padding: .5em;
+}
+
+.price-widget .calc-table table{
+	width: 100%;
+}
+.price-widget .calc-table td{
+	width: 50%;
+}
+
+.price-widget .user-table table{
+	width: 100%;
+}
+.price-widget .user-table td{
+	max-width: 50%;
+	width: 18em;
+}
+
+.price-widget .user-table tbody td{
+	text-align: left;
+	vertical-align: top;
+}
+
+.price-widget span.small {
+	font-size: .75em;
+	font-style: italic;
+}
+
+.price-widget li{
+	font-size: .9em;
+	margin: 1.5em .5em;
+}
+
+.price-widget .user-input {
+  cursor: text;
+  color: #444;
+  box-shadow: inset 0 13px 30px rgba(97, 143, 176, 0.075);
+  background-color: #fdfdfd;
+  line-height: 1;
+  font-size: 25;
+  text-align: center;
+  height: 5em;
+  position: relative;
+}
+
+.price-widget .user-input:hover, .price-widget .user-input:focus {
+  color: #333;
+  box-shadow: inset 0 13px 30px rgba(97, 143, 176, 0.175);
+}
+
+.price-widget .user-input input {
+  box-shadow: none;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2em;
+  color: inherit;
+  position: relative;
+  z-index: 10;
+}
+
+.price-widget .user-input input:focus {
+  box-shadow: none;
+  outline: 0;
+}
+
+.price-widget .user-input .small {
+	position: absolute;
+	z-index: 1;
+	font-size: .7em;
+	left: 0;
+	bottom: .6em;
+	width: 100%;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+   opacity: 1;
+}
+
+.remodal input[type="email"], .remodal input[type="tel"]{
+    width: 90%;
+    padding: 0.5em;
+    margin: 1em 0 2em;
+    font-size: 1em;
+    font-weight: 300;
+    text-align: center;
+}
+
+.remodal h2 {
+    font-size: 2.2em;
+    font-weight: 300;
+    margin: 0.4em 0 0;
+}
+
+.remodal label {
+	float: left;
+}
+
+.remodal textarea{
+	width: 90%;
+	border: solid 1px #ccc;
+	height: 16em;
+    padding: 0.5em;
+    margin: 1em 0 2em;
+    font-size: 1em;
+    font-weight: 300;
+    text-align: left;
+    resize: none;
+}
+
+.contact-modal .contact-details{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 2em 2em;
+    font-size: .8em;
+    text-align: right;
+}
+
+.support .menu {
+  float: left;
+  margin: 10em 2em 10em 0;
+  display: inline-block;
+  background-color: white;
+  box-shadow: 0px 6px 22px 2px rgba(0,0,0,0.4);
+  text-align: left;
+  width: 13em;
+  z-index:999;
+  position: relative;
+}
+
+.support .menu  ul{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  z-index:9999;
+  position: relative;
+}
+
+.support .menu  li{
+    list-style-type: none;
+    padding: 1em;
+    cursor: pointer;
+    z-index:9999;
+    position: relative;
+    font-size: 0.95em;
+}
+
+.support .menu li:hover, .support .menu li.selected{
+    background-color: #ffC700;
+}
+
+.support .menu  a{
+    text-decoration: none;
+}
+
+.support p {
+  color: #444;
+}
+
+.support .signup-btn {
+    padding: 0.6em 3em;
+    margin: 0 1em;
+}
+
+.support .video {
+    margin: 1em 0 1.5em;
+  }
+
+.signup-btn a{
+  text-decoration: none;
+}
