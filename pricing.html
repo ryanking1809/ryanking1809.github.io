@@ -244,6 +244,7 @@
 
 
 
+    	React.render(<PriceCalculator/>, $('.price-widget')[0]);
     	React.render(<SignupModal/>, $('.signup-modal')[0]);
     	React.render(<ContactModal/>, $('.contact-modal')[0]);
 
@@ -252,135 +253,23 @@
 	<nav id="navigation" class="black-bg">
 		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
 		<ul>
-			<li class="selected">Tour</li>
-			<li><a href="pricing.html">Pricing</a></li>
+			<li><a href="index.html">Tour</a></li>
+			<li class="selected">Pricing</li>
 			<!-- <li><a href="blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
 			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
 		</ul>
 	</nav>
-	<section id="intro" class="black-pattern-bg">
-		<div class="tagline-video">
-			<h1>Run a better, smarter business</h1>
-			<p>Make predictions and gain insights on how to save time and increase revenue.</p>
-			</h1>
-			<iframe class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
-			<p style="margin-bottom: 2em;">Coincraft is a practice and project forecasting tool
-				<br />built for architects by architects.
-			</p>
-			<p><div data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div></p>
-		</div>
-	</section>
-	<section id="graph" class="grey-bg">
-		<img class="graph-img" src="images/graph-01.svg" />
-		<div class="graph-bottom">
-			<div style="max-width: 75em; display: inline-block; width: 100%">
-			<img class="slider-img" src="images/graph-sliders-01.svg" />
-			<div class="fun-text">
-				<h1>Plan ahead, hit your targets, 
-				<br />and reach your desired profit margins
-				<br />with cashflow forecasting.</h1>
-				<p>Know how to spend your time and money before you spend it.</p>
-			</div>
-			<div>
-		</div>
-	</section>
-	<section id="planning" class="grey-bg">
-		<div class="fun-text">
-			<h1>Model the relationship between your
-			<br />time, money + staff with project planning.</h1>
-			<p>Coincraft does all the hard thinking for you,
-			<br />all you need to do is fine tune the numbers.</p>
-		</div>
-		<div class="planning-images">
-			<img class="planning-project" src="images/planning-project-01.svg" />
-			<div class="profit-container">
-				<img class="planning-profit" src="images/planning-profit-01.svg" />
-			</div>
-			<img class="planning-staff" src="images/planning-staff-01.svg" />
-		<div>
-	</section>
-	<section id="clients" class="black-pattern-bg">
-		<h2>Happy Clients</h2>
-		<div class="client-container">
-			<img class="smaller"  src="images/client-logos/kta-w.png" />
-			<img src="images/client-logos/chamberlain-w.png" />
-			<img src="images/client-logos/tandem-w.png" />
-			<img src="images/client-logos/dunnhillam-w.png" />
-			<img class="smaller" src="images/client-logos/room11-w.png" />
-			<img src="images/client-logos/studiogl-w.png" />
-			<img src="images/client-logos/dimase-w.png" />
-			<img src="images/client-logos/dwa-w.png" />
-			<img src="images/client-logos/chord-w.png" />
-		</div>
-	</section>
-	<section id="features" class="grey-bg">
-		<div class="feature-container">
-			<div class="feature">
-				<img src="images/icons/graph.png" />
-				<h3>Cashflow Forecasting</h3>
-				<span>Project revenue, plan ahead, spot problems months before they happen.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/target.png" />
-				<h3>Milestone Modelling</h3>
-				<span>Set goals for you business and staff.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/staff.png" />
-				<h3>Flexible Resource Scheduling</h3>
-				<span>Resourcing planning that adjust to changing project schedules.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/sliders.png" />
-				<h3>Project Planning</h3>
-				<span>Visually model future revuenue and workload for each project.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/briefcase.png" />
-				<h3>Business Level Analysis</h3>
-				<span>Project revenue across multple projects against overheads and staff costs.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/project.png" />
-				<h3>Project Management</h3>
-				<span>Plane projects fees, expenses, and assign work to staff.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/stopwatch.png" />
-				<h3>Time &amp; Expense Tracking</h3>
-				<span>Track time, expenses and manage project progress.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/invoices.png" />
-				<h3>Invoicing</h3>
-				<span>Invoicing that integrates with your accounting system.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/report.png" />
-				<h3>Reporting</h3>
-				<span>Analyse business performance and benchmark for future projects.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/support.png" />
-				<h3>Free Support</h3>
-				<span>Free support with and average response time of 18 minutes.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/database.png" />
-				<h3>Free Data Migration</h3>
-				<span>Import the data from your old system at no cost.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/calculator.png" />
-				<h3>Accounting Integration</h3>
-				<span>Integrates with Xero, Quickbooks and MYOB</span>
-			</div>
-		</table>
-	</section>
+	
 
-
+	<section id="price-calc" class="grey-bg">
+		<h1 style="margin: 2.5em 0 0">14-Day Coincraft Trial</h1>
+		<p style="margin: 2em 0 5em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
+		<div class='price-widget'> </div>
+		<p style="margin-top: 4em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
+		
+	</section>
 	<section id="footer" class="black-pattern-bg">
 		<img class="cc-icon" src="images/coincraft-icon.svg" /><br />
 		<p>

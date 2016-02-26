@@ -3,20 +3,20 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Coincraft</title>
-	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+	<link rel="stylesheet" type="text/css" href="../styles/styles.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="styles/remodal.css">
-	<link rel="stylesheet" href="styles/remodal-default-theme.css">
+    <link rel="stylesheet" href="../styles/remodal.css">
+	<link rel="stylesheet" href="../styles/remodal-default-theme.css">
 
 </head>
 <body>
 
 
-	<script src="js/remodal.js"></script>
+	<script src="../js/remodal.js"></script>
 	<script type="text/jsx">
 
 		var PriceCalculator = React.createClass({
@@ -71,7 +71,7 @@
 								<tbody>
 									<tr>
 										<td>Monthly Subscription</td>
-										<td style={{backgroundColor: "#FFC708"}}>Yearly Subscription</td>
+										<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
 									</tr>
 									<tr>
 										<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
@@ -89,7 +89,7 @@
 								<tbody>
 									<tr>
 										<td style={{border: 'none'}}></td>
-										<td style={{backgroundColor: "#FFC708", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
+										<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
 									</tr>
 								</tbody>
 							</table>
@@ -215,25 +215,28 @@
 					<div>
 
 						<button data-remodal-action="close" className="remodal-close"></button>
-						<p className="contact-details"> 
+						<p className="contact-details no-backend"> 
 						  	US: +1 (415) 214-8442
 							<br />AUS: +61 400 411 070
 						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 						</p>
-						<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
-						<p style={{marginBottom: "3em"}}>
-						  	Feel free to call us, email us or use the contact form below.
-						</p>
-						<div>
-						  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+						<div style={{display: 'none'}}>
+							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
+							<p style={{marginBottom: "3em"}}>
+							  	Feel free to call us, email us or use the contact form below.
+							</p>
+							<div>
+							  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+							</div>
+							<div>
+							  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
+							</div>
+							<div>
+							  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
+							</div>
+							<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
+							</button>
 						</div>
-						<div>
-						  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
-						</div>
-						<div>
-						  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
-						</div>
-						<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message</button>
 					</div>
 				)
 			}
@@ -241,34 +244,52 @@
 
 
 
-    	React.render(<PriceCalculator/>, $('.price-widget')[0]);
     	React.render(<SignupModal/>, $('.signup-modal')[0]);
     	React.render(<ContactModal/>, $('.contact-modal')[0]);
 
 	</script>
 
 	<nav id="navigation" class="black-bg">
-		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
+		<img class="logo" src="../images/coincraft-logo-horizontal.svg" />
 		<ul>
-			<li><a href="index.html">Tour</a></li>
-			<li class="selected">Pricing</li>
-			<li><a href="blog.html">Blog</a></li>
+			<li><a href="../index.html">Tour</a></li>
+			<li><a href="../pricing.html">Pricing</a></li>
+			<!-- <li><a href="../blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
 			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
 		</ul>
 	</nav>
-	
-
-	<section id="price-calc" class="grey-bg">
-		<h1 style="margin: 2.5em 0 0">14-Day Coincraft Trial</h1>
-		<p style="margin: 2em 0 5em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
-		<div class='price-widget'> </div>
-		<p style="margin-top: 4em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
-		
+	<section id="intro" class="grey-bg support">
+		<div class="menu">
+			<ul>
+				<a href="index.html"><li>Coincraft Overview</li></a>
+				<a href="projects.html"><li>1. Projects</li></a>
+				<a href="staff.html"><li>2. Staff</li></a>
+				<a href="timesheets.html"><li>3. Timesheets</li></a>
+				<a href="dashboard.html"><li>4. Dashboard</li></a>
+				<li class="selected">5. Reports</li>
+				<a href="invoices.html"><li>6. Invoices</li></a>
+			</ul>
+		</div>
+		<div class="tagline-video">
+			<h1>5. Reports</h1>
+			<p>Reporting and viewing historical data in Coincraft.</p>
+			</h1>
+			<iframe class="video" src="https://www.youtube.com/embed/wgNVOuMOnr0?list=PLclJAT6wRM9SEaaprXu-vrBJ7yWY_KUXb&rel=0" frameborder="0" allowfullscreen></iframe>
+			<p style="margin-bottom: 2em; font-size: 1em">Select another tutorial using the menu on the left or the buttons below.
+				<br />If you have any queries please contact <a href="mailto:support@coincraft.co">support@coincraft.co</a>
+			</p>
+			<p>
+				<a href="dashboard.html"><span class="signup-btn dark">&lt;&lt; Previous Video</span></a>
+				<a href="invoices.html"><span class="signup-btn dark">Next Video &gt;&gt;</span></a>
+			</p>
+		</div>
 	</section>
+
+
 	<section id="footer" class="black-pattern-bg">
-		<img class="cc-icon" src="images/coincraft-icon.svg" /><br />
+		<img class="cc-icon" src="../images/coincraft-icon.svg" /><br />
 		<p>
 			<span data-remodal-target="mailinglist-modal" class="signup-btn">Join Our Mailing List</span>
 			<span data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</span>

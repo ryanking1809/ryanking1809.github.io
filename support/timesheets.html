@@ -215,25 +215,28 @@
 					<div>
 
 						<button data-remodal-action="close" className="remodal-close"></button>
-						<p className="contact-details"> 
+						<p className="contact-details no-backend"> 
 						  	US: +1 (415) 214-8442
 							<br />AUS: +61 400 411 070
 						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 						</p>
-						<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
-						<p style={{marginBottom: "3em"}}>
-						  	Feel free to call us, email us or use the contact form below.
-						</p>
-						<div>
-						  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+						<div style={{display: 'none'}}>
+							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
+							<p style={{marginBottom: "3em"}}>
+							  	Feel free to call us, email us or use the contact form below.
+							</p>
+							<div>
+							  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+							</div>
+							<div>
+							  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
+							</div>
+							<div>
+							  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
+							</div>
+							<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
+							</button>
 						</div>
-						<div>
-						  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
-						</div>
-						<div>
-						  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
-						</div>
-						<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message</button>
 					</div>
 				)
 			}
@@ -251,7 +254,7 @@
 		<ul>
 			<li><a href="../index.html">Tour</a></li>
 			<li><a href="../pricing.html">Pricing</a></li>
-			<li><a href="../blog.html">Blog</a></li>
+			<!-- <li><a href="../blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
 			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>

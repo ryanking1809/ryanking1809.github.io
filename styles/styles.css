@@ -530,7 +530,13 @@ input[type=number]::-webkit-outer-spin-button {
     resize: none;
 }
 
-.contact-modal .contact-details{
+.contact-modal .contact-details.no-backend{
+    margin: 0em 2em;
+    font-size: 1.3em;
+    line-height: 2.1em;
+}
+
+.contact-modal .contact-details:not(.no-backend){
     position: absolute;
     top: 0;
     right: 0;

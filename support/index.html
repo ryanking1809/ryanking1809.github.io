@@ -215,25 +215,28 @@
 					<div>
 
 						<button data-remodal-action="close" className="remodal-close"></button>
-						<p className="contact-details"> 
+						<p className="contact-details no-backend"> 
 						  	US: +1 (415) 214-8442
 							<br />AUS: +61 400 411 070
 						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 						</p>
-						<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
-						<p style={{marginBottom: "3em"}}>
-						  	Feel free to call us, email us or use the contact form below.
-						</p>
-						<div>
-						  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+						<div style={{display: 'none'}}>
+							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
+							<p style={{marginBottom: "3em"}}>
+							  	Feel free to call us, email us or use the contact form below.
+							</p>
+							<div>
+							  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+							</div>
+							<div>
+							  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
+							</div>
+							<div>
+							  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
+							</div>
+							<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
+							</button>
 						</div>
-						<div>
-						  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
-						</div>
-						<div>
-						  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
-						</div>
-						<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message</button>
 					</div>
 				)
 			}
@@ -251,7 +254,7 @@
 		<ul>
 			<li><a href="../index.html">Tour</a></li>
 			<li><a href="../pricing.html">Pricing</a></li>
-			<li><a href="../blog.html">Blog</a></li>
+			<!-- <li><a href="../blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
 			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
@@ -260,7 +263,7 @@
 	<section id="intro" class="grey-bg support">
 		<div class="menu">
 			<ul>
-				<a href="index.html"><li>Coincraft Overview</li></a>
+				<li class="selected">Coincraft Overview</li>
 				<a href="projects.html"><li>1. Projects</li></a>
 				<a href="staff.html"><li>2. Staff</li></a>
 				<a href="timesheets.html"><li>3. Timesheets</li></a>
@@ -270,16 +273,15 @@
 			</ul>
 		</div>
 		<div class="tagline-video">
-			<h1>5. Monthly Milestones</h1>
-			<p>Editing month-by-month milestones and revenue forecasts.</p>
+			<h1>Coincraft Overview</h1>
+			<p>A brief overview of Coincraft's features.</p>
 			</h1>
-			<iframe class="video" src="https://www.youtube.com/embed/n_lRuwGI3yM?list=PLclJAT6wRM9SEaaprXu-vrBJ7yWY_KUXb&rel=0" frameborder="0" allowfullscreen></iframe>
+			<iframe class="video" src="https://www.youtube.com/embed/cdf4zok2Oro?rel=0" frameborder="0" allowfullscreen></iframe>
 			<p style="margin-bottom: 2em; font-size: 1em">Select another tutorial using the menu on the left or the buttons below.
 				<br />If you have any queries please contact <a href="mailto:support@coincraft.co">support@coincraft.co</a>
 			</p>
 			<p>
-				<a href="dashboard.html"><span class="signup-btn dark">&lt;&lt; Previous Video</span></a>
-				<a href="reports.html"><span class="signup-btn dark">Next Video &gt;&gt;</span></a>
+				<a href="projects.html"><span class="signup-btn dark">Next Video &gt;&gt;</span></a>
 			</p>
 		</div>
 	</section>
