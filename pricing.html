@@ -47,14 +47,16 @@
 			propTypes: {
 				standardPrice: React.PropTypes.number,
 				adminPrice: React.PropTypes.number,
-				discount: React.PropTypes.number
+				yearlyDiscount: React.PropTypes.number,
+				monthlyDiscount: React.PropTypes.number
 			},
 
 			getDefaultProps: function() {
 				return {
 					standardPrice: 15,
 					adminPrice: 35,
-					discount: .2
+					yearlyDiscount: .2,
+					monthlyDiscount: 0
 				}
 			},
 
@@ -97,23 +99,44 @@
 										<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
 									</tr>
 									<tr>
-										<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
-										<br /><span className="small" >per month</span></td>
-										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.discount)} </span>
-										<br /><span className="small">per month ( {this.props.discount*100}% discount )</span></td>
+										<td>
+										<span style={{fontSize:'3em'}}>${this.totalPriceMonth()*(1-this.props.monthlyDiscount)}</span>
+										<br />
+										{this.props.monthlyDiscount === 0 
+											? <span className="small" >per month</span>
+											: <span className="small" >per month ( {this.props.monthlyDiscount*100}% discount )</span>
+										}
+										</td>
+										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.yearlyDiscount)} </span>
+										<br /><span className="small">per month ( {this.props.yearlyDiscount*100}% discount )</span></td>
 									</tr>
 									<tr>
-										<td>${(this.totalPriceMonth())*12} / year</td>
-										<td>${(this.totalPriceMonth())*12*(1-this.props.discount)} / year</td>
+										<td>${(this.totalPriceMonth())*12*(1-this.props.monthlyDiscount)} / year</td>
+										<td>${(this.totalPriceMonth())*12*(1-this.props.yearlyDiscount)} / year</td>
 									</tr>
 								</tbody>
 							</table>
 							<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
 								<tbody>
-									<tr>
-										<td style={{border: 'none'}}></td>
-										<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
-									</tr>
+									{this.props.monthlyDiscount === 0 
+											? <tr>
+												<td style={{border: 'none'}}></td>
+												<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '0.5em'}}>
+													Save ${(this.totalPriceMonth())*12*this.props.yearlyDiscount}!
+												</td>
+											</tr>
+											: <tr>
+												<td style={{backgroundColor: "white", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em', borderRight: 'solid 1px #ccc'}}>
+													Save ${(this.totalPriceMonth())*12*this.props.monthlyDiscount}!
+													<br />
+													<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
+												</td>												<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em'}}>
+													Save ${(this.totalPriceMonth())*12*this.props.yearlyDiscount}!
+													<br />
+													<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
+												</td>
+											</tr>										}
+									
 								</tbody>
 							</table>
 						</div>
