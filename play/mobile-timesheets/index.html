@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Coincraft Timesheets</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek' rel='stylesheet' type='text/css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+	<div class="top-nav">
+		<img class="logo" src="coincraft-coin.svg" />
+		<span class="date-title">Monday, 28 Mar</span>
+		<div class="right-btns">
+			<button class="nav-btn" style="position: relative;top: -3px;"><i class="fa fa-calendar"> </i></button>
+			<button class="nav-btn" style="font-size: 2.2em"><i class="fa fa-plus-circle"> </i></button>
+		</div>
+	</div>
+	<div class="weekday">
+		<div class="d-sel"><div class="day">M</div></div>
+		<div class="d-sel"><div class="day">T</div></div>
+		<div class="d-sel"><div class="day selected">W</div></div>
+		<div class="d-sel"><div class="day today">T</div></div>
+		<div class="d-sel"><div class="day">F</div></div>
+		<div class="d-sel"><div class="day">S</div></div>
+		<div class="d-sel"><div class="day">S</div></div>
+	</div>
+	<div class="projects-list">
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project expanded">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+			<div class="project-options">
+				<div class="pr-opt">
+					<span class="pr-opt-icon timer">
+						<i class="fa fa-play"> </i>
+					</span>
+					<span class="pr-opt-label">
+						Start Timer
+					</span>
+				</div>
+				<div class="pr-opt">
+					<span class="pr-opt-icon input">
+						<i class="fa fa-clock-o"> </i>
+					</span>
+					<span class="pr-opt-label">
+						Enter Time
+					</span>
+				</div>
+				<div class="pr-opt">
+					<span class="pr-opt-icon notes">
+						<i class="fa fa-sticky-note"> </i>
+					</span>
+					<span class="pr-opt-label">
+						Add Note
+					</span>
+				</div>
+				<div class="pr-opt">
+					<span class="pr-opt-icon delete">
+						<i class="fa fa-times"> </i>
+					</span>
+					<span class="pr-opt-label">
+						Delete Entry
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="project-sel">
+				<div class="project-text">
+					<span class="cc-name">Projects</span>
+					<span class="pr-name">Tongue St</span>
+					<span class="ph-name">Concept Design</span>
+				</div>
+				<div class="project-time">
+					2:30
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
