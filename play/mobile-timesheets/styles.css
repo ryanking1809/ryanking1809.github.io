@@ -259,3 +259,9 @@ body {
 .project-note > textarea:focus {
 	outline: 0;
 }
+
+.project-dropdown select {
+	font-size: 2rem;
+    -webkit-appearance: menulist-button;
+    color: #444;
+}
