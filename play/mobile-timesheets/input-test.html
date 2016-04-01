@@ -1,9 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Modal</title>
+<title>Input Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
-	<input type="text" inputmode="numeric" />
+
+	<script type="text/jsx">
+
+		var DurationInput = React.createClass({
+
+			getInitialState: function(){
+				return {
+					value: "00.00"
+				}
+			},
+
+			updateValue: function(event) {
+				value = event.target.value.toString().replace(/^[0\.]+/, '').replace('.','');
+
+				if (value.length > 2) {
+					minutes = parseInt(value.slice(-2));
+					hours = parseInt(value.slice(-4, -2));
+				} else {
+					minutes = parseInt(value.slice(-2)) || 0;
+					hours = 0;
+				}
+
+				minutes < 10 ? minutesString = "0" + minutes.toString() : minutesString = minutes.toString();
+				hours < 10 ? hoursString = "0" + hours.toString() : hoursString = hours.toString();
+
+				newValue = hoursString + "." + minutesString;
+				this.setState({value: newValue});
+			},
+
+			render: function(){
+				return (
+					<div stle={{height: '76px', textAlign: 'center'}}>
+						<div
+						style={{
+								fontSize:'2em',
+								textAlign:'center',
+								position: 'absolute',
+								height: '76px',
+								display:'inline-block',
+								left: '46.75%',
+								top: '4.25%'
+							}}
+						>
+							<span style={{
+								display:'inline-block', 
+								position:'relative',
+								backgroundColor: 'white'
+							}}>:</span>
+						</div>
+						<input 
+							type="number" 
+							value={this.state.value} 
+							onChange={this.updateValue}
+							style={{
+								fontSize:'2em',
+								textAlign:'center',
+								width: '100%',
+								height: '76px'
+							}}
+						/>
+					</div>
+
+				);
+			}
+		});
+
+		React.render(<DurationInput/>, $('body')[0]);
+	</script>
+
+
 </body>
 </html>
