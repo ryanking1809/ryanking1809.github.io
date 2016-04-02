@@ -174,12 +174,12 @@ body {
 	flex-grow: 1;
 	align-self: center;
 	text-align: center;
+	cursor: pointer;
 }
 
 .project-options .pr-opt:hover {
 	color: #292929;
 	border-color: #292929;
-	cursor: pointer;
 }
 
 .project-options .pr-opt:hover {
