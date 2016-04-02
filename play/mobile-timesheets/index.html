@@ -339,6 +339,14 @@
 		React.render(<ProjectItem costCentreName="Projects" projectName="Walsh St" phaseName="Concept Design"/>, $('.projects-list')[0]);
 
 </script>
+<script>
+$( document ).ready(function() {
+	$('.cal.nav-btn').click(function() {
+		console.log($('.date-picker')[0]);
+		$('.date-picker')[0].select();
+	});
+});
+</script>
 
 
 <body>
@@ -346,7 +354,7 @@
 		<img class="logo" src="coincraft-coin.svg" />
 		<span class="date-title">Monday, 28 Mar</span>
 		<div class="right-btns">
-			<button class="nav-btn" style="position: relative;top: -3px;"><i class="fa fa-calendar"> </i></button>
+			<button class="nav-btn cal" style="position: relative;top: -3px;"><i class="fa fa-calendar"> </i></button>
 			<button class="nav-btn" style="font-size: 2.2em"><i class="fa fa-plus-circle"> </i></button>
 		</div>
 	</div>
@@ -361,6 +369,6 @@
 	</div>
 	<div class="projects-list">
 	</div>
-			<input type="date" />
+			<input class="date-picker" type="date" />
 </body>
 </html>
