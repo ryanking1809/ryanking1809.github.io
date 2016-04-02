@@ -291,3 +291,4 @@ body {
 ::-webkit-datetime-edit-year-field { color: purple; }
 ::-webkit-inner-spin-button { display: none; }
 ::-webkit-calendar-picker-indicator { background: orange; }
+-webkit-appearance: none;
