@@ -264,7 +264,7 @@ body {
 
 .project-input {
 	border-bottom: 1px solid #ccc;
-	padding: 1.5rem;
+	padding: 1.5rem 0;
 }
 
 .project-input input {
