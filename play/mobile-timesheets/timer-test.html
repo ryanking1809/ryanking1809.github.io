@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Input Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+	<script type="text/jsx">
+
+		/** @jsx React.DOM */
+
+// Create a custom component by calling React.createClass.
+
+var TimerExample = React.createClass({
+
+    getInitialState: function(){
+
+        // This is called before our render function. The object that is 
+        // returned is assigned to this.state, so we can use it later.
+
+        return { elapsed: 0 };
+    },
+
+    componentDidMount: function(){
+
+        // componentDidMount is called by react when the component 
+        // has been rendered on the page. We can set the interval here:
+
+        this.timer = setInterval(this.tick, 50);
+    },
+
+    componentWillUnmount: function(){
+
+        // This method is called immediately before the component is removed
+        // from the page and destroyed. We can clear the interval here:
+
+        clearInterval(this.timer);
+    },
+
+    tick: function(){
+
+        // This function is called every 50 ms. It updates the 
+        // elapsed counter. Calling setState causes the component to be re-rendered
+
+        this.setState({elapsed: new Date() - this.props.start});
+    },
+
+    render: function() {
+        
+        var elapsed = Math.round(this.state.elapsed / 1000);
+
+        // This will give a number with one digit after the decimal dot (xx.x):
+        var seconds = (elapsed).toFixed(1);    
+
+        // Although we return an entire <p> element, react will smartly update
+        // only the changed parts, which contain the seconds variable.
+
+        return <p>This example was started <b>{seconds} seconds</b> ago.</p>;
+    }
+});
+
+
+		React.render(<TimerExample  start={Date.now()} />, $('body')[0]);
+	</script>
+
+
+</body>
+</html>

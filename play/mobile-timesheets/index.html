@@ -24,9 +24,9 @@
 
 			getDefaultProps: function() {
 				return {
-					costCentreName: 'Projects',
-					projectName:  'Tongue St',
-					phaseName:  'Concept Design'
+					costCentreName: '',
+					projectName:  '',
+					phaseName:  ''
 				}
 			},
 
@@ -34,9 +34,8 @@
 				return {
 					hoursSaved: 0,
 					minutesSaved: 0,
-					hoursTimer: 0,
-					minutesTimer: 0,
-					secondsTimer: 0,
+					timerSeconds: 0,
+					timerStart: Date.now(),
 					timeEntered: '0:00',
 					noteSaved: '',
 					noteEntered: '',
@@ -52,6 +51,32 @@
 
 			timerClick: function(e) {
 			  this.setState({dropDownType: 'timer'});
+			},
+
+			timerStartClick: function(e) {
+			  this.setState({timerStart: Date.now(), timerOn: true});
+			  this.timer = setInterval(this.timerTick, 1000);
+			},
+
+			timerPauseClick: function(e) {
+			  this.setState({timerOn: false});
+			  clearInterval(this.timer);
+			},
+
+			timerTick: function(e) {
+				this.setState({timerSeconds: Math.round((Date.now() - this.state.timerStart)/1000)});
+			},
+
+			timerCancelClick: function(e) {
+			  this.setState({dropDownType: 'generic', timerSeconds: 0});
+			},
+
+			timerSaveClick: function(e) {
+				hours = parseInt(this.state.timerSeconds/3600);
+				minutes = Math.round(this.state.timerSeconds/60) - hours*60;
+				totalHours = this.state.hoursSaved + hours;
+				totalMinutes = this.state.minutesSaved + minutes;
+			  	this.setState({dropDownType: 'generic', timerSeconds: 0, hoursSaved: totalHours, minutesSaved: totalMinutes, timeEntered: this.timeToString(totalHours, totalMinutes)});
 			},
 
 			inputTimeClick: function(e) {
@@ -102,6 +127,18 @@
 			  return (hours.toString() + ":" + ("0" + minutes.toString()).slice(-2));
 			},
 
+			secondsToString: function(inSeconds) {
+				hours = parseInt(inSeconds/3600);
+				minutes = parseInt(inSeconds/60) - hours*60;
+				seconds = inSeconds - minutes*60 - hours*3600;
+			  	return (("0" + hours.toString()).slice(-2) + ":" + ("0" + minutes.toString()).slice(-2) + ":" + ("0" +seconds.toString()).slice(-2));
+			},
+
+			timerString: function() {
+				seconds = this.state.timerSeconds + this.state.hoursSaved*3600 + this.state.minutesSaved*60;
+				return this.secondsToString(seconds);
+			},
+
 			saveEnteredTime: function() {
 				var hours;
 				var mintutes;
@@ -147,18 +184,36 @@
 					case "timer":
 						dropDown = <div className="project-dropdown two-btn">
 										<div className="project-timer">
-											00:00:00
+											{this.timerString()}
 										</div>
 										<div className="project-options">
-											<div className="pr-opt">
-												<span className="pr-opt-icon timer">
-													<i className="fa fa-pause"> </i>
+											<div className="pr-opt" onClick={this.timerSaveClick}>
+												<span className="pr-opt-icon notes">
+													<i className="fa fa-download"> </i>
 												</span>
 												<span className="pr-opt-label">
-													Pause
+													Save
 												</span>
 											</div>
-											<div className="pr-opt" onClick={this.cancelClick}>
+											{this.state.timerOn ?
+												<div className="pr-opt" onClick={this.timerPauseClick}>
+													<span className="pr-opt-icon timer">
+														<i className="fa fa-pause"> </i>
+													</span>
+													<span className="pr-opt-label">
+														Pause
+													</span>
+												</div>
+											: <div className="pr-opt" onClick={this.timerStartClick}>
+													<span className="pr-opt-icon timer">
+														<i className="fa fa-play"> </i>
+													</span>
+													<span className="pr-opt-label">
+														Start
+													</span>
+												</div>
+											}
+											<div className="pr-opt" onClick={this.timerCancelClick}>
 												<span className="pr-opt-icon delete">
 													<i className="fa fa-times"> </i>
 												</span>
@@ -267,9 +322,9 @@
 						<div className="project">
 							<div className="project-sel" onClick={this.clickProjSel}>
 								<div className="project-text">
-									<span className="cc-name">Projects</span>
-									<span className="pr-name">Tongue St</span>
-									<span className="ph-name">Concept Design</span>
+									<span className="cc-name">{this.props.costCentreName}</span>
+									<span className="pr-name">{this.props.projectName}</span>
+									<span className="ph-name">{this.props.phaseName}</span>
 								</div>
 								<div className="project-time">
 									{this.savedTimeToString()}
@@ -282,7 +337,7 @@
 			}
 		});
 
-		React.render(<ProjectItem/>, $('.projects-list')[0]);
+		React.render(<ProjectItem costCentreName="Projects" projectName="Walsh St" phaseName="Concept Design"/>, $('.projects-list')[0]);
 
 </script>
 
