@@ -10,6 +10,284 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
+
+
+<script type="text/jsx">
+
+	var ProjectItem = React.createClass({
+
+			propTypes: {
+				costCentreName: React.PropTypes.string,
+				projectName: React.PropTypes.string,
+				phaseName: React.PropTypes.string
+			},
+
+			getDefaultProps: function() {
+				return {
+					costCentreName: 'Projects',
+					projectName:  'Tongue St',
+					phaseName:  'Concept Design'
+				}
+			},
+
+			getInitialState: function(){
+				return {
+					hoursSaved: 0,
+					minutesSaved: 0,
+					hoursTimer: 0,
+					minutesTimer: 0,
+					secondsTimer: 0,
+					timeEntered: '0:00',
+					noteSaved: '',
+					noteEntered: '',
+					timerOn: false,
+					expanded: false,
+					dropDownType: 'generic'
+				}
+			},
+
+			clickProjSel: function() {
+			  this.setState({expanded: !this.state.expanded, dropDownType: 'generic'});
+			},
+
+			timerClick: function(e) {
+			  this.setState({dropDownType: 'timer'});
+			},
+
+			inputTimeClick: function(e) {
+			  this.setState({dropDownType: 'time-input'});
+			},
+
+			inputTimeCancelClick: function(e) {
+			  this.setState({dropDownType: 'generic', timeEntered: this.savedTimeToString()});
+			},
+
+			inputTimeSaveClick: function(e) {
+				this.saveEnteredTime();
+			  	this.setState({dropDownType: 'generic'});
+			},
+
+			inputTimeOnChange: function(e) {
+			  value = e.target.value.replace(/[^0-9.:]+/g, '');
+				specialChars = value.replace(/[^.:]/g,'');
+				specialChars.length > 1 ? value = value.slice(0, -1) : null;
+				this.setState({timeEntered: value});
+			},
+
+			noteClick: function(e) {
+			  this.setState({dropDownType: 'note'});
+			},
+
+			noteCancelClick: function(e) {
+			  this.setState({dropDownType: 'generic', noteEntered: this.state.noteSaved});
+			},
+
+			noteSaveClick: function(e) {
+			  this.setState({dropDownType: 'generic', noteSaved: this.state.noteEntered});
+			},
+
+			noteOnChange: function(e) {
+			  this.setState({noteEntered: e.target.value});
+			},
+
+			deleteClick: function(e) {
+			  
+			},
+
+			savedTimeToString: function() {
+			  return this.timeToString(this.state.hoursSaved, this.state.minutesSaved);
+			},
+
+			timeToString: function(hours, minutes) {
+			  return (hours.toString() + ":" + ("0" + minutes.toString()).slice(-2));
+			},
+
+			saveEnteredTime: function() {
+				var hours;
+				var mintutes;
+				if (this.state.timeEntered.length > 0) {
+				  if (this.state.timeEntered.indexOf(':') > -1) {
+				  	split = this.state.timeEntered.split(':');
+				  	split[0].length > 0 ? hours = parseInt(split[0]) : hours = 0;
+				  	split[1].length > 0 ? minutes = parseInt(split[1]) : minutes = 0;
+
+				  	hours = hours + parseInt(minutes/60);
+				  	minutes = minutes - parseInt(minutes/60)*60;
+
+				  } else if (this.state.timeEntered.indexOf('.') > -1) {
+				  	split = this.state.timeEntered.split('.');
+				  	split[0].length > 0 ? hours = parseInt(split[0]) : hours = 0;
+				  	split[1].length > 0 ? minutes = parseInt(split[1]) : minutes = 0;
+
+					minutes = minutes*60/100;
+
+				  } else {
+				  	minutes = parseInt(this.state.timeEntered);
+
+				  	hours = hours + parseInt(minutes/60);
+				  	minutes = minutes - parseInt(minutes/60)*60;
+				  }
+				} else {
+					hours = 0;
+					minutes = 0;
+				}
+				this.setState({hoursSaved: hours, minutesSaved: minutes, timeEntered: this.timeToString(hours,minutes)});
+			},
+
+
+			cancelClick: function(e) {
+			  this.setState({dropDownType: 'generic'});
+			},
+
+			render: function(){
+
+				var dropDown;
+
+				switch(this.state.dropDownType) {
+
+					case "timer":
+						dropDown = <div className="project-dropdown two-btn">
+										<div className="project-timer">
+											00:00:00
+										</div>
+										<div className="project-options">
+											<div className="pr-opt">
+												<span className="pr-opt-icon timer">
+													<i className="fa fa-pause"> </i>
+												</span>
+												<span className="pr-opt-label">
+													Pause
+												</span>
+											</div>
+											<div className="pr-opt" onClick={this.cancelClick}>
+												<span className="pr-opt-icon delete">
+													<i className="fa fa-times"> </i>
+												</span>
+												<span className="pr-opt-label">
+													Cancel
+												</span>
+											</div>
+										</div>
+									</div>;
+						break;
+
+					case "time-input":
+						dropDown = <div className="project-dropdown two-btn">
+									<div className="project-input">
+										<input type="text" value={this.state.timeEntered} onChange={this.inputTimeOnChange}/>
+									</div>
+									<div className="project-options">
+										<div className="pr-opt" onClick={this.inputTimeSaveClick}>
+											<span className="pr-opt-icon notes">
+												<i className="fa fa-download"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Save
+											</span>
+										</div>
+										<div className="pr-opt" onClick={this.inputTimeCancelClick}>
+											<span className="pr-opt-icon delete">
+												<i className="fa fa-times"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Cancel
+											</span>
+										</div>
+									</div>
+								</div>;
+						break;
+
+					case "note":
+						dropDown = <div className="project-dropdown two-btn">
+									<div className="project-note">
+										<textarea rows="3" placeholder="Text goes here..." onChange={this.noteOnChange}>{this.state.noteEntered}</textarea>
+									</div>
+									<div className="project-options">
+										<div className="pr-opt" onClick={this.noteSaveClick}>
+											<span className="pr-opt-icon notes">
+												<i className="fa fa-download"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Save
+											</span>
+										</div>
+										<div className="pr-opt" onClick={this.noteCancelClick}>
+											<span className="pr-opt-icon delete">
+												<i className="fa fa-times"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Cancel
+											</span>
+										</div>
+									</div>
+								</div>;
+						break;
+
+					default:
+						dropDown = <div className="project-dropdown">
+									<div className="project-options">
+										<div className="pr-opt" onClick={this.timerClick}>
+											<span className="pr-opt-icon timer">
+												<i className="fa fa-play"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Start Timer
+											</span>
+										</div>
+										<div className="pr-opt" onClick={this.inputTimeClick}>
+											<span className="pr-opt-icon input">
+												<i className="fa fa-clock-o"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Enter Time
+											</span>
+										</div>
+										<div className="pr-opt" onClick={this.noteClick}>
+											<span className="pr-opt-icon notes">
+												<i className="fa fa-sticky-note"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Add Note
+											</span>
+										</div>
+										<div className="pr-opt" onClick={this.deleteClick}>
+											<span className="pr-opt-icon delete">
+												<i className="fa fa-times"> </i>
+											</span>
+											<span className="pr-opt-label">
+												Delete Entry
+											</span>
+										</div>
+									</div>
+								</div>;
+				}
+
+
+				return (
+					
+						<div className="project">
+							<div className="project-sel" onClick={this.clickProjSel}>
+								<div className="project-text">
+									<span className="cc-name">Projects</span>
+									<span className="pr-name">Tongue St</span>
+									<span className="ph-name">Concept Design</span>
+								</div>
+								<div className="project-time">
+									{this.savedTimeToString()}
+								</div>
+							</div>
+							{this.state.expanded ? dropDown : null}
+						</div>
+
+				);
+			}
+		});
+
+		React.render(<ProjectItem/>, $('.projects-list')[0]);
+
+</script>
+
+
 <body>
 	<div class="top-nav">
 		<img class="logo" src="coincraft-coin.svg" />
@@ -29,281 +307,7 @@
 		<div class="d-sel"><div class="day">S</div></div>
 	</div>
 	<div class="projects-list">
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project expanded">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-			<div class="project-dropdown">
-				<div class="project-options">
-					<div class="pr-opt">
-						<span class="pr-opt-icon timer">
-							<i class="fa fa-play"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Start Timer
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon input">
-							<i class="fa fa-clock-o"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Enter Time
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon notes">
-							<i class="fa fa-sticky-note"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Add Note
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon delete">
-							<i class="fa fa-times"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Delete Entry
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="projects-list">
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project expanded">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-			<div class="project-dropdown two-btn">
-				<div class="project-timer">
-					00:00:00
-				</div>
-				<div class="project-options">
-					<div class="pr-opt">
-						<span class="pr-opt-icon timer">
-							<i class="fa fa-pause"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Pause
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon delete">
-							<i class="fa fa-times"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Cancel
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project expanded">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-			<div class="project-dropdown two-btn">
-				<div class="project-note">
-					<textarea rows="5" placeholder="Text goes here..."></textarea>
-				</div>
-				<div class="project-options">
-					<div class="pr-opt">
-						<span class="pr-opt-icon notes">
-							<i class="fa fa-download"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Save
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon delete">
-							<i class="fa fa-times"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Cancel
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
-		<div class="project expanded">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-			<div class="project-dropdown two-btn">
-				<div class="project-timer">
-					<select>
-						<option>0</option>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-						<option>6</option>
-						<option>7</option>
-						<option>8</option>
-						<option>9</option>
-					</select>
-					:
-					<select>
-						<option>00</option>
-						<option>01</option>
-						<option>02</option>
-						<option>03</option>
-						<option>04</option>
-						<option>05</option>
-						<option>06</option>
-						<option>07</option>
-						<option>08</option>
-						<option>09</option>
-						<option>10</option>
-					</select>
-				</div>
-				<div class="project-options">
-					<div class="pr-opt">
-						<span class="pr-opt-icon notes">
-							<i class="fa fa-download"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Save
-						</span>
-					</div>
-					<div class="pr-opt">
-						<span class="pr-opt-icon delete">
-							<i class="fa fa-times"> </i>
-						</span>
-						<span class="pr-opt-label">
-							Cancel
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="project">
-			<div class="project-sel">
-				<div class="project-text">
-					<span class="cc-name">Projects</span>
-					<span class="pr-name">Tongue St</span>
-					<span class="ph-name">Concept Design</span>
-				</div>
-				<div class="project-time">
-					2:30
-				</div>
-			</div>
-		</div>
+		
 	</div>
 </body>
 </html>

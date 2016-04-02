@@ -15,52 +15,34 @@
 
 			getInitialState: function(){
 				return {
-					value: "00.00"
+					value: "0:00"
 				}
 			},
 
 			updateValue: function(event) {
-				value = event.target.value.toString().replace(/^[0\.]+/, '').replace('.','');
+				value = event.target.value.replace(/[^0-9.:]+/g, '');
+				specialChars = value.replace(/[^.:]/g,'');
+				specialChars.length > 1 ? value = value.slice(0, -1) : null;
+				this.setState({value: value});
+			},
 
-				if (value.length > 2) {
-					minutes = parseInt(value.slice(-2));
-					hours = parseInt(value.slice(-4, -2));
-				} else {
-					minutes = parseInt(value.slice(-2)) || 0;
-					hours = 0;
-				}
+			handleFocus: function(e) {
+			  e.target.select();
+			},
 
-				minutes < 10 ? minutesString = "0" + minutes.toString() : minutesString = minutes.toString();
-				hours < 10 ? hoursString = "0" + hours.toString() : hoursString = hours.toString();
-
-				newValue = hoursString + "." + minutesString;
-				this.setState({value: newValue});
+			handleBlur: function(e) {
+			  e.target.select();
 			},
 
 			render: function(){
 				return (
-					<div stle={{height: '76px', textAlign: 'center'}}>
-						<div
-						style={{
-								fontSize:'2em',
-								textAlign:'center',
-								position: 'absolute',
-								height: '76px',
-								display:'inline-block',
-								left: '46.75%',
-								top: '4.25%'
-							}}
-						>
-							<span style={{
-								display:'inline-block', 
-								position:'relative',
-								backgroundColor: 'white'
-							}}>:</span>
-						</div>
+					
 						<input 
-							type="number" 
+							type="text" 
 							value={this.state.value} 
 							onChange={this.updateValue}
+							onFocus={this.handleFocus}
+							maxLength="5"
 							style={{
 								fontSize:'2em',
 								textAlign:'center',
@@ -68,7 +50,6 @@
 								height: '76px'
 							}}
 						/>
-					</div>
 
 				);
 			}
