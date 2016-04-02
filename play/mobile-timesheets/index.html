@@ -115,11 +115,10 @@
 				  	minutes = minutes - parseInt(minutes/60)*60;
 
 				  } else if (this.state.timeEntered.indexOf('.') > -1) {
-				  	split = this.state.timeEntered.split('.');
-				  	split[0].length > 0 ? hours = parseInt(split[0]) : hours = 0;
-				  	split[1].length > 0 ? minutes = parseInt(split[1]) : minutes = 0;
+				  	minutes = parseFloat(this.state.timeEntered);
+				  	minutes >= 1 ? hours = parseInt(this.state.timeEntered) : hours = 0; //parseInt('.5') => NaN
 
-					minutes = minutes*60/100;
+					minutes = Math.round((minutes-hours)*60);
 
 				  } else {
 				  	minutes = parseInt(this.state.timeEntered);
@@ -174,7 +173,7 @@
 					case "time-input":
 						dropDown = <div className="project-dropdown two-btn">
 									<div className="project-input">
-										<input type="text" value={this.state.timeEntered} onChange={this.inputTimeOnChange}/>
+										<input type="text" maxLength={5} value={this.state.timeEntered} onChange={this.inputTimeOnChange}/>
 									</div>
 									<div className="project-options">
 										<div className="pr-opt" onClick={this.inputTimeSaveClick}>

@@ -264,17 +264,17 @@ body {
 
 .project-input {
 	border-bottom: 1px solid #ccc;
+	padding: 1.5rem;
 }
 
 .project-input input {
 	width: 100%;
-    height: 100%;
     text-align: center;
     font-size: 3rem;
     border: 0;
     color: #444;
     background-color: transparent;
-	padding: 1.5rem;
+    display: inline-block;
 }
 
 .project-input input:focus  {
