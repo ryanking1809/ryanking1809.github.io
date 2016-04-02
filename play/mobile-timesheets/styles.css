@@ -263,18 +263,18 @@ body {
 }
 
 .project-input {
-	padding: 1.5rem;
 	border-bottom: 1px solid #ccc;
 }
 
 .project-input input {
-	 width: 100%;
+	width: 100%;
     height: 100%;
     text-align: center;
     font-size: 3rem;
     border: 0;
     color: #444;
     background-color: transparent;
+	padding: 1.5rem;
 }
 
 .project-input input:focus  {
