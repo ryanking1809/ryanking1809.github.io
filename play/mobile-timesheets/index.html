@@ -19,24 +19,28 @@
 			propTypes: {
 				costCentreName: React.PropTypes.string,
 				projectName: React.PropTypes.string,
-				phaseName: React.PropTypes.string
+				phaseName: React.PropTypes.string,
+				hoursSaved: React.PropTypes.number,
+				minutesSaved: React.PropTypes.number,
+				id: React.PropTypes.number,
+				updateHours: React.PropTypes.func
 			},
 
 			getDefaultProps: function() {
 				return {
 					costCentreName: '',
 					projectName:  '',
-					phaseName:  ''
+					phaseName:  '',
+					hoursSaved: 0,
+					minutesSaved: 0
 				}
 			},
 
 			getInitialState: function(){
 				return {
-					hoursSaved: 0,
-					minutesSaved: 0,
 					timerSeconds: 0,
 					timerStart: Date.now(),
-					timeEntered: '0:00',
+					timeEntered: this.savedTimeToString(),
 					noteSaved: '',
 					noteEntered: '',
 					timerOn: false,
@@ -74,9 +78,10 @@
 			timerSaveClick: function(e) {
 				hours = parseInt(this.state.timerSeconds/3600);
 				minutes = Math.round(this.state.timerSeconds/60) - hours*60;
-				totalHours = this.state.hoursSaved + hours;
-				totalMinutes = this.state.minutesSaved + minutes;
-			  	this.setState({dropDownType: 'generic', timerSeconds: 0, hoursSaved: totalHours, minutesSaved: totalMinutes, timeEntered: this.timeToString(totalHours, totalMinutes)});
+				totalHours = this.props.hoursSaved + hours;
+				totalMinutes = this.props.minutesSaved + minutes;
+			  	this.setState({dropDownType: 'generic', timerSeconds: 0, /*hoursSaved: totalHours, minutesSaved: totalMinutes,*/ timeEntered: this.timeToString(totalHours, totalMinutes)});
+				this.props.updateHours(this.props.id, totalHours, totalMinutes);
 			},
 
 			inputTimeClick: function(e) {
@@ -120,7 +125,7 @@
 			},
 
 			savedTimeToString: function() {
-			  return this.timeToString(this.state.hoursSaved, this.state.minutesSaved);
+			  return this.timeToString(this.props.hoursSaved, this.props.minutesSaved);
 			},
 
 			timeToString: function(hours, minutes) {
@@ -135,7 +140,7 @@
 			},
 
 			timerString: function() {
-				seconds = this.state.timerSeconds + this.state.hoursSaved*3600 + this.state.minutesSaved*60;
+				seconds = this.state.timerSeconds + this.props.hoursSaved*3600 + this.props.minutesSaved*60;
 				return this.secondsToString(seconds);
 			},
 
@@ -166,7 +171,8 @@
 					hours = 0;
 					minutes = 0;
 				}
-				this.setState({hoursSaved: hours, minutesSaved: minutes, timeEntered: this.timeToString(hours,minutes)});
+				this.setState({/*hoursSaved: hours, minutesSaved: minutes,*/ timeEntered: this.timeToString(hours,minutes)});
+				this.props.updateHours(this.props.id, hours, minutes);
 			},
 
 
@@ -336,16 +342,65 @@
 			}
 		});
 
-		React.render(<ProjectItem costCentreName="Projects" projectName="Walsh St" phaseName="Concept Design"/>, $('.projects-list')[0]);
+		var ProjectList = React.createClass({
 
-</script>
-<script>
-$( document ).ready(function() {
-	$('.cal.nav-btn').click(function() {
-		console.log($('.date-picker')[0]);
-		$('.date-picker')[0].click();
-	});
-});
+			getInitialState: function(){
+				return {
+					projects: {
+						1: {costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 3, minutesSaved: 40},
+						2: {costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
+						3: {costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
+						4: {costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 30},
+						5: {costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
+						6: {costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
+						7: {costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
+						8: {costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 0, minutesSaved: 0}
+					}
+				}
+			},
+
+			updateHours: function(id, hours, minutes){
+				projects = this.state.projects;
+				projects[id].hoursSaved = hours;
+				projects[id].minutesSaved = minutes;
+
+				this.setState({projects: projects});
+			},
+
+			render: function(){
+
+				var projectList = [];
+				var projects = this.state.projects;
+				var updateHours = this.updateHours;
+
+				//object mapping in javascript sucks balls
+				Object.keys(projects).map(function(id, index) {
+					var project = projects[id];
+					projectList.push(
+							<ProjectItem 
+				        		key={id} 
+				        		id={id}
+				        		costCentreName={project.costCentreName} 
+				        		projectName={project.projectName} 
+				        		phaseName={project.phaseName} 
+				        		hoursSaved={project.hoursSaved}
+				        		minutesSaved={project.minutesSaved}
+				        		updateHours={updateHours}
+				        	/>
+						);
+				});
+
+				return (
+						<div className="projects-list">
+							{projectList}
+						</div>
+				);
+
+			}
+		});
+
+		React.render(<ProjectList />, $('.projects-list')[0]);
+
 </script>
 
 
@@ -369,6 +424,5 @@ $( document ).ready(function() {
 	</div>
 	<div class="projects-list">
 	</div>
-			<input class="date-picker" type="date" />
 </body>
 </html>
