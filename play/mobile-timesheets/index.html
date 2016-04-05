@@ -23,7 +23,8 @@
 				hoursSaved: React.PropTypes.number,
 				minutesSaved: React.PropTypes.number,
 				id: React.PropTypes.number,
-				updateHours: React.PropTypes.func
+				updateHours: React.PropTypes.func,
+				deleteEntry: React.PropTypes.func
 			},
 
 			getDefaultProps: function() {
@@ -39,6 +40,7 @@
 			getInitialState: function(){
 				return {
 					timerSeconds: 0,
+					timerSavedSeconds: 0,
 					timerStart: Date.now(),
 					timeEntered: this.savedTimeToString(),
 					noteSaved: '',
@@ -54,7 +56,8 @@
 			},
 
 			timerClick: function(e) {
-			  this.setState({dropDownType: 'timer'});
+			  this.setState({dropDownType: 'timer', timerStart: Date.now(), timerOn: true});
+			  this.timer = setInterval(this.timerTick, 1000);
 			},
 
 			timerStartClick: function(e) {
@@ -63,7 +66,7 @@
 			},
 
 			timerPauseClick: function(e) {
-			  this.setState({timerOn: false});
+			  this.setState({timerOn: false, timerSavedSeconds: this.state.timerSavedSeconds + this.state.timerSeconds, timerSeconds: 0});
 			  clearInterval(this.timer);
 			},
 
@@ -76,11 +79,11 @@
 			},
 
 			timerSaveClick: function(e) {
-				hours = parseInt(this.state.timerSeconds/3600);
-				minutes = Math.round(this.state.timerSeconds/60) - hours*60;
+				hours = parseInt(this.state.timerSavedSeconds/3600);
+				minutes = Math.round(this.state.timerSavedSeconds/60) - hours*60;
 				totalHours = this.props.hoursSaved + hours;
 				totalMinutes = this.props.minutesSaved + minutes;
-			  	this.setState({dropDownType: 'generic', timerSeconds: 0, /*hoursSaved: totalHours, minutesSaved: totalMinutes,*/ timeEntered: this.timeToString(totalHours, totalMinutes)});
+			  	this.setState({dropDownType: 'generic', timerSeconds: 0, timerSavedSeconds: 0, /*hoursSaved: totalHours, minutesSaved: totalMinutes,*/ timeEntered: this.timeToString(totalHours, totalMinutes)});
 				this.props.updateHours(this.props.id, totalHours, totalMinutes);
 			},
 
@@ -121,7 +124,7 @@
 			},
 
 			deleteClick: function(e) {
-			  
+			  this.props.deleteEntry(this.props.id);
 			},
 
 			savedTimeToString: function() {
@@ -140,7 +143,7 @@
 			},
 
 			timerString: function() {
-				seconds = this.state.timerSeconds + this.props.hoursSaved*3600 + this.props.minutesSaved*60;
+				seconds = this.state.timerSavedSeconds + this.state.timerSeconds + this.props.hoursSaved*3600 + this.props.minutesSaved*60;
 				return this.secondsToString(seconds);
 			},
 
@@ -344,6 +347,56 @@
 
 		var ProjectList = React.createClass({
 
+			propTypes: {
+				projects: React.PropTypes.object,
+				updateHours: React.PropTypes.func,
+				deleteEntry: React.PropTypes.func
+			},
+
+			getDefaultProps: function() {
+				return {
+					projects: {}
+				}
+			},
+
+			render: function(){
+
+				var projectList = [];
+				var projects = this.props.projects;
+				var updateHours = this.props.updateHours;
+				var deleteEntry = this.props.deleteEntry;
+
+				//object mapping in javascript sucks balls
+				Object.keys(projects).map(function(id, index) {
+					var project = projects[id];
+					projectList.push(
+							<ProjectItem 
+				        		key={id} 
+				        		id={id}
+				        		costCentreName={project.costCentreName} 
+				        		projectName={project.projectName} 
+				        		phaseName={project.phaseName} 
+				        		hoursSaved={project.hoursSaved}
+				        		minutesSaved={project.minutesSaved}
+				        		updateHours={updateHours}
+				        		deleteEntry={deleteEntry}
+				        	/>
+						);
+				});
+
+				return (
+						<div className="projects-list">
+							{projectList}
+						</div>
+				);
+
+			}
+		});
+
+
+
+		var TimeEntryPage = React.createClass({
+
 			getInitialState: function(){
 				return {
 					projects: {
@@ -365,6 +418,26 @@
 				projects[id].minutesSaved = minutes;
 
 				this.setState({projects: projects});
+			},
+
+			deleteEntry: function(id) {
+				projects = this.state.projects;
+				delete projects[id];
+
+				this.setState({projects: projects});
+
+			},
+
+			daysHoursToString: function() {
+				var projects = this.state.projects;
+				var totalMinutes = 0;
+				for(var k in projects){
+					totalMinutes = totalMinutes + projects[k].hoursSaved*60 + projects[k].minutesSaved;
+				};
+				var totalHours = parseInt(totalMinutes/60);
+				totalMinutes = totalMinutes - totalHours*60;
+
+				return (totalHours.toString() + ":" + ("0" + totalMinutes.toString()).slice(-2));
 			},
 
 			render: function(){
@@ -391,38 +464,39 @@
 				});
 
 				return (
-						<div className="projects-list">
-							{projectList}
+					<div>
+						<div className="top-nav">
+							<img className="logo" src="coincraft-coin.svg" />
+							<span className="date-title">Monday, 28 Mar</span>
+							<div className="right-btns">
+								<button className="nav-btn cal" style={{position: 'relative', top: '-3px'}}><i className="fa fa-calendar"> </i></button>
+								<button className="nav-btn" style={{fontSize: '2.2em'}}><i className="fa fa-plus-circle"> </i></button>
+							</div>
 						</div>
+						<div className="weekday">
+							<div className="d-sel"><div className="day">M</div><div className="day-hours">0:00</div></div>
+							<div className="d-sel"><div className="day">T</div><div className="day-hours">0:00</div></div>
+							<div className="d-sel selected"><div className="day selected">W</div><div className="day-hours">{this.daysHoursToString()}</div></div>
+							<div className="d-sel"><div className="day today">T</div><div className="day-hours">0:00</div></div>
+							<div className="d-sel"><div className="day">F</div><div className="day-hours">0:00</div></div>
+							<div className="d-sel"><div className="day">S</div><div className="day-hours">0:00</div></div>
+							<div className="d-sel"><div className="day">S</div><div className="day-hours">0:00</div></div>
+						</div>
+						<ProjectList projects={this.state.projects} updateHours={this.updateHours} deleteEntry={this.deleteEntry} />
+					</div>
 				);
 
 			}
 		});
 
-		React.render(<ProjectList />, $('.projects-list')[0]);
+		
+
+		React.render(<TimeEntryPage />, $('body')[0]);
 
 </script>
 
 
 <body>
-	<div class="top-nav">
-		<img class="logo" src="coincraft-coin.svg" />
-		<span class="date-title">Monday, 28 Mar</span>
-		<div class="right-btns">
-			<button class="nav-btn cal" style="position: relative;top: -3px;"><i class="fa fa-calendar"> </i></button>
-			<button class="nav-btn" style="font-size: 2.2em"><i class="fa fa-plus-circle"> </i></button>
-		</div>
-	</div>
-	<div class="weekday">
-		<div class="d-sel"><div class="day">M</div></div>
-		<div class="d-sel"><div class="day">T</div></div>
-		<div class="d-sel"><div class="day selected">W</div></div>
-		<div class="d-sel"><div class="day today">T</div></div>
-		<div class="d-sel"><div class="day">F</div></div>
-		<div class="d-sel"><div class="day">S</div></div>
-		<div class="d-sel"><div class="day">S</div></div>
-	</div>
-	<div class="projects-list">
-	</div>
+	
 </body>
 </html>

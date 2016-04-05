@@ -7,12 +7,12 @@ html, body, p {
 }
 
 body {
-	padding-top: 96px;
+	padding-top: 120px;
 }
 
 .top-nav, .weekday {
 	box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
-	height: 48px;
+	height: 54px;
 	vertical-align: middle;
 	position: fixed;
 	width: 100%;
@@ -28,7 +28,8 @@ body {
 .weekday {
 	background-color: gold;
 	z-index: 99;
-	top: 48px;
+	top: 54px;
+	height: 66px;
 	display: flex;
 	flex-direction: row;
 }
@@ -36,6 +37,7 @@ body {
 .d-sel {
 	width: 100%;
 	text-align: center;
+	cursor: pointer;
 }
 
 .day {
@@ -48,7 +50,7 @@ body {
 	height: 36px;
 	width: 36px;
 	border-radius: 18px;
-	margin: 6px auto;
+	margin: 6px auto 2px auto;
 }
 
 .day.selected, .d-sel:hover > .day {
@@ -281,14 +283,10 @@ body {
 	outline: 0;
 }
 
+.day-hours {
+	font-size: 0.8em;
+}
 
-
-::-webkit-datetime-edit { padding: 1em; }
-::-webkit-datetime-edit-fields-wrapper { background: silver; }
-::-webkit-datetime-edit-text { color: red; padding: 0 0.3em; }
-::-webkit-datetime-edit-month-field { color: blue; }
-::-webkit-datetime-edit-day-field { color: green; }
-::-webkit-datetime-edit-year-field { color: purple; }
-::-webkit-inner-spin-button { display: none; }
-::-webkit-calendar-picker-indicator { background: orange; }
--webkit-appearance: none;
+.d-sel.selected .day-hours {
+	font-weight: 600;
+}
