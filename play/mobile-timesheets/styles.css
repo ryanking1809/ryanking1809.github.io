@@ -22,7 +22,10 @@ body {
 	bottom: 0;
 	background-color: white;
 	z-index: 100;
-	display: flex;
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 }
 
 .weekday {
@@ -30,8 +33,12 @@ body {
 	z-index: 99;
 	top: 54px;
 	height: 66px;
-	display: flex;
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 	flex-direction: row;
+	-webkit-flex-direction: row;
 }
 
 .d-sel {
@@ -69,6 +76,9 @@ body {
 	flex-grow: 0;
 	flex-shrink: 0;
 	flex-basis: 3em;
+	-webkit-flex-grow: 0;
+	-webkit-flex-shrink: 0;
+	-webkit-flex-basis: 3em;
 	align-self: center;
 }
 
@@ -77,6 +87,7 @@ body {
 	padding: 0;
 	margin: 0;
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 	align-self: center;
 }
 
@@ -84,6 +95,9 @@ body {
 	flex-grow: 0;
 	flex-shrink: 0;
 	flex-basis: 7em;
+	-webkit-flex-grow: 0;
+	-webkit-flex-shrink: 0;
+	-webkit-flex-basis: 7em;
 	align-self: center;
 	text-align: right;
 }
@@ -106,7 +120,10 @@ body {
 
 .project-sel {
 	border-bottom: 1px solid #ccc;
-	display: flex;
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 	height: 72px;
 	cursor: pointer;
 }
@@ -115,6 +132,9 @@ body {
 	flex-grow: 0;
 	flex-shrink: 0;
 	flex-basis: 4em;
+	-webkit-flex-grow: 0;
+	-webkit-flex-shrink: 0;
+	-webkit-flex-basis: 4em;
 	align-self: center;
 	text-align: right;
 	font-size: 1.25em;
@@ -123,6 +143,7 @@ body {
 
 .project-text {
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 	align-self: center;
 }
 
@@ -167,13 +188,18 @@ body {
 	z-index: 1;
 	color: #444;
 	font-size: 2em;
-	display: flex;
+	display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+  display: -ms-flexbox;  /* TWEENER - IE 10 */
+  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
 	flex-direction: row;
+	-webkit-flex-direction: row;
 	border-color: #444;
 }
 
 .project-options .pr-opt {
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 	align-self: center;
 	text-align: center;
 	cursor: pointer;
@@ -186,6 +212,7 @@ body {
 
 .project-options .pr-opt:hover {
 	flex-grow: 1;
+	-webkit-flex-grow: 1;
 	align-self: center;
 	text-align: center;
 }
