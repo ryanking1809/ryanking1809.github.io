@@ -326,7 +326,7 @@
 
 
 				return (
-					
+
 						<div className="project">
 							<div className="project-sel" onClick={this.clickProjSel}>
 								<div className="project-text">
@@ -370,12 +370,12 @@
 				Object.keys(projects).map(function(id, index) {
 					var project = projects[id];
 					projectList.push(
-							<ProjectItem 
-				        		key={id} 
+							<ProjectItem
+				        		key={id}
 				        		id={id}
-				        		costCentreName={project.costCentreName} 
-				        		projectName={project.projectName} 
-				        		phaseName={project.phaseName} 
+				        		costCentreName={project.costCentreName}
+				        		projectName={project.projectName}
+				        		phaseName={project.phaseName}
 				        		hoursSaved={project.hoursSaved}
 				        		minutesSaved={project.minutesSaved}
 				        		updateHours={updateHours}
@@ -450,12 +450,12 @@
 				Object.keys(projects).map(function(id, index) {
 					var project = projects[id];
 					projectList.push(
-							<ProjectItem 
-				        		key={id} 
+							<ProjectItem
+				        		key={id}
 				        		id={id}
-				        		costCentreName={project.costCentreName} 
-				        		projectName={project.projectName} 
-				        		phaseName={project.phaseName} 
+				        		costCentreName={project.costCentreName}
+				        		projectName={project.projectName}
+				        		phaseName={project.phaseName}
 				        		hoursSaved={project.hoursSaved}
 				        		minutesSaved={project.minutesSaved}
 				        		updateHours={updateHours}
@@ -489,7 +489,7 @@
 			}
 		});
 
-		
+
 
 		React.render(<TimeEntryPage />, $('body')[0]);
 
@@ -497,6 +497,6 @@
 
 
 <body>
-	
+
 </body>
 </html>

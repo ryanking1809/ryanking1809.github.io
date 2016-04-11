@@ -88,7 +88,7 @@ video#bgvid {
 
 .tagline-video p {
     font-size: 1.2em;
-    font-style: italic;    
+    font-style: italic;
     color: #FFC708;
 }
 
@@ -133,7 +133,7 @@ video#bgvid {
     margin-bottom: 3em;
 }
 
-.fun-text h1 {
+.fun-text h1, h1.fun-text {
     font-family: 'Amatic SC', cursive;
     text-align: center
 }
@@ -258,7 +258,7 @@ video#bgvid {
   #features .feature {
     width: 10em;
     margin: 1em;
-  } 
+  }
   #features {
     padding-left: 0;
     padding-right: 0;
@@ -494,7 +494,7 @@ video#bgvid {
 	width: 100%;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
    opacity: 1;
 }
