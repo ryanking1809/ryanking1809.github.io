@@ -8,6 +8,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 </head>
 
@@ -366,22 +368,19 @@
 				var updateHours = this.props.updateHours;
 				var deleteEntry = this.props.deleteEntry;
 
-				//object mapping in javascript sucks balls
-				Object.keys(projects).map(function(id, index) {
-					var project = projects[id];
-					projectList.push(
-							<ProjectItem
-				        		key={id}
-				        		id={id}
-				        		costCentreName={project.costCentreName}
-				        		projectName={project.projectName}
-				        		phaseName={project.phaseName}
-				        		hoursSaved={project.hoursSaved}
-				        		minutesSaved={project.minutesSaved}
-				        		updateHours={updateHours}
-				        		deleteEntry={deleteEntry}
-				        	/>
-						);
+				var projectList = projects.map(function(project){
+					return (
+						<ProjectItem
+	        		key={project.id}
+	        		id={project.id}
+	        		costCentreName={project.costCentreName}
+	        		projectName={project.projectName}
+	        		phaseName={project.phaseName}
+	        		hoursSaved={project.hoursSaved}
+	        		minutesSaved={project.minutesSaved}
+	        		updateHours={updateHours}
+	        	/>
+					);
 				});
 
 				return (
@@ -399,16 +398,44 @@
 
 			getInitialState: function(){
 				return {
-					projects: {
-						1: {costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 3, minutesSaved: 40},
-						2: {costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
-						3: {costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
-						4: {costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 30},
-						5: {costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
-						6: {costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
-						7: {costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
-						8: {costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 0, minutesSaved: 0}
-					}
+					timesheets: [
+						{date: moment().startOf('day').subtract(1, 'days'),
+						projects: [
+							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40},
+							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 20},
+							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
+							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
+							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
+							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
+							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 0},
+							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 2, minutesSaved: 0}
+						]},
+						{date: moment().startOf('day'),
+						projects: [
+							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 3, minutesSaved: 40},
+							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
+							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
+							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 30},
+							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
+							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
+							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
+							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 0, minutesSaved: 0}
+						]},
+						{date: moment().startOf('day').add(1, 'days'),
+						projects: [
+							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40},
+							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
+							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
+							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 0},
+							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 2, minutesSaved: 0},
+							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
+							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
+							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 1, minutesSaved: 0}
+						]}
+					],
+				currentDate: moment().startOf('day'),
+				selectedDate: moment().startOf('day'),
+				currentWeek: moment().startOf('isoWeek')
 				}
 			},
 
@@ -428,8 +455,15 @@
 
 			},
 
-			daysHoursToString: function() {
-				var projects = this.state.projects;
+			daysHoursToString: function(moment) {
+				var day = _.find(this.state.timesheets, function(ts){
+					return ts.date.isSame(moment);
+				});
+				if (day !== undefined) {
+					var projects = day.projects;
+				} else {
+					return "0:00"
+				}
 				var totalMinutes = 0;
 				for(var k in projects){
 					totalMinutes = totalMinutes + projects[k].hoursSaved*60 + projects[k].minutesSaved;
@@ -440,49 +474,51 @@
 				return (totalHours.toString() + ":" + ("0" + totalMinutes.toString()).slice(-2));
 			},
 
-			render: function(){
+			changeWeekday: function(e) {
+				this.setState({selectedDate: this.state.selectedDate.isoWeekday(parseInt($(e.target).attr('value'))+1)});
+			},
 
+			render: function(){
+				var self = this;
 				var projectList = [];
 				var projects = this.state.projects;
 				var updateHours = this.updateHours;
 
-				//object mapping in javascript sucks balls
-				Object.keys(projects).map(function(id, index) {
-					var project = projects[id];
-					projectList.push(
-							<ProjectItem
-				        		key={id}
-				        		id={id}
-				        		costCentreName={project.costCentreName}
-				        		projectName={project.projectName}
-				        		phaseName={project.phaseName}
-				        		hoursSaved={project.hoursSaved}
-				        		minutesSaved={project.minutesSaved}
-				        		updateHours={updateHours}
-				        	/>
-						);
+				var dayNames = [
+				  "M", "T", "W",
+				  "T", "F", "S", "S"
+				];
+				var weekDays = dayNames.map(function(d,i){
+					var currentDate = moment(self.state.currentDate);
+					var currentWeek = moment(self.state.currentWeek);
+					var date = currentWeek.add(i, 'days');
+					classes = self.state.selectedDate.isSame(date) ? "day selected" : "day";
+					classes = currentDate.isSame(date) ? classes + " today" : classes;
+					return (
+						<div className={"d-sel"} value={i} onClick={self.changeWeekday}>
+							<div className={classes} value={i}>{d}</div>
+							<div className="day-hours" value={i}>{self.daysHoursToString(date)}</div>
+						</div>
+					);
 				});
+
+				var currentDay = _.find(this.state.timesheets, function(ts){ return ts.date.isSame(self.state.selectedDate)});
+				var projects = currentDay !== undefined ? currentDay.projects : [];
 
 				return (
 					<div>
 						<div className="top-nav">
 							<img className="logo" src="coincraft-coin.svg" />
-							<span className="date-title">Monday, 28 Mar</span>
+							<span className="date-title">{this.state.selectedDate.format('dddd, D MMMM YYYY')}</span>
 							<div className="right-btns">
 								<button className="nav-btn cal" style={{position: 'relative', top: '-3px'}}><i className="fa fa-calendar"> </i></button>
 								<button className="nav-btn" style={{fontSize: '2.2em'}}><i className="fa fa-plus-circle"> </i></button>
 							</div>
 						</div>
 						<div className="weekday">
-							<div className="d-sel"><div className="day">M</div><div className="day-hours">0:00</div></div>
-							<div className="d-sel"><div className="day">T</div><div className="day-hours">0:00</div></div>
-							<div className="d-sel selected"><div className="day selected">W</div><div className="day-hours">{this.daysHoursToString()}</div></div>
-							<div className="d-sel"><div className="day today">T</div><div className="day-hours">0:00</div></div>
-							<div className="d-sel"><div className="day">F</div><div className="day-hours">0:00</div></div>
-							<div className="d-sel"><div className="day">S</div><div className="day-hours">0:00</div></div>
-							<div className="d-sel"><div className="day">S</div><div className="day-hours">0:00</div></div>
+							{weekDays}
 						</div>
-						<ProjectList projects={this.state.projects} updateHours={this.updateHours} deleteEntry={this.deleteEntry} />
+						<ProjectList projects={projects} updateHours={this.updateHours} deleteEntry={this.deleteEntry} />
 					</div>
 				);
 
