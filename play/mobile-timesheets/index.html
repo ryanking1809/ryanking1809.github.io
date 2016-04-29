@@ -499,7 +499,7 @@
 					classes = self.state.selectedDate.isSame(date) ? "day selected" : "day";
 					classes = currentDate.isSame(date) ? classes + " today" : classes;
 					return (
-						<div className={"d-sel"} onClick={() => self.changeWeekday(date)}>
+						<div className={"d-sel"} onClick={function(){self.changeWeekday(date)}}>
 							<div className={classes}>
 								<div className="day-circle">
 									<span className="mini-day" >{date.format("ddd")}</span>
@@ -517,7 +517,7 @@
 				return (
 					<div>
 						<div className="top-nav">
-							<div className="nav-btn left" onClick={() => self.changeWeek(-7)}>
+							<div className="nav-btn left" onClick={function(){self.changeWeek(-7)}}>
 								<i className="fa fa-chevron-left" />
 							</div>
 							<div className="nav-title">
@@ -526,7 +526,7 @@
 									<span style={{fontWeight: 600}}>{this.state.currentWeek.format('ddd, D MMM YYYY')}</span>
 								</span>
 							</div>
-							<div className="nav-btn right"  onClick={() => self.changeWeek(7)}>
+							<div className="nav-btn right"  onClick={function(){self.changeWeek(7)}}>
 								<i className="fa fa-chevron-right" />
 							</div>
 						</div>
