@@ -16,33 +16,19 @@
 
 <script type="text/jsx">
 
-	var ProjectItem = React.createClass({
+	var TimesheetItem = React.createClass({
 
 			propTypes: {
-				costCentreName: React.PropTypes.string,
-				projectName: React.PropTypes.string,
-				phaseName: React.PropTypes.string,
-				hoursSaved: React.PropTypes.number,
-				minutesSaved: React.PropTypes.number,
-				id: React.PropTypes.number,
-				updateHours: React.PropTypes.func,
-				deleteEntry: React.PropTypes.func
-			},
-
-			getDefaultProps: function() {
-				return {
-					costCentreName: '',
-					projectName:  '',
-					phaseName:  '',
-					hoursSaved: 0,
-					minutesSaved: 0
-				}
+				timesheetItem: React.PropTypes.object,
+				updateTime: React.PropTypes.func,
+				updateNotes: React.PropTypes.func,
+				deleteTimesheet: React.PropTypes.func
 			},
 
 			getInitialState: function(){
 				return {
 					timerSeconds: 0,
-					timerSavedSeconds: 0,
+					timerSavedSeconds: 0, // remembers time after pause - i think
 					timerStart: Date.now(),
 					timeEntered: this.savedTimeToString(),
 					noteSaved: '',
@@ -77,16 +63,16 @@
 			},
 
 			timerCancelClick: function(e) {
-			  this.setState({dropDownType: 'generic', timerSeconds: 0});
+			  this.setState({dropDownType: 'generic', timerSeconds: 0, timerSavedSeconds: 0});
 			},
 
 			timerSaveClick: function(e) {
 				hours = parseInt(this.state.timerSavedSeconds/3600);
 				minutes = Math.round(this.state.timerSavedSeconds/60) - hours*60;
-				totalHours = this.props.hoursSaved + hours;
-				totalMinutes = this.props.minutesSaved + minutes;
-			  	this.setState({dropDownType: 'generic', timerSeconds: 0, timerSavedSeconds: 0, /*hoursSaved: totalHours, minutesSaved: totalMinutes,*/ timeEntered: this.timeToString(totalHours, totalMinutes)});
-				this.props.updateHours(this.props.id, totalHours, totalMinutes);
+				totalHours = this.props.timesheetItem.hoursSaved + hours;
+				totalMinutes = this.props.timesheetItem.minutesSaved + minutes;
+			  this.setState({dropDownType: 'generic', timerSeconds: 0, timerSavedSeconds: 0, timeEntered: this.timeToString(totalHours, totalMinutes)});
+				this.props.updateTime(this.props.timesheetItem, totalHours, totalMinutes);
 			},
 
 			inputTimeClick: function(e) {
@@ -99,7 +85,7 @@
 
 			inputTimeSaveClick: function(e) {
 				this.saveEnteredTime();
-			  	this.setState({dropDownType: 'generic'});
+			  this.setState({dropDownType: 'generic'});
 			},
 
 			inputTimeOnChange: function(e) {
@@ -118,7 +104,8 @@
 			},
 
 			noteSaveClick: function(e) {
-			  this.setState({dropDownType: 'generic', noteSaved: this.state.noteEntered});
+			  this.props.updateNotes(this.props.timesheetItem, this.state.noteEntered);
+				this.setState({dropDownType: 'generic'});
 			},
 
 			noteOnChange: function(e) {
@@ -126,11 +113,11 @@
 			},
 
 			deleteClick: function(e) {
-			  this.props.deleteEntry(this.props.id);
+			  this.props.deleteTimesheet(this.props.timesheetItem);
 			},
 
 			savedTimeToString: function() {
-			  return this.timeToString(this.props.hoursSaved, this.props.minutesSaved);
+			  return this.timeToString(this.props.timesheetItem.hoursSaved, this.props.timesheetItem.minutesSaved);
 			},
 
 			timeToString: function(hours, minutes) {
@@ -145,7 +132,7 @@
 			},
 
 			timerString: function() {
-				seconds = this.state.timerSavedSeconds + this.state.timerSeconds + this.props.hoursSaved*3600 + this.props.minutesSaved*60;
+				seconds = this.state.timerSavedSeconds + this.state.timerSeconds + this.props.timesheetItem.hoursSaved*3600 + this.props.timesheetItem.minutesSaved*60;
 				return this.secondsToString(seconds);
 			},
 
@@ -176,8 +163,8 @@
 					hours = 0;
 					minutes = 0;
 				}
-				this.setState({/*hoursSaved: hours, minutesSaved: minutes,*/ timeEntered: this.timeToString(hours,minutes)});
-				this.props.updateHours(this.props.id, hours, minutes);
+				this.setState({timeEntered: this.timeToString(hours,minutes)});
+				this.props.updateTime(this.props.timesheetItem, hours, minutes);
 			},
 
 
@@ -332,9 +319,9 @@
 						<div className="project">
 							<div className="project-sel" onClick={this.clickProjSel}>
 								<div className="project-text">
-									<span className="cc-name">{this.props.costCentreName}</span>
-									<span className="pr-name">{this.props.projectName}</span>
-									<span className="ph-name">{this.props.phaseName}</span>
+									<span className="cc-name">{this.props.timesheetItem.costCentreName}</span>
+									<span className="pr-name">{this.props.timesheetItem.projectName}</span>
+									<span className="ph-name">{this.props.timesheetItem.phaseName}</span>
 								</div>
 								<div className="project-time">
 									{this.savedTimeToString()}
@@ -347,10 +334,10 @@
 			}
 		});
 
-		var ProjectList = React.createClass({
+		var TimesheetList = React.createClass({
 
 			propTypes: {
-				projects: React.PropTypes.object,
+				timesheets: React.PropTypes.object,
 				updateHours: React.PropTypes.func,
 				deleteEntry: React.PropTypes.func
 			},
@@ -362,30 +349,24 @@
 			},
 
 			render: function(){
+				var self = this;
+				var timesheetList = [];
+				var timesheets = this.props.timesheets;
 
-				var projectList = [];
-				var projects = this.props.projects;
-				var updateHours = this.props.updateHours;
-				var deleteEntry = this.props.deleteEntry;
-
-				var projectList = projects.map(function(project){
+				var timesheetList = timesheets.map(function(timesheet){
 					return (
-						<ProjectItem
-	        		key={project.id}
-	        		id={project.id}
-	        		costCentreName={project.costCentreName}
-	        		projectName={project.projectName}
-	        		phaseName={project.phaseName}
-	        		hoursSaved={project.hoursSaved}
-	        		minutesSaved={project.minutesSaved}
-	        		updateHours={updateHours}
+						<TimesheetItem
+	        		timesheetItem={timesheet}
+							updateTime={self.props.updateTime}
+							updateNotes={self.props.updateNotes}
+							deleteTimesheet={self.props.deleteTimesheet}
 	        	/>
 					);
 				});
 
 				return (
-						<div className="projects-list">
-							{projectList}
+						<div className="timesheet-list">
+							{timesheetList}
 						</div>
 				);
 
@@ -396,46 +377,19 @@
 
 		var TimeEntryPage = React.createClass({
 
+			propTypes: {
+				toggleProjectsPage: React.PropTypes.func,
+				changeDate: React.PropTypes.func,
+				updateTime: React.PropTypes.func,
+				deleteTimesheet: React.PropTypes.func,
+				timesheets: React.PropTypes.object,
+				selectedDate: React.PropTypes.object
+			},
+
 			getInitialState: function(){
 				return {
-					timesheets: [
-						{date: moment().startOf('day').subtract(1, 'days'),
-						projects: [
-							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40},
-							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 20},
-							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
-							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
-							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
-							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
-							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 0},
-							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 2, minutesSaved: 0}
-						]},
-						{date: moment().startOf('day'),
-						projects: [
-							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 3, minutesSaved: 40},
-							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
-							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
-							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 30},
-							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0},
-							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
-							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
-							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 0, minutesSaved: 0}
-						]},
-						{date: moment().startOf('day').add(1, 'days'),
-						projects: [
-							{id: 1, costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40},
-							{id: 2, costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20},
-							{id: 3, costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30},
-							{id: 4, costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 0},
-							{id: 5, costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 2, minutesSaved: 0},
-							{id: 6, costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0},
-							{id: 7, costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0},
-							{id: 8, costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 1, minutesSaved: 0}
-						]}
-					],
-				currentDate: moment().startOf('day'),
-				selectedDate: moment().startOf('day'),
-				currentWeek: moment().startOf('isoWeek')
+					currentDate: moment().startOf('day'),
+					currentWeek: moment().startOf('isoWeek')
 				}
 			},
 
@@ -456,7 +410,7 @@
 			},
 
 			daysHoursToString: function(moment) {
-				var day = _.find(this.state.timesheets, function(ts){
+				var day = _.find(this.props.timesheets, function(ts){
 					return ts.date.isSame(moment);
 				});
 				if (day !== undefined) {
@@ -474,32 +428,31 @@
 				return (totalHours.toString() + ":" + ("0" + totalMinutes.toString()).slice(-2));
 			},
 
-			changeWeekday: function(date) {
-				this.setState({selectedDate: date});
+			changeSelectedDate: function(date) {
+				this.props.changeDate(date);
 			},
 
 			changeWeek: function(days) {
 				this.setState({currentWeek: this.state.currentWeek.day(days)});
 			},
 
+			handleAddProjectButton: function() {
+				this.props.toggleProjectsPage();
+			},
+
 			render: function(){
 				var self = this;
-				var projectList = [];
-				var projects = this.state.projects;
-				var updateHours = this.updateHours;
 
-				var dayNames = [
-				  "M", "T", "W",
-				  "T", "F", "S", "S"
-				];
-				var weekDays = dayNames.map(function(d,i){
+				var weekDays = [0,1,2,3,4,5,6].map(function(i){
 					var currentDate = moment(self.state.currentDate);
 					var currentWeek = moment(self.state.currentWeek);
 					var date = currentWeek.add(i, 'days');
-					classes = self.state.selectedDate.isSame(date) ? "day selected" : "day";
+
+					classes = self.props.selectedDate.isSame(date) ? "day selected" : "day";
 					classes = currentDate.isSame(date) ? classes + " today" : classes;
+
 					return (
-						<div className={"d-sel"} onClick={function(){self.changeWeekday(date)}}>
+						<div className={"d-sel"} onClick={function(){self.changeSelectedDate(date)}}>
 							<div className={classes}>
 								<div className="day-circle">
 									<span className="mini-day" >{date.format("ddd")}</span>
@@ -511,8 +464,7 @@
 					);
 				});
 
-				var currentDay = _.find(this.state.timesheets, function(ts){ return ts.date.isSame(self.state.selectedDate)});
-				var projects = currentDay !== undefined ? currentDay.projects : [];
+				var timesheets = this.props.currentTimesheets
 
 				return (
 					<div>
@@ -533,16 +485,226 @@
 						<div className="weekday">
 							{weekDays}
 						</div>
-						<ProjectList projects={projects} updateHours={this.updateHours} deleteEntry={this.deleteEntry} />
+						<TimesheetList
+							timesheets={timesheets}
+							updateTime={this.props.updateTime}
+							updateNotes={this.props.updateNotes}
+							deleteTimesheet={this.props.deleteTimesheet}
+						/>
+						<div onClick={this.handleAddProjectButton}>+ Add Project</div>
 					</div>
 				);
 
 			}
 		});
 
+		var AddProjectsPage = React.createClass({
+
+			propTypes: {
+				toggleProjectsPage: React.PropTypes.func,
+				addTimesheet: React.PropTypes.func,
+				currentTimesheets: React.PropTypes.object,
+			},
+
+			getInitialState: function(){
+				return {
+					projects: [
+							{costCentreName: "Projects", projectName: "Walsh St", phases:["Concept Design", "Documentation", "Contract Admin"]},
+							{costCentreName: "Projects", projectName: "Sydeny Opera House", phases:["Concept Design", "Documentation", "Contract Admin"]},
+							{costCentreName: "Marketing", projectName: "Photography", phases:[]},
+							{costCentreName: "Admin", projectName: "Staff Meetings", phases:[]},
+							{costCentreName: "Admin", projectName: "General Admin", phases:[]},
+							{costCentreName: "Projects", projectName: "Falling Water", phases:["Concept Design", "Documentation", "Contract Admin"]},
+							{costCentreName: "Projects", projectName: "Villa Savoye", phases:["Concept Design", "Documentation", "Contract Admin"]},
+							{costCentreName: "Marketing", projectName: "Social Media", phases:[]}
+						],
+					selectedCostCentre: null,
+					selectedProject: null,
+					selectedPhase: null,
+				}
+			},
+
+			handleCloseButton: function() {
+				this.props.toggleProjectsPage();
+			},
+
+			selectCostCentre: function(costCentreName) {
+				this.setState({selectedCostCentre: costCentreName});
+			},
+
+			selectProject: function(projectName) {
+				this.setState({selectedProject: projectName});
+			},
+
+			selectPhase: function(phaseName) {
+				this.props.addTimesheet(this.state.selectedCostCentre, this.state.selectedProject, phaseName);
+				this.props.toggleProjectsPage();
+			},
 
 
-		React.render(<TimeEntryPage />, $('body')[0]);
+			render: function(){
+				var self = this;
+				var projects = this.state.projects;
+
+				if (this.state.selectedProject !== null) {
+					var selectText = "Phase";
+					var selectList = _.findWhere(projects, {projectName: this.state.selectedProject}).phases;
+					var itemList = []
+					itemList = selectList.map(function(item){
+						return(<div onClick={function(){self.selectPhase(item)}}>{item}</div>);
+					});
+					itemList.push(<div onClick={function(){self.selectPhase("")}}>No Phase</div>);
+				} else if (this.state.selectedCostCentre !== null){
+					var selectText = "Project";
+					var selectList = _.pluck(_.where(projects, {costCentreName: this.state.selectedCostCentre}), 'projectName');
+					var itemList = []
+					itemList = selectList.map(function(item){
+						return(<div onClick={function(){self.selectProject(item)}}>{item}</div>);
+					});
+				} else {
+					var selectText = "Cost-Centre";
+					var selectList = _.uniq(_.pluck(projects, 'costCentreName'));
+					var itemList = []
+					itemList = selectList.map(function(item){
+						return(<div onClick={function(){self.selectCostCentre(item)}}>{item}</div>);
+					});
+				}
+
+
+				return (
+					<div>
+						<div className="top-nav">
+							<div className="nav-btn right">
+							</div>
+							<div className="nav-title">
+								{'Select ' + selectText + ' Below'}
+							</div>
+							<div className="nav-btn right" onClick={this.handleCloseButton}>
+								<i className="fa fa-times" />
+							</div>
+						</div>
+						<div>
+							{itemList}
+						</div>
+					</div>
+				);
+
+			}
+		});
+
+		var TimeApp = React.createClass({
+
+			getInitialState: function(){
+				return {
+					timesheets: [
+						{date: moment().startOf('day').subtract(1, 'days'),
+						projects: [
+							{costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40, notes: "This is a note!"},
+							{costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 20, notes: ""},
+							{costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30, notes: ""},
+							{costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 1, minutesSaved: 0, notes: ""},
+							{costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 2, minutesSaved: 0, notes: ""}
+						]},
+						{date: moment().startOf('day'),
+						projects: [
+							{costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 3, minutesSaved: 40, notes: "This is a note!"},
+							{costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20, notes: ""},
+							{costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30, notes: ""},
+							{costCentreName: "Admin", projectName: "Staff Meetings", phaseName: "", hoursSaved: 1, minutesSaved: 30, notes: ""},
+							{costCentreName: "Admin", projectName: "General Admin", phaseName: "", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 0, minutesSaved: 0, notes: ""}
+						]},
+						{date: moment().startOf('day').add(1, 'days'),
+						projects: [
+							{costCentreName: "Projects", projectName: "Walsh St", phaseName: "Concept Design", hoursSaved: 1, minutesSaved: 40, notes: "This is a note!"},
+							{costCentreName: "Projects", projectName: "Sydeny Opera House", phaseName: "Documentation", hoursSaved: 2, minutesSaved: 20, notes: ""},
+							{costCentreName: "Marketing", projectName: "Photography", phaseName: "", hoursSaved: 0, minutesSaved: 30, notes: ""},
+							{costCentreName: "Admin", projectName: "Staff Meetings", phaseName: " ", hoursSaved: 1, minutesSaved: 0, notes: ""},
+							{costCentreName: "Admin", projectName: "General Admin", phaseName: " ", hoursSaved: 2, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Falling Water", phaseName: "Design Development", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Projects", projectName: "Villa Savoye", phaseName: "Documentation", hoursSaved: 0, minutesSaved: 0, notes: ""},
+							{costCentreName: "Marketing", projectName: "Social Media", phaseName: "", hoursSaved: 1, minutesSaved: 0, notes: ""}
+						]}
+					],
+					addingProject: false,
+					selectedDate: moment().startOf('day'),
+				}
+			},
+
+			toggleProjectsPage: function(){
+				this.setState({addingProject: !this.state.addingProject});
+			},
+
+			changeDate: function(date) {
+				this.setState({selectedDate: date});
+			},
+
+			updateTime: function(timesheet, hours, minutes) {
+				timesheet.hoursSaved = hours;
+				timesheet.minutesSaved = minutes;
+				this.setState({timesheets: this.state.timesheets});
+			},
+
+			updateNotes: function(timesheet, notes) {
+				timesheet.notes = notes;
+				this.setState({timesheets: this.state.timesheets});
+			},
+
+			deleteTimesheet: function(timesheet) {
+				this.currentDay().projects = _.without(this.currentTimesheets(), timesheet);
+				this.setState({timesheets: this.state.timesheets});
+			},
+
+			addTimesheet: function(costCentre, project, phase) {
+				var timesheet = {costCentreName: costCentre, projectName: project, phaseName: phase, hoursSaved: 0, minutesSaved: 0, notes: ""};
+				if (this.currentDay() !== undefined) {
+					this.currentDay().projects.push(timesheet);
+				} else {
+					this.state.timesheets.push({date: this.state.selectedDate, projects: [timesheet]});
+				}
+				this.setState({timesheets: this.state.timesheets});
+			},
+
+			currentTimesheets: function() {
+				return currentTimesheets = this.currentDay() !== undefined ? this.currentDay().projects : [];
+			},
+
+			currentDay: function() {
+				var self = this;
+				return _.find(this.state.timesheets, function(ts){ return ts.date.isSame(self.state.selectedDate)});
+			},
+
+			render:function(){
+
+				return (
+					this.state.addingProject
+						? <AddProjectsPage
+								toggleProjectsPage={this.toggleProjectsPage}
+								currentTimesheets={this.currentTimesheets()}
+								addTimesheet={this.addTimesheet}
+							/>
+						: <TimeEntryPage
+								toggleProjectsPage={this.toggleProjectsPage}
+								timesheets={this.state.timesheets}
+								currentTimesheets={this.currentTimesheets()}
+								changeDate={this.changeDate}
+								updateTime={this.updateTime}
+								updateNotes={this.updateNotes}
+								deleteTimesheet={this.deleteTimesheet}
+								selectedDate={this.state.selectedDate}
+							/>
+				);
+			}
+		});
+
+
+
+		React.render(<TimeApp />, $('body')[0]);
 
 </script>
 
