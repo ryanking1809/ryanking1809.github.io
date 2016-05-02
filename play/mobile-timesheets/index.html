@@ -491,7 +491,9 @@
 							updateNotes={this.props.updateNotes}
 							deleteTimesheet={this.props.deleteTimesheet}
 						/>
-						<div onClick={this.handleAddProjectButton}>+ Add Project</div>
+						<div style={{borderBottom: 'solid 1px #ccc'}}>
+							<div className="project-btn" onClick={this.handleAddProjectButton}>+ Add Project</div>
+						</div>
 					</div>
 				);
 
@@ -541,6 +543,27 @@
 				this.props.toggleProjectsPage();
 			},
 
+			renderProjectList: function(array, onClick) {
+				var projectList = [];
+				var self = this;
+				projectList = array.map(function(item){
+					return self.renderProjectListItem(item, onClick, item);
+				});
+				return projectList;
+			},
+
+			renderProjectListItem: function(item, onClick, onClickParam) {
+				return (
+					<div className="project" onClick={function(){onClick(onClickParam)}}>
+						<div className="project-sel">
+							<div className="project-text">
+								<span className="pr-name">{item}</span>
+							</div>
+						</div>
+					</div>
+				);
+			},
+
 
 			render: function(){
 				var self = this;
@@ -550,30 +573,32 @@
 					var selectText = "Phase";
 					var selectList = _.findWhere(projects, {projectName: this.state.selectedProject}).phases;
 					var itemList = []
-					itemList = selectList.map(function(item){
-						return(<div onClick={function(){self.selectPhase(item)}}>{item}</div>);
-					});
-					itemList.push(<div onClick={function(){self.selectPhase("")}}>No Phase</div>);
+					var itemList = this.renderProjectList(selectList, function(item){self.selectPhase(item)});
+					itemList.push(this.renderProjectListItem("No Phase", function(item){self.selectPhase(item)}, ""));
+					itemList.push(
+						<div style={{borderBottom: 'solid 1px #ccc'}}>
+							<div className="project-btn" onClick={function(){self.selectProject(null)}}>{'<< Back'}</div>
+						</div>
+					);
 				} else if (this.state.selectedCostCentre !== null){
 					var selectText = "Project";
 					var selectList = _.pluck(_.where(projects, {costCentreName: this.state.selectedCostCentre}), 'projectName');
-					var itemList = []
-					itemList = selectList.map(function(item){
-						return(<div onClick={function(){self.selectProject(item)}}>{item}</div>);
-					});
+					var itemList = this.renderProjectList(selectList, function(item){self.selectProject(item)});
+					itemList.push(
+						<div style={{borderBottom: 'solid 1px #ccc'}}>
+							<div className="project-btn" onClick={function(){self.selectCostCentre(null)}}>{'<< Back'}</div>
+						</div>
+					);
 				} else {
 					var selectText = "Cost-Centre";
 					var selectList = _.uniq(_.pluck(projects, 'costCentreName'));
-					var itemList = []
-					itemList = selectList.map(function(item){
-						return(<div onClick={function(){self.selectCostCentre(item)}}>{item}</div>);
-					});
+					var itemList = this.renderProjectList(selectList, function(item){self.selectCostCentre(item)});
 				}
 
 
 				return (
 					<div>
-						<div className="top-nav">
+						<div className="top-nav" style={{borderBottom: "1px solid #ccc"}}>
 							<div className="nav-btn right">
 							</div>
 							<div className="nav-title">
@@ -583,7 +608,7 @@
 								<i className="fa fa-times" />
 							</div>
 						</div>
-						<div>
+						<div style={{marginTop: "-4.5em"}}>
 							{itemList}
 						</div>
 					</div>

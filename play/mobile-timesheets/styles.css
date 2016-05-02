@@ -450,3 +450,22 @@ body {
 .d-sel.selected .day-hours {
 	font-weight: 600;
 }
+
+.project-btn {
+	text-align: center;
+	font-weight: 600;
+	padding: 1em;
+	cursor: pointer;
+	margin: 1em;
+	background-color: white;
+	box-shadow: 2px 2px 6px 0px rgba(0,0,0,.2);
+	border: solid 1px #ccc;
+	text-transform: uppercase;
+}
+
+.project-btn:hover {
+	background-color: #f7f7f7;
+	box-shadow: 1px 1px 3px 0px rgba(0,0,0,.2);
+	border: solid 1px #ccc;
+	text-transform: uppercase;
+}
