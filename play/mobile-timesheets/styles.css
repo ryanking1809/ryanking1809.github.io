@@ -233,7 +233,11 @@ body {
 .project-text span {
 	clear: both;
 	display: block;
-    color: #444;
+  color: #444;
+}
+
+.project-text.disabled span {
+  color: #999;
 }
 
 .cc-name {
