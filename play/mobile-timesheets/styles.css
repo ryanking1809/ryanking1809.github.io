@@ -69,21 +69,9 @@ body {
 }
 
 .logo {
-	height: 36px;
-	margin: 6px 12px;
-	-webkit-box-flex: 0;
-	    -ms-flex-positive: 0;
-	        flex-grow: 0;
-	-ms-flex-negative: 0;
-	    flex-shrink: 0;
-	-ms-flex-preferred-size: 3em;
-	    flex-basis: 3em;
-	-webkit-flex-grow: 0;
-	-webkit-flex-shrink: 0;
-	-webkit-flex-basis: 3em;
-	-webkit-align-self: center;
-	    -ms-flex-item-align: center;
-	        align-self: center;
+	width: 25%;
+	margin: 2em auto;
+	display: inline-block;
 }
 
 .date-title {
