@@ -577,7 +577,7 @@
 
 			renderProjectListItem: function(item, onClick, onClickParam, disabled) {
 				return (
-					<div className="project" onClick={function(){onClick(onClickParam)}}>
+					<div className="project" onClick={disabled ? null : function(){onClick(onClickParam)}}>
 						<div className="project-sel">
 							<div className={disabled ? "project-text disabled" : "project-text"}>
 								<span className="pr-name">{item}</span>
@@ -591,7 +591,7 @@
 				var self = this;
 				return _.filter(this.state.projects, function(project){ return !_.findWhere(self.props.selectedProjects, project); });
 			},
-			
+
 
 			activeCostCentres: function(){
 				return _.uniq(_.pluck(this.activeProjectsList(), 'costCentreName'));
