@@ -236,8 +236,12 @@ body {
   color: #444;
 }
 
-.project-text.disabled span {
+.project.disabled .project-text span {
   color: #999;
+}
+
+.project.disabled .project-sel{
+	cursor: default;
 }
 
 .cc-name {
