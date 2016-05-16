@@ -4,7 +4,7 @@
 	<meta charset="UTF-8" />
 	<title>Coincraft - Plan &amp; Track Projects, Cashflow &amp; Resources</title>
 	<meta name="description" content="Simple, visual, all-in-one solution. Plan time, financials, &amp; staff. Make predictions, &amp; gain insights on how to save time &amp; increase revenue. Try Coincraft for Free!">
-	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="styles/remodal.css">
 	<link rel="stylesheet" href="styles/remodal-default-theme.css">
+	<link rel="stylesheet" type="text/css" href="styles/styles.css">
 
 <script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -275,7 +276,8 @@
 	<nav id="navigation" class="black-bg">
 		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
 		<ul>
-			<li class="selected">Tour</li>
+			<li class="selected">Home</li>
+			<li><a href="features.html">Features</a></li>
 			<li><a href="pricing.html">Pricing</a></li>
 			<!-- <li><a href="blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
@@ -285,60 +287,85 @@
 	</nav>
 	<section id="intro" class="black-pattern-bg">
 		<div class="tagline-video">
-			<h1>Run a better, smarter business</h1>
-			<p>Make predictions and gain insights on how to save time and increase revenue.</p>
-			</h1>
-			<iframe class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
-			<p style="margin-bottom: 2em;">Coincraft is a practice and project forecasting tool
-				<br />built for professional service industries.
-			</p>
-			<p><div data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div></p>
-		</div>
-	</section>
-	<section id="graph" class="grey-bg">
-		<img class="graph-img" src="images/graph-01.svg" />
-		<div class="graph-bottom">
-			<div style="max-width: 75em; display: inline-block; width: 100%">
-			<img class="slider-img" src="images/graph-sliders-01.svg" />
-			<div class="fun-text">
-				<h1>Plan ahead, hit your targets,
-				<br />and reach your desired profit margins
-				<br />with cashflow forecasting.</h1>
-				<p>Know how to spend your time and money before you spend it.</p>
+			<h1 class="fun-text" style="margin: 2em 0 1.5em 0">Custom Practice Management Software<br />for Architects</h1>
+			<div class="sub-for">
+				<img src="images/cc-mac.png" style="width: 35em;"/>
+				<div style="text-align: left; display: inline-block; margin: 0 2em">
+					<p>Subscribe for:</p>
+					<h2>Coincraft's Practice Management Software</h2>
+					<p style="margin-bottom: 2em;color: white">Customised to suit your needs</p>
+					<a href="features.html"><div  style="margin: 1em 1em 1em 0" class="signup-btn">Learn More</div></a>
+					<div style="margin: 1em 1em 1em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div>
+					<div style="margin-top: 2em">
+						<p>+ Plus</p>
+						<ul>
+							<li>Unlimited Updates</li>
+							<li>Lighting Fast Support</li>
+							<li>Data Imports</li>
+						</ul>
+					</div>
+				</div>
 			</div>
-			<div>
 		</div>
 	</section>
+
 	<section id="planning" class="grey-bg">
 		<div class="fun-text">
-			<h1>Model the relationship between your
-			<br />time, money + staff with project planning.</h1>
-			<p>Coincraft does all the hard thinking for you,
-			<br />all you need to do is fine tune the numbers.</p>
+			<h1>What people are saying</h1>
 		</div>
-		<div class="planning-images">
-			<img class="planning-project" src="images/planning-project-01.png" />
-			<div class="profit-container">
-				<img class="planning-profit" src="images/planning-profit-01.svg" />
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/coda.png)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/emma.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Emma Brain</h2>
+						<p>Practice Manager<br />Coda Studio</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"The customer service offered by Coincraft is very impressive. They answer all of our queries in a timely manner and, most importantly, are
+responsive to our suggestions."</p>
+
 			</div>
-			<img class="planning-staff" src="images/planning-staff-01.png" />
-		<div>
-	</section>
-	<section id="clients" class="black-pattern-bg">
-		<h1 class="fun-text">Our Happy Clients</h1>
-		<div class="client-container">
-			<img src="images/client-logos/coda-w.png" />
-			<img class="smaller"  src="images/client-logos/kta-w.png" />
-			<img src="images/client-logos/chamberlain-w.png" />
-			<img src="images/client-logos/tandem-w.png" />
-			<img class="smaller" src="images/client-logos/room11-w.png" />
-			<img src="images/client-logos/dunnhillam-w.png" />
-			<img src="images/client-logos/studiogl-w.png" />
-			<img src="images/client-logos/dwa-w.png" />
-			<img src="images/client-logos/dimase-w.png" />
+		</div>
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/chamberlain.jpg)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/glen.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Glen Chamberlain</h2>
+						<p>Owner / Director<br />Chamberlain Architects</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"This is the Holy Grail for architects. Being able to plan my practice month-by-month is critical to staying on top of cashflow."<br/>&nbsp;</p>
+			</div>
+		</div>
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/tandem.jpg)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/tim.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Tim Hill</h2>
+						<p>Owner / Director<br />Tandem Studio</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"It's amazing how frequently Coincraft is updated with new features, and often at my own request. It's great to be able to shape the tool for my own needs!"<br/>&nbsp;</p>
+			</div>
 		</div>
 	</section>
+
 	<section id="features" class="grey-bg">
+		<h1 class="fun-text">What can Coincraft do?</h1>
+		<iframe  class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
+		<div><div style="margin: 0 1em 2em 0" data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</div></div>
 		<div class="feature-container">
 			<div class="feature">
 				<img src="images/icons/graph.png" />
@@ -348,27 +375,17 @@
 			<div class="feature">
 				<img src="images/icons/target.png" />
 				<h3>Milestone Modelling</h3>
-				<span>Set goals for you business and staff.</span>
+				<span>Set goals for your business and staff.</span>
 			</div>
 			<div class="feature">
 				<img src="images/icons/staff.png" />
 				<h3>Flexible Resource Scheduling</h3>
-				<span>Resourcing planning that adjust to changing project schedules.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/sliders.png" />
-				<h3>Project Planning</h3>
-				<span>Visually model future revuenue and workload for each project.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/briefcase.png" />
-				<h3>Business Level Analysis</h3>
-				<span>Project revenue across multple projects against overheads and staff costs.</span>
+				<span>Resource planning that adjusts to changing project schedules.</span>
 			</div>
 			<div class="feature">
 				<img src="images/icons/project.png" />
 				<h3>Project Management</h3>
-				<span>Plan projects fees, expenses, and assign work to staff.</span>
+				<span>Plan project fees, expenses, and assign work to staff.</span>
 			</div>
 			<div class="feature">
 				<img src="images/icons/stopwatch.png" />
@@ -386,21 +403,32 @@
 				<span>Analyse business performance and benchmark for future projects.</span>
 			</div>
 			<div class="feature">
-				<img src="images/icons/support.png" />
-				<h3>Free Support</h3>
-				<span>Free support with and average response time of 18 minutes.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/database.png" />
-				<h3>Free Data Migration</h3>
-				<span>Import the data from your old system at no cost.</span>
-			</div>
-			<div class="feature">
 				<img src="images/icons/calculator.png" />
 				<h3>Accounting Integration</h3>
 				<span>Integrates with Xero, Quickbooks and MYOB</span>
 			</div>
 		</table>
+	</section>
+
+	<section id="clients" class="black-pattern-bg">
+		<h1 class="fun-text">How does it work?</h1>
+		<img style="width: 100%; max-width: 50em; padding: 0" src="images/process-w.svg" />
+		<div><div style="margin: 0 1em 2em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div></div>
+		</section>
+
+	<section id="clients" class="grey-bg">
+		<h1 class="fun-text">Our Happy Clients</h1>
+		<div class="client-container">
+			<img src="images/client-logos/coda-b.png" />
+			<img class="smaller"  src="images/client-logos/kta-b.png" />
+			<img src="images/client-logos/chamberlain-b.png" />
+			<img src="images/client-logos/tandem-b.png" />
+			<img class="smaller" src="images/client-logos/room11-b.png" />
+			<img src="images/client-logos/dunnhillam-b.png" />
+			<img src="images/client-logos/studiogl-b.png" />
+			<img src="images/client-logos/dwa-b.png" />
+			<img src="images/client-logos/dimase-b.png" />
+		</div>
 	</section>
 
 
