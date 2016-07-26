@@ -1,0 +1,195 @@
+.timesheet-widget, .timesheet-widget__phase-title,
+.timesheet-widget__progress-bar, .timesheet-widget__task-title, .timesheet-widget__task-entries,
+.time-entry, .time-entry__input, .time-entry__comment,
+.time-entry__comment--daily, .time-entry__comment-input
+{
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.timesheet-widget {
+  width: 90%;
+  max-width: 54em;
+  min-width: 42em;
+}
+
+.timesheet-widget__phase-row, .timesheet-widget__task-row {
+  display: flex;
+  align-items: flex-end;
+}
+
+.timesheet-widget__task-row {
+  align-items: center;
+}
+
+.timesheet-widget__phase-title, .timesheet-widget__task-title {
+  width: 30%;
+}
+
+.timesheet-widget__progress-bar, .timesheet-widget__task-entries {
+  width: 70%;
+}
+
+.timesheet-widget__task-entries {
+  display: flex;
+  justify-content: space-between;
+}
+
+.time-entry--daily, .time-entry__comment--daily {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.time-entry:hover .time-entry__input, .time-entry--daily:hover .time-entry__input {
+  outline: solid 1px #ddd;
+}
+
+.time-entry:hover .time-entry__comment {
+  visibility: visible;
+}
+
+.time-entry__input {
+  font-size: .75em;
+  box-sizing: border-box;
+  border: none;
+  padding: 4px;
+  margin: 2px;
+  width: 3.4em;
+  text-align: right;
+}
+
+.time-entry__input:focus {
+  outline: solid 1px #ccc;
+}
+
+/* padding is -2px on focus in webkit */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .time-entry__input:focus {
+    outline: solid 1px #ccc;
+    padding: 6px;
+    margin: 0;
+    width: 3.75em
+  }
+}
+
+.time-entry__comment, .timesheet-widget__task-delete {
+  visibility: hidden;
+  border: none;
+  background-color: transparent;
+  color: #777;
+  cursor: pointer;
+}
+
+.time-entry__comment:focus, .timesheet-widget__task-delete:focus {
+  outline: none;
+}
+
+.timesheet-widget__task-delete {
+  margin-right: 1em;
+}
+
+.time-entry__comment:hover, .timesheet-widget__task-delete:hover {
+  color: #444;
+}
+
+.timesheet-widget__phase-title {
+  margin: 0 0 0 1em;
+}
+
+.timesheet-widget__phase-row {
+  margin-top: 1.5em;
+}
+
+.timesheet-widget__task-title {
+  display: flex;
+  font-size: .75em;
+  font-weight: 900;
+  font-style: italic;
+  margin: 0.25em 2em 0.25em 2em;
+}
+
+.timesheet-widget__phase-row {
+  border-bottom: solid 1px #ccc;
+}
+
+.timesheet-widget__task-row:not(.no-hover) {
+  border-top: solid 1px transparent;
+  border-bottom: solid 1px transparent;
+  padding: 1px;
+}
+
+.timesheet-widget__task-row:not(.no-hover):hover {
+  border-top: solid 1px #eee;
+  border-bottom: solid 1px #eee;
+}
+
+.timesheet-widget__task-row:hover .timesheet-widget__task-delete {
+  visibility: visible;
+}
+
+.timesheet-widget__add-task {
+  font-size: 0.7em;
+  text-decoration: underline;
+  font-style: normal;
+}
+
+.timesheet-widget__progress-bar {
+  text-align: center;
+}
+
+.time-entry.weekend {
+  opacity: 0.6;
+}
+
+.time-entry.weekend:hover {
+  opacity: 1;
+}
+.time-entry__comment-input {
+  border: none;
+  border-bottom: 1px solid #ddd;
+  margin: 0 1em;
+    font-style: italic;
+    flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
+    resize: none;
+    font-size: 1.1em;
+}
+.time-entry__comment-input:focus {
+  outline: none;
+}
+.time-entry__comment--daily {
+  font-size: .7em;
+  color: #666;
+  flex-grow: 1;
+}
+.time-entry__comment--daily i{
+  flex-grow: 0;
+  width: 1em;
+}
+.time-entry__input {
+  flex-grow: 0;
+}
+.time-entry--daily {
+  width: 100%;
+}
+
+.time-entry__comment-input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  font-style: italic;
+  color: #aaa;
+}
+.time-entry__comment-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   font-style: italic;
+   color: #aaa;
+   opacity:  1;
+}
+.time-entry__comment-input::-moz-placeholder { /* Mozilla Firefox 19+ */
+   font-style: italic;
+   color: #aaa;
+   opacity:  1;
+}
+.time-entry__comment-input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   font-style: italic;
+   color: #aaa;
+}

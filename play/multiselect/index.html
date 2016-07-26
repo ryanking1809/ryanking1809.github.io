@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Timesheets V2.0</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+
+
+<script type="text/jsx">
+
+	var TSheetsV2 = React.createClass({
+
+		getDefaultProps: function() {
+	    return {
+
+	    };
+	  },
+
+		getInitialState: function() {
+			return {
+
+			}
+		},
+
+		render: function() {
+
+			return (
+				<div>
+					<OrderedMultiSelect />
+				</div>
+			);
+		}
+  });
+
+	var OrderedMultiSelect = React.createClass({
+
+		getDefaultProps: function(){
+			return {
+				options: ['one', 'two', 'three', 'four', 'five']
+			};
+		},
+
+		getInitialState: function() {
+	    return {
+	      selectedItems: ['one','two']
+	    };
+	  },
+
+		render: function(){
+			var selection = this.state.selectedItems.map(si => <div contentEditable="false" style={{display: 'inline-block', backgroundColor: 'red', margin: '0 0.5em'}}>{si}</div>);
+
+			return (
+				<div>
+					<div contentEditable="true" style={{padding: '1em', border: 'solid 1px'}} onChange={()=>alert('change')}>
+							{selection}
+					</div>
+					<button onClick={this.addItem}>Add</button>
+				</div>
+			);
+		},
+
+		addItem: function(){
+			selItems = this.state.selectedItems;
+			selItems.push("item");
+			this.setState({selectedItems: selItems});
+		}
+	});
+
+
+
+	React.render(<TSheetsV2 />, $('body')[0]);
+
+</script>
+
+
+<body>
+
+</body>
+</html>
