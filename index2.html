@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Coincraft - Plan &amp; Track Projects, Cashflow &amp; Resources</title>
+	<meta name="description" content="Simple, visual, all-in-one solution. Plan time, financials, &amp; staff. Make predictions, &amp; gain insights on how to save time &amp; increase revenue. Try Coincraft for Free!">
+
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles/remodal.css">
+	<link rel="stylesheet" href="styles/remodal-default-theme.css">
+	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+
+<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-50403864-1', 'coincraft.co');
+		  ga('send', 'pageview');
+
+		</script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-50403864-1']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+	</script>
+</head>
+<body>
+
+
+	<script src="js/remodal.js"></script>
+	<script type="text/jsx">
+
+		var PriceCalculator = React.createClass({
+
+			propTypes: {
+				standardPrice: React.PropTypes.number,
+				adminPrice: React.PropTypes.number,
+				discount: React.PropTypes.number
+			},
+
+			getDefaultProps: function() {
+				return {
+					standardPrice: 15,
+					adminPrice: 35,
+					discount: .2
+				}
+			},
+
+			getInitialState: function(){
+				return {
+					adminUser: 1,
+					standardUser: 0
+				}
+			},
+
+			updateAdmin: function(event) {
+				this.setState({adminUser: event.target.value});
+			},
+
+			updateStandard: function(event) {
+				this.setState({standardUser: event.target.value});
+			},
+
+			totalStandardPriceMonth: function() {
+				return this.state.adminUser*this.props.adminPrice;
+			},
+
+			totalAdminPriceMonth: function() {
+				return this.state.standardUser*this.props.standardPrice;
+			},
+
+			totalPriceMonth: function() {
+				return (this.totalAdminPriceMonth() + this.totalStandardPriceMonth());
+			},
+
+			render: function(){
+				return (
+
+					<div>
+						<div className="calc-table">
+							<table style={{display: 'inline-table', marginBottom: 0, position: 'relative', zIndex: 2}}>
+								<tbody>
+									<tr>
+										<td>Monthly Subscription</td>
+										<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
+									</tr>
+									<tr>
+										<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
+										<br /><span className="small" >per month</span></td>
+										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.discount)} </span>
+										<br /><span className="small">per month ( {this.props.discount*100}% discount )</span></td>
+									</tr>
+									<tr>
+										<td>${(this.totalPriceMonth())*12} / year</td>
+										<td>${(this.totalPriceMonth())*12*(1-this.props.discount)} / year</td>
+									</tr>
+								</tbody>
+							</table>
+							<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
+								<tbody>
+									<tr>
+										<td style={{border: 'none'}}></td>
+										<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div className="user-table">
+							<table style={{display: 'inline-table'}}>
+								<thead>
+									<tr>
+										<td>
+											Admin Users
+											<br /><span className="small">( ${this.props.adminPrice} / month )</span>
+										</td>
+										<td>
+											Standard Users
+											<br /><span className="small">( ${this.props.standardPrice} / month )</span>
+										</td>
+									</tr>
+									<tr>
+										<td className="user-input">
+											<input type="number" min="1" value={this.state.adminUser} onChange={this.updateAdmin}/>
+											<span className="small">Click to edit number of users.</span>
+										</td>
+										<td className="user-input">
+											<input type="number" min="0" value={this.state.standardUser} onChange={this.updateStandard}/>
+											<span className="small">Click to edit number of users.</span>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<ul>
+												<li>Plan Business Finances &amp; Workload</li>
+												<li>Plan Project Finances, Workload &amp; Schedules</li>
+												<li>Allocate Project Resources</li>
+												<li>Add Projects / Staff</li>
+												<li>Create Invoices</li>
+												<li>Create Reports</li>
+												<li>Track Time</li>
+											</ul>
+										</td>
+										<td>
+											<ul>
+												<li>View Project Schedules &amp; Milestones</li>
+												<li>Track Allocated Project Hours</li>
+												<li>Create Limited Reports</li>
+												<li>Track Time</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+				);
+			}
+		});
+
+
+		var SignupModal = React.createClass({
+			getInitialState: function(){
+				return {
+					email: ""
+				}
+			},
+
+			updateEmail: function(event) {
+				this.setState({email: event.target.value});
+			},
+
+			submitEmail: function(event) {
+				// email me about this
+				var URL = "https://app.coincraft.co/register?email=" + this.state.email;
+				window.open(URL, "_blank");
+			},
+
+			render: function() {
+				return (
+					<div>
+						<button data-remodal-action="close" className="remodal-close"></button>
+					  	<h2>Try Coincraft for Free</h2>
+					  	<p>
+					    	We first need your email address to get started.
+					  	</p>
+					  	<input type="email" placeholder="corb@corbusier.com" value={this.state.email} onChange={this.updateEmail}/><br />
+					  	<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitEmail}>Create your Coincraft account!</button>
+					</div>
+				)
+			}
+		});
+
+		var ContactModal = React.createClass({
+			getInitialState: function(){
+				return {
+					email: "",
+					phone: "",
+					message: ""
+				}
+			},
+
+			updateEmail: function(event) {
+				this.setState({email: event.target.value});
+			},
+
+			updatePhone: function(event) {
+				this.setState({phone: event.target.value});
+			},
+
+			updateMessage: function(event) {
+				this.setState({message: event.target.value});
+			},
+
+			submitMessage: function(event) {
+				// email me about this
+				alert(this.state.email);
+				alert(this.state.phone);
+				alert(this.state.message);
+			},
+
+			render: function() {
+				return (
+					<div>
+
+						<button data-remodal-action="close" className="remodal-close"></button>
+						<p className="contact-details no-backend">
+						  	US: +1 (415) 214-8442
+							<br />AUS: +61 400 411 070
+						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
+						</p>
+						<div style={{display: 'none'}}>
+							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
+							<p style={{marginBottom: "3em"}}>
+							  	Feel free to call us, email us or use the contact form below.
+							</p>
+							<div>
+							  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+							</div>
+							<div>
+							  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
+							</div>
+							<div>
+							  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
+							</div>
+							<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
+							</button>
+						</div>
+					</div>
+				)
+			}
+		});
+
+
+
+    	React.render(<SignupModal/>, $('.signup-modal')[0]);
+    	React.render(<ContactModal/>, $('.contact-modal')[0]);
+
+	</script>
+
+	<nav id="navigation" class="black-bg">
+		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
+		<ul>
+			<li class="selected">Home</li>
+			<li><a href="features.html">Features</a></li>
+			<li><a href="pricing.html">Pricing</a></li>
+			<!-- <li><a href="blog.html">Blog</a></li> -->
+			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
+			<li data-remodal-target="contact-modal">Contact</li>
+			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
+		</ul>
+	</nav>
+	<section id="intro" class="black-pattern-bg">
+		<div class="tagline-video">
+			<h1 class="fun-text" style="margin: 2em 0 1.5em 0">Practice Management that Predicts the Future!</h1>
+			<div class="sub-for">
+			<iframe  class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
+				<div style="text-align: left; display: inline-block; margin: 0 2em">
+					<p>Subscribe for:</p>
+					<h2>Coincraft's Practice Management Software</h2>
+					<p style="margin-bottom: 2em;color: white">Customised to suit your needs</p>
+					<a href="features.html"><div  style="margin: 1em 1em 1em 0" class="signup-btn">Learn More</div></a>
+					<div style="margin: 1em 1em 1em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div>
+					<div style="margin-top: 2em">
+						<p>+ Plus</p>
+						<ul>
+							<li>Unlimited Updates</li>
+							<li>Lightning Fast Support</li>
+							<li>Data Imports</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="planning" class="grey-bg">
+		<div class="fun-text">
+			<h1>What people are saying</h1>
+		</div>
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/coda.png)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/emma.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Emma Brain</h2>
+						<p>Practice Manager<br />Coda Studio</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"The customer service offered by Coincraft is very impressive. They answer all of our queries in a timely manner and, most importantly, are
+responsive to our suggestions."</p>
+
+			</div>
+		</div>
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/chamberlain.jpg)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/glen.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Glen Chamberlain</h2>
+						<p>Owner / Director<br />Chamberlain Architects</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"This is the Holy Grail for architects. Being able to plan my practice month-by-month is critical to staying on top of cashflow."<br/>&nbsp;</p>
+			</div>
+		</div>
+		<div class="client-quote">
+			<div class="client-quote-img" style="background-image:url(images/client-quotes/tandem.jpg)"></div>
+			<div class="client-quote-overlay">
+				<div class="client-quote-heading">
+					<div class="client-quote-heading-img">
+						<img src="images/client-quotes/tim.jpg" />
+					</div>
+					<div class="client-quote-heading-text">
+						<h2>Tim Hill</h2>
+						<p>Owner / Director<br />Tandem Studio</p>
+					</div>
+				</div>
+				<p class="client-quote-body" >"It's amazing how frequently Coincraft is updated with new features, and often at my own request. It's great to be able to shape the tool for my own needs!"<br/>&nbsp;</p>
+			</div>
+		</div>
+	</section>
+
+	<section id="features" class="black-bg">
+		<h1 class="fun-text">What can Coincraft do?</h1>
+		<h1 class="fun-text">Plan Projects</h1>
+		<img style="height: inherit; width: 50%; opacity: 1;" src="images/gifs/plan-projects2.gif" />
+		<h1 class="fun-text">Resource Staff</h1>
+		<img style="height: inherit; width: 15%; opacity: 1;" src="images/gifs/staff.gif" />
+		<h1 class="fun-text">Forecast Revenue</h1>
+		<img style="height: inherit; width: 50%; opacity: 1;" src="images/gifs/plan-projects.gif" />
+		<h1 class="fun-text">Track Time &amp; Budgets</h1>
+		<img style="height: inherit; width: 50%; opacity: 1;" src="images/gifs/timesheet.gif" />
+		<h1 class="fun-text">Create Invoices</h1>
+		<img style="height: inherit; width: 50%; opacity: 1;" src="images/gifs/invoicing.gif" />
+		<h1 class="fun-text">Adapt to Changes</h1>
+		<div class="feature-container">
+			<div class="feature">
+				<img src="images/icons/graph.png" />
+				<h3>Cashflow Forecasting</h3>
+				<span>Project revenue, plan ahead, spot problems months before they happen.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/target.png" />
+				<h3>Milestone Modelling</h3>
+				<span>Set goals for your business and staff.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/staff.png" />
+				<h3>Flexible Resource Scheduling</h3>
+				<span>Resource planning that adjusts to changing project schedules.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/project.png" />
+				<h3>Project Management</h3>
+				<span>Plan project fees, expenses, and assign work to staff.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/stopwatch.png" />
+				<h3>Time &amp; Expense Tracking</h3>
+				<span>Track time, expenses and manage project progress.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/invoices.png" />
+				<h3>Invoicing</h3>
+				<span>Invoicing that integrates with your accounting system.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/report.png" />
+				<h3>Reporting</h3>
+				<span>Analyse business performance and benchmark for future projects.</span>
+			</div>
+			<div class="feature">
+				<img src="images/icons/calculator.png" />
+				<h3>Accounting Integration</h3>
+				<span>Integrates with Xero, Quickbooks and MYOB</span>
+			</div>
+		</table>
+	</section>
+
+
+	<section id="clients" class="grey-bg">
+		<h1 class="fun-text">Our Happy Clients</h1>
+		<div class="client-container">
+			<img src="images/client-logos/coda-b.png" />
+			<img class="smaller"  src="images/client-logos/kta-b.png" />
+			<img src="images/client-logos/fieldwork-b.png" />
+			<img src="images/client-logos/chamberlain-b.png" />
+			<img class="smaller" src="images/client-logos/room11-b.png" />
+			<img src="images/client-logos/tandem-b.png" />
+			<img src="images/client-logos/dunnhillam-b.png" />
+			<img src="images/client-logos/sibling-b.png" />
+			<img src="images/client-logos/dimase-b.png" />
+			<img src="images/client-logos/chord-b.png" />
+			<img class="smaller" src="images/client-logos/tw-b.png" />
+			<img src="images/client-logos/dwa-b.png" />
+		</div>
+	</section>
+
+
+	<section id="footer" class="black-pattern-bg">
+		<img class="cc-icon" src="images/coincraft-icon.svg" /><br />
+		<p>
+			<span data-remodal-target="mailinglist-modal" class="signup-btn">Join Our Mailing List</span>
+			<span data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</span>
+			<span data-remodal-target="contact-modal" class="signup-btn">Contact Us</span>
+		</p>
+		<div class="copyright">
+			<span class="copy-text">Copyright ©2016, Coincraft Pty Ltd. All rights reserved.</span>
+		</div>
+	</section>
+
+
+
+	<div class="remodal signup-modal" data-remodal-id="signup-modal">
+	</div>
+
+	<div class="remodal contact-modal" data-remodal-id="contact-modal">
+	</div>
+
+	<div class="remodal mailinglist-modal" data-remodal-id="mailinglist-modal">
+	  <button data-remodal-action="close" class="remodal-close"></button>
+	  <h2 style="margin-bottom:1em">Join Our Mailing List</h2>
+	  <!-- Begin MailChimp Signup Form -->
+		<div id="mc_embed_signup">
+			<form action="http://coincraft.us9.list-manage.com/subscribe/post?u=bb7db9e7602566aa5f2ea7f6e&amp;id=b36b5fda76" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+			<div id="mc_embed_signup_scroll">
+				<div class="mc-field-group">
+					<label for="mce-EMAIL">Email Address </label>
+					<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+				</div>
+				<div id="mce-responses" class="clear">
+					<div class="response" id="mce-error-response" style="display:none"></div>
+					<div class="response" id="mce-success-response" style="display:none"></div>
+				</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+		    	<div style="position: absolute; left: -5000px;" aria-hidden="true">
+		    		<input type="text" name="b_bb7db9e7602566aa5f2ea7f6e_b36b5fda76" tabindex="-1" value="">
+		    	</div>
+		    	<div class="clear">
+		    		<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="remodal-confirm button">
+		    	</div>
+		    </div>
+		</form>
+		</div>
+		<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+		<script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='MMERGE3';ftypes[3]='text';}(jQuery));</script>
+		<!--End mc_embed_signup-->
+	</div>
+
+
+</body>
+</html>
