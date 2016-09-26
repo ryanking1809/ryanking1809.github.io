@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="styles/remodal.css">
 	<link rel="stylesheet" href="styles/remodal-default-theme.css">
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
+	<link rel="shortcut icon" type="image/png" href="favicon.ico"/>
+	<script src="js/typed.js"></script>
 
 <script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -43,130 +45,301 @@
 	<script src="js/remodal.js"></script>
 	<script type="text/jsx">
 
-		var PriceCalculator = React.createClass({
-
-			propTypes: {
-				standardPrice: React.PropTypes.number,
-				adminPrice: React.PropTypes.number,
-				discount: React.PropTypes.number
-			},
-
-			getDefaultProps: function() {
-				return {
-					standardPrice: 15,
-					adminPrice: 35,
-					discount: .2
-				}
-			},
+		var FeatureViewer = React.createClass({
 
 			getInitialState: function(){
 				return {
-					adminUser: 1,
-					standardUser: 0
+					selectedFeature: 'planProject'
 				}
 			},
 
-			updateAdmin: function(event) {
-				this.setState({adminUser: event.target.value});
-			},
-
-			updateStandard: function(event) {
-				this.setState({standardUser: event.target.value});
-			},
-
-			totalStandardPriceMonth: function() {
-				return this.state.adminUser*this.props.adminPrice;
-			},
-
-			totalAdminPriceMonth: function() {
-				return this.state.standardUser*this.props.standardPrice;
-			},
-
-			totalPriceMonth: function() {
-				return (this.totalAdminPriceMonth() + this.totalStandardPriceMonth());
+			changeFeature: function(feature) {
+				this.setState({selectedFeature: feature});
 			},
 
 			render: function(){
+				self = this;
+
 				return (
 
 					<div>
-						<div className="calc-table">
-							<table style={{display: 'inline-table', marginBottom: 0, position: 'relative', zIndex: 2}}>
-								<tbody>
-									<tr>
-										<td>Monthly Subscription</td>
-										<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
-									</tr>
-									<tr>
-										<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
-										<br /><span className="small" >per month</span></td>
-										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.discount)} </span>
-										<br /><span className="small">per month ( {this.props.discount*100}% discount )</span></td>
-									</tr>
-									<tr>
-										<td>${(this.totalPriceMonth())*12} / year</td>
-										<td>${(this.totalPriceMonth())*12*(1-this.props.discount)} / year</td>
-									</tr>
-								</tbody>
-							</table>
-							<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
-								<tbody>
-									<tr>
-										<td style={{border: 'none'}}></td>
-										<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div className="user-table">
-							<table style={{display: 'inline-table'}}>
-								<thead>
-									<tr>
-										<td>
-											Admin Users
-											<br /><span className="small">( ${this.props.adminPrice} / month )</span>
-										</td>
-										<td>
-											Standard Users
-											<br /><span className="small">( ${this.props.standardPrice} / month )</span>
-										</td>
-									</tr>
-									<tr>
-										<td className="user-input">
-											<input type="number" min="1" value={this.state.adminUser} onChange={this.updateAdmin}/>
-											<span className="small">Click to edit number of users.</span>
-										</td>
-										<td className="user-input">
-											<input type="number" min="0" value={this.state.standardUser} onChange={this.updateStandard}/>
-											<span className="small">Click to edit number of users.</span>
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											<ul>
-												<li>Plan Business Finances &amp; Workload</li>
-												<li>Plan Project Finances, Workload &amp; Schedules</li>
-												<li>Allocate Project Resources</li>
-												<li>Add Projects / Staff</li>
-												<li>Create Invoices</li>
-												<li>Create Reports</li>
-												<li>Track Time</li>
-											</ul>
-										</td>
-										<td>
-											<ul>
-												<li>View Project Schedules &amp; Milestones</li>
-												<li>Track Allocated Project Hours</li>
-												<li>Create Limited Reports</li>
-												<li>Track Time</li>
-											</ul>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+						<section id="feature-viewer" className="black-bg">
+							<div className="feature-container">
+								<div
+									className={this.state.selectedFeature === "planProject" ? "feature active" : "feature"}
+									onClick={function() {self.changeFeature("planProject")}}
+								>
+								<svg x="0px" y="0px" viewBox="0 0 400 400" style={{height: '4em'}}>
+									<g>
+										<path d="M107.4,40.6c30,0,60-0.1,90,0.1c5.9,0,9-1,11.4-7.4c9.6-24.9,36.8-37.9,62.5-30.9c24.4,6.7,41.8,32.4,38.1,56.4
+											c-4.3,28.1-26.3,47.7-53.6,46.6c-22.5-0.9-38.6-12.4-47.2-33.2c-2.3-5.5-4.9-6.8-10.3-6.8C138.6,65.7,78.8,65.6,19,65.6
+											c-2.1,0-4.3,0.1-6.4-0.1C5,64.8,0,59.6,0.2,52.7c0.2-6.9,5.4-12,13.2-12.1c15.7-0.2,31.3-0.1,47-0.1C76,40.5,91.7,40.5,107.4,40.6
+											C107.4,40.5,107.4,40.5,107.4,40.6z M257.3,80.5c15.6-0.1,27.5-12.2,27.4-27.9c-0.1-15.5-12.4-27.4-28.1-27.2
+											c-15.1,0.2-27.2,12.4-27.1,27.5C229.5,68.5,241.7,80.6,257.3,80.5z"/>
+										<path d="M90.9,335.5c25,0,49.9-0.1,74.9,0.1c5.5,0.1,8.1-1.4,10.3-6.9c9.8-25.4,36.7-38.5,62.9-31.2c25.2,7,41.1,32.1,37.4,59.1
+											c-3.4,25-27.3,44.6-53.6,43.9c-20.5-0.5-39.6-13.8-47-33.6c-2-5.3-4.6-6.5-9.8-6.4c-49.9,0.2-99.8,0.2-149.8-0.1
+											c-4.5,0-10.3-2-13.2-5.2c-2.4-2.5-3.2-9.5-1.3-12.1c2.6-3.7,8.3-7.1,12.7-7.2C39.9,335.1,65.4,335.5,90.9,335.5z M224.1,375.5
+											c15.4,0.1,28.1-12.2,28.3-27.3c0.1-14.8-12.2-27.4-27.1-27.6c-15.9-0.2-28.1,11.3-28.4,26.8C196.6,362.9,208.7,375.3,224.1,375.5z
+											"/>
+										<path d="M58.8,212.7c-15.2,0-30.3,0.1-45.4-0.1c-9.7-0.1-15.5-8.1-12.4-16.6c2.1-5.7,6.6-7.9,12.5-7.9c13,0,26-0.3,39,0.1
+											c5.2,0.2,7.2-1.7,9-6.4c8.7-22.7,31-36.4,53.8-33.6c25.4,3.1,43.5,20.6,47,45.5c3.5,25.2-12.3,49.5-37,56.9
+											c-24.6,7.3-51.3-4.5-62.1-27.5C61.6,220.2,60.5,216.9,58.8,212.7z M138,200.9c0.1-15.3-12.2-28-27.6-28.2
+											c-15-0.2-28.1,12.8-28,27.8c0.1,14.8,12.5,27.4,27.3,27.8C124.7,228.8,137.9,216,138,200.9z"/>
+										<path d="M293.3,188.2c30.5,0,61,0,91.6,0c10.3,0,16,5.5,14.8,14.1c-1,6.9-5.5,10.4-14.4,10.4c-40.6,0.1-81.2,0-121.8,0
+											c-21.2,0-42.5,0.4-63.7-0.3c-4.2-0.1-9.6-3.5-11.8-7c-1.8-2.8-1-9.6,1.3-12c3-3.1,8.7-4.8,13.3-4.9
+											C232.8,188,263.1,188.2,293.3,188.2z"/>
+										<path d="M350.7,360.5c-11.7,0-23.3,0.1-35,0c-8.6-0.1-14.5-5.2-14.5-12.4c-0.1-7.3,5.6-12.5,14.3-12.6c23.3-0.1,46.6-0.1,69.9,0
+											c8.9,0,14.4,4.9,14.5,12.3c0.1,7.4-5.4,12.5-14.2,12.6C374,360.7,362.4,360.5,350.7,360.5z"/>
+										<path d="M366.6,40.6c6.6,0,13.2-0.1,19.8,0c7.8,0.2,13.1,5,13.4,11.7c0.3,7-4.5,12.8-12.1,13.1c-14,0.5-28.1,0.5-42.1,0
+											c-7.6-0.3-12.2-6.3-11.8-13.3c0.4-6.5,5.5-11.3,12.8-11.5C353.4,40.4,360,40.5,366.6,40.6C366.6,40.5,366.6,40.6,366.6,40.6z"/>
+									</g>
+								</svg>
+									<h3>Plan Projects</h3>
+									<span>Visually model project revenue, hours, and deadlines.</span>
+								</div>
+								<div
+									className={this.state.selectedFeature === "scheduleResources" ? "feature active" : "feature"}
+									onClick={function() {self.changeFeature("scheduleResources")}}
+								>
+								<svg x="0px" y="0px" viewBox="0 0 400 400" style={{height: '4em'}}>
+									<g>
+										<path d="M0,218.5c1.6-7.7,3.4-15.4,6.9-22.5c8.9-18.3,22.7-31,41.6-38.4c9.9-3.9,20.2-4.9,30.7-4.9c14.3-0.1,28.5,0,42.8,0
+											c0.9,0,1.7,0,2.6,0c6.3,0.1,6.1,0.2,6.8,6.4c1.8,15.5,8,29,18.4,40.6c0.3,0.3,0.6,0.6,0.9,0.9c2.6,2.7,2.6,3.1-1,4.3
+											c-12.1,4.2-23,10.6-32.2,19.5c-17,16.3-26.3,36.3-27.8,59.9c-0.4,6.6-0.4,13.2-0.4,19.8c0,2.6-0.8,3.6-3.5,3.4
+											c-16.9-1.5-33.6-3.8-50.1-7.5c-10.9-2.4-21.6-5.6-32.4-8.6c-1-0.3-2.1-0.4-3.1-0.6C0,266.6,0,242.6,0,218.5z"/>
+										<path d="M400,289.4c-17.3,8.4-35.7,13.2-54.6,15.8c-8.4,1.2-16.9,1.8-25.4,2.7c-2.6,0.3-3.7-0.7-3.7-3.4c0-6.7,0.1-13.4-0.1-20.1
+											c-0.6-19.2-7.4-36.1-19.2-51c-10.8-13.6-24.6-23-41-28.8c-3.3-1.2-3.3-1.3-0.8-3.9c11.7-12.6,18.7-27.3,19.6-44.6
+											c0.1-2.6,1.1-3.6,3.7-3.6c15.6,0.1,31.3-0.3,46.9,0.1c26.1,0.7,46.9,11.7,62,33.1c6.3,9,10,19.2,12.1,30c0.2,0.9,0.4,1.9,0.6,2.8
+											C400,242.2,400,265.8,400,289.4z"/>
+										<path d="M303.1,314.8c0,10.4-0.1,20.9,0.1,31.3c0,2.8-1,4.2-3.4,5.3c-16.1,7.4-33.1,11.5-50.5,14.2c-20.4,3.1-40.9,3.9-61.4,2.3
+											c-19-1.5-37.8-4.4-56.3-9.1c-8.5-2.1-16.8-4.6-25.2-7c-3.3-0.9-4-2.9-4-5.8c0-11.5,0-23,0-34.5c0-9.8-0.4-19.6,0.6-29.4
+											c1.5-15.9,7.3-30.1,17.7-42.3c12-14.1,27.2-22.5,45.4-25.7c4.4-0.8,8.9-1,13.4-1c15.8,0,31.5,0,47.3,0
+											c23.5-0.1,43.2,8.8,58.6,26.5c11.2,12.8,17.3,28,17.8,45.1C303.3,294.8,303.1,304.8,303.1,314.8
+											C303.1,314.8,303.1,314.8,303.1,314.8z"/>
+										<path d="M203,91.9c32.6,0,59.2,26.5,59,59.2c-0.2,32.6-25.9,58.9-59,58.9c-32.7,0-58.9-25.7-59-58.9
+											C143.8,117.7,170.6,92,203,91.9z"/>
+										<path d="M101.6,31.2c26.1,0.1,50.2,19.5,56.2,46.6c0.9,4.2,1,8.4,1.2,12.7c0.1,2-0.6,3.8-2.3,5.3c-12.8,10.9-21.2,24.6-24.3,41.2
+											c-0.4,2.2-1.6,3.5-3.4,4.6c-21,12.4-49.8,9.4-68.1-7.1c-26.2-23.7-26.4-64.3-0.4-88C71.6,36.4,85,31.5,101.6,31.2z"/>
+										<path d="M358.7,87.4c1.5,30.8-19.7,56.5-49.9,61.2c-10.7,1.7-20.7,0.1-30.7-3.5c-2.4-0.9-3.6-2.3-4-4.8
+											c-3.1-20.7-13.6-36.8-30.7-48.8c-1.7-1.2-2.3-2.6-2.2-4.6c1.2-19.8,10.2-35.1,26.6-46c31.5-21,74.8-6.4,87.6,29.3
+											c1,2.8,2.1,5.6,2.4,8.6C358.3,81.8,359,84.7,358.7,87.4z"/>
+									</g>
+								</svg>
+									<h3>Schedule Resources</h3>
+									<span>Plan staff time, hit desired targets, and milestones.</span>
+								</div>
+								<div
+									className={this.state.selectedFeature === "revenueForecast" ? "feature active" : "feature"}
+									onClick={function() {self.changeFeature("revenueForecast")}}
+								>
+								<svg x="0px" y="0px" viewBox="0 0 400 400" style={{height: '4em'}}>
+									<g>
+										<path d="M0,352.1c133.6,0,266.3,0,399.8,0c0,3,0.5,5.8-0.1,8.6c-0.8,3.2-7.1,5.3-14.5,5.3c-81,0-162,0-243,0
+											c-41.5,0-82.9,0-124.4,0c-12.5,0-17.7-2.2-17.7-7.8C0,356.3,0,354.4,0,352.1z"/>
+										<path d="M230.7,217.1c-21.3-18.1-42.1-35.7-63.3-53.7C122.2,198.8,77.2,234,31.6,269.7c-4.7-6.5-9.1-12.8-14-19.6
+											c50.1-39.3,100-78.4,150.4-117.8c20.3,17.2,40.6,34.5,61.2,52c41.1-42.2,82-84.2,123.3-126.6c-9.9-4.1-19.3-8-28.7-12
+											c0-0.4-0.1-0.8-0.1-1.1c21.9-3.5,43.8-7,66.8-10.7c-4.2,22.7-8.3,44.6-12.4,66.5c-0.3,0.1-0.6,0.1-0.9,0.2
+											c-2.5-8.2-5-16.4-7.9-25.8C322.8,122.5,276.9,169.7,230.7,217.1z"/>
+										<path d="M368.9,336.4c-13.5,0-26.9,0-41.2,0c0-2.2,0-4.4,0-6.5c0.1-36.9,0.2-73.8,0.2-110.7c0-22.5-0.3-45-0.1-67.5
+											c0-3,1.6-6.6,3.6-8.8c12.1-13,24.6-25.6,37.5-38.8C368.9,181.7,368.9,258.9,368.9,336.4z"/>
+										<path d="M308.9,167.9c0,55.6,0,111.8,0,168.5c-13.9,0-27.4,0-41.7,0c0-3.6,0-6.9,0-10.3c0-38.4-0.1-76.8-0.1-115.3
+											c0-1.4,0.5-3.1,1.4-4C281.9,193.8,295.4,180.8,308.9,167.9z"/>
+										<path d="M168.5,192.2c4,3.2,7.1,6,10.6,8.2c8.1,5.1,9.7,12.3,9.6,21.4c-0.5,36.9-0.3,73.8-0.4,110.8c0,1.1-0.1,2.2-0.2,3.7
+											c-13.7,0-27.2,0-41.2,0c-0.2-1.4-0.4-2.8-0.4-4.3c-0.1-39.2-0.1-78.4-0.3-117.6c0-3.3,0.7-5.5,3.5-7.5
+											C156.2,202.2,162.3,197.1,168.5,192.2z"/>
+										<path d="M207.2,224.8c8.4,7,16,13.4,24.4,20.5c5.5-5.7,10.9-11.4,16.8-17.6c0,36.7,0,72.5,0,108.7c-13.8,0-27.4,0-41.2,0
+											C207.2,299.4,207.2,262.6,207.2,224.8z"/>
+										<path d="M127.6,336.4c-14,0-27.4,0-41.3,0c0-9.5,0-18.7,0-27.9c0-15.7,0.1-31.4-0.1-47.1c0-3.3,0.9-5.5,3.6-7.6
+											c11.6-8.8,22.9-17.9,34.4-26.8c0.9-0.7,1.9-1.2,3.4-2.1C127.6,262.3,127.6,299.2,127.6,336.4z"/>
+										<path d="M66.9,336.4c-13.6,0-26.9,0-40.9,0c0-10.4-0.1-20.6,0.1-30.7c0-1.1,1-2.4,1.9-3.2c12.7-10.1,25.5-20.1,39-30.7
+											C66.9,293.8,66.9,314.9,66.9,336.4z"/>
+									</g>
+								</svg>
+									<h3>Forecast Revenue</h3>
+									<span>Set profit targets, and know how to hit them.</span>
+								</div>
+								<div
+									className={this.state.selectedFeature === "timeInvoice" ? "feature active" : "feature"}
+									onClick={function() {self.changeFeature("timeInvoice")}}
+								>
+								<svg x="0px" y="0px" viewBox="0 0 400 400" style={{height: '4em'}}>
+									<g>
+										<path d="M212.6,88.1c0,2.6,0,5.1,0,7.8c34.3,3.1,64.3,16.2,89.8,39c1.4-1.7,2.7-3.1,3.8-4.7c0.5-0.7,0.7-1.9,0.5-2.8
+											c-0.7-2.9,0.1-5.1,2.2-7.1c2.9-2.7,5.6-5.6,8.5-8.4c3.1-3.1,6.8-3.4,10-0.5c3.7,3.4,7.3,6.9,10.7,10.6c3.1,3.3,2.8,7-0.4,10.2
+											c-2.9,2.9-5.6,6-8.7,8.6c-1.5,1.3-4,2.3-5.8,2c-2.4-0.4-3.6,0.3-5.1,1.8c-0.9,1-2.2,1.6-3.4,2.5c31.6,37.8,43.9,81,34.8,129.6
+											c-6.9,37.1-25.8,67.4-55.4,90.7c-58.9,46.3-142,42.3-196.1-6.8c-19.9-18.1-34.2-39.8-42.6-65.4c-8.4-25.7-9.8-51.7-4.4-78.2
+											c5.3-26.4,17.1-49.5,34.5-69.7c-1.7-1.3-3.1-2.7-4.7-3.8c-0.8-0.5-2-0.8-3-0.6c-2.6,0.4-4.7,0-6.6-1.9c-3-3.1-6.1-6-9.1-9.1
+											c-2.7-2.8-3.2-6.1-0.7-9c3.7-4.2,7.7-8.2,11.9-11.9c3-2.6,6.1-2.2,9,0.6c3.4,3.3,6.8,6.5,9.9,10c0.9,1,1.6,3.1,1.3,4.3
+											c-0.9,2.7-0.1,4.6,1.8,6.4c0.8,0.7,1.2,1.9,1.9,3c25.7-22.9,55.5-36.3,90-39.3c0.1-0.8,0.2-1.4,0.2-2c0-1.9,0-3.7,0-5
+											c-6.7-2.8-13.3-4.9-19.3-8.1c-10.4-5.6-18.2-13.8-21.6-25.3c-4.6-15.6-0.2-29.2,11.7-39.7C176.9-0.7,198.7-3.6,222,4
+											c11.4,3.7,20.9,10.4,27.3,20.8c9.7,15.7,7,34.9-6.4,47.8c-7.6,7.3-16.5,12-26.6,14.6C215.1,87.5,213.9,87.8,212.6,88.1z
+											 M212.8,79.1c7.6-1.5,14.5-4.7,20.4-9.6c14.9-12.3,15.3-31,0.9-43.9c-17.4-15.8-50.9-15.8-68.3,0c-7.2,6.5-11.6,14.5-10.4,24.4
+											c1.8,14.2,17.2,28,31.8,28.9c0.5-2.1,0.3-3.6-2.1-4.8c-3.4-1.6-4.9-4.6-4.9-8.5c0.1-6.6,0-13.2,0-19.8c0-5.4,3.8-9.7,9.2-9.9
+											c6.9-0.3,13.8-0.2,20.7,0c5.7,0.2,9.4,4.4,9.4,10c0,6.6,0,13.2,0,19.8c0,3.8-1.6,6.8-5,8.4C212.3,75.3,212.1,76.8,212.8,79.1z
+											 M199.9,373.4c68.8,0.1,126.3-55.4,125.8-126.8c-0.5-68.5-55.7-124.6-125.8-124.8c-69.4-0.2-125.7,56.3-125.7,125.8
+											C74.2,317.2,130.4,373.4,199.9,373.4z"/>
+										<path d="M199.9,370.3c-67.7,0-120.4-54.3-122.5-118.2c-2.3-70.4,53.6-127,122.5-127c67.7,0,123,54.5,122.7,123.3
+											C322.4,314.8,268,370.5,199.9,370.3z M83.1,247.6C83,312.7,136,365.2,201,364.6c64.3-0.6,116.5-52.2,115.9-117.8
+											c-0.6-65-52.8-116.2-117.6-116C134.9,131,82.5,184,83.1,247.6z"/>
+										<path d="M257.3,173.2c-13.4,27.2-26.8,54.4-40.3,81.5c-2.9,5.9-7.6,9.9-14.4,10.8c-7.3,1-14.7-2.5-18.3-8.9
+											c-3.7-6.6-3.1-15.3,2.1-20.7c7.6-7.8,15.4-15.3,23.5-22.6c15.3-13.8,30.7-27.3,46.1-40.9C256.5,172.7,256.9,173,257.3,173.2z
+											 M199.9,237.1c-5.8,0-10.6,4.8-10.6,10.5c0,6.1,5,11,11,10.9c5.9-0.1,10.4-4.9,10.3-11.1C210.5,241.5,205.9,237.1,199.9,237.1z"/>
+										<path d="M133.3,321.9c0,4.3-3.2,7.5-7.4,7.6c-4.4,0.1-7.8-3.3-7.7-7.7c0.1-4.2,3.4-7.4,7.6-7.4
+											C130.1,314.4,133.3,317.6,133.3,321.9z"/>
+										<path d="M274.4,165.8c4,0.1,7.5,3.7,7.5,7.7c0,4.1-3.8,7.7-8,7.6c-4.1-0.2-7.4-3.7-7.3-7.8C266.8,169.1,270.3,165.7,274.4,165.8z"
+											/>
+										<path d="M133.3,173.3c0.1,4.4-3.4,7.9-7.6,7.8c-4.1,0-7.4-3.5-7.5-7.7c0-4.1,3.4-7.6,7.5-7.7C129.7,165.8,133.2,169.2,133.3,173.3z
+											"/>
+										<path d="M102.5,248.1c-0.2,4.1-3.8,7.4-7.9,7.2c-4.2-0.3-7.3-3.7-7.2-7.9c0.1-4.4,3.6-7.5,8.1-7.3
+											C99.6,240.3,102.7,243.9,102.5,248.1z"/>
+										<path d="M200.2,345.1c4.3,0.2,7.4,3.5,7.3,7.8c-0.2,4.5-3.5,7.6-7.9,7.4c-4.1-0.2-7.4-3.8-7.2-7.9
+											C192.5,348.2,196.1,345,200.2,345.1z"/>
+										<path d="M207.5,143c-0.1,4.2-3.5,7.4-7.7,7.3c-4.2-0.1-7.5-3.5-7.5-7.7c0.1-4.1,3.6-7.5,7.6-7.6C204.1,135,207.6,138.6,207.5,143z"
+											/>
+										<path d="M305,240.2c4.2,0,7.7,3.5,7.6,7.5c0,4-3.6,7.6-7.5,7.7c-4.3,0-7.7-3.4-7.6-7.7C297.5,243.3,300.7,240.1,305,240.2z"/>
+										<path d="M281.6,322.2c0,4.1-2.8,7-7.1,7.1c-4.4,0.2-8-3.3-8-7.4c0.1-4,3.5-7.2,7.8-7.3C278.7,314.5,281.6,317.5,281.6,322.2z"/>
+									</g>
+								</svg>
+									<h3>Time &amp; Invoices</h3>
+									<span>Track time, invoice clients, update forecasts.</span>
+								</div>
+								<div
+									className={this.state.selectedFeature === "reports" ? "feature active" : "feature"}
+									onClick={function() {self.changeFeature("reports")}}
+								>
+								<svg x="0px" y="0px" viewBox="0 0 400 400" style={{height: '4em'}}>
+									<g>
+										<path d="M33,236.3c0-45.4,0-90.9-0.1-136.3c0-7,2.5-12.8,7.4-17.6c25.3-25.3,50.6-50.6,75.9-75.9c4.3-4.3,9.4-6.4,15.4-6.4
+											C189.5,0,247.4,0,305.3,0c13.2,0,23.4,10.3,23.5,23.5c0.1,56.8,0,113.5,0.1,170.3c0,3.7-1.2,4.9-4.8,4.8c-9.6-0.3-8.4,0.8-8.4-8.3
+											c0-52.8,0-105.7,0-158.5c0-1.5,0-3.1,0-4.6c-0.2-9.9-4.2-13.9-14.2-14c-24.2-0.1-48.4,0-72.6,0c-30.2,0-60.4,0.1-90.6-0.1
+											c-3.8,0-5.1,0.9-5,4.9c0.2,19.3,0.1,38.6,0.1,57.9c0,13.9-10.3,24.4-24.3,24.5c-19.3,0.1-38.6,0.1-57.9,0c-3.7,0-5.1,0.8-5.1,4.8
+											c0.1,87.9,0.1,175.8,0.1,263.8c0,4.4,0.4,8.7,3.2,12.3c3.2,4,7.5,5.5,12.6,5.5c31.3,0,62.6,0,93.9,0c1.9,0,4.9-1.1,5.6,1.4
+											c1,3.4,1.1,7.3-0.1,10.7c-0.6,1.7-3,1-4.6,1c-17.5,0-34.9,0-52.4,0c-14.7,0-29.4-0.6-44,0.1c-14.4,0.7-27.5-13.1-27.4-27.4
+											c0.4-41.4,0.2-82.8,0.2-124.1C33,244.4,33,240.4,33,236.3z"/>
+										<path d="M215.2,288c0-34.9,0-69.9,0-104.8c0-6,0-6,6.1-6c5.2,0,10.3,0,15.5,0c5.3,0,5.4,0.2,5.4,5.4c0,32.6,0,65.1,0,97.7
+											c0,37.6,0,75.2,0,112.8c0,5.8,0,5.8-5.8,5.8c-4.6,0-9.2,0.1-13.8,0c-7.4-0.1-7.4-0.1-7.4-7.7c0-16.2,0-32.4,0-48.6
+											C215.1,324.3,215.1,306.2,215.2,288C215.1,288,215.1,288,215.2,288z"/>
+										<path d="M367.2,305.1c0,29.3,0,58.7,0,88c0,5.6-0.1,5.7-5.6,5.7c-5.7,0-11.5-0.2-17.2,0.1c-4.2,0.2-5.2-1.5-5.2-5.4
+											c0.1-25.6,0-51.1,0-76.7c0-33,0-66,0-98.9c0-7.3,0-7.3,7.1-7.2c4.9,0,9.8,0,14.7,0c6.1,0,6.2,0,6.2,6.4
+											C367.2,246.4,367.2,275.7,367.2,305.1z"/>
+										<path d="M284.1,320.7c0,24.2,0,48.3,0,72.5c0,5.5-0.1,5.6-5.6,5.6c-5.7,0-11.5-0.2-17.2,0.1c-3.8,0.2-5.1-1.1-5.1-5
+											c0.1-20.1,0-40.2,0-60.4c0-27.9,0-55.9,0-83.8c0-7.1,0-7.1,7.2-7.1c5.2,0,10.3,0.2,15.5-0.1c4-0.2,5.4,1.2,5.3,5.3
+											C284.1,272.1,284.1,296.4,284.1,320.7z"/>
+										<path d="M326.1,343.4c0,16.8-0.1,33.5,0.1,50.3c0,4.1-1.4,5.4-5.3,5.2c-6-0.3-12-0.3-18,0c-4.2,0.2-5.6-1.2-5.6-5.5
+											c0.2-23.2,0.1-46.4,0.1-69.6c0-10.2,0-20.4,0-30.6c0-5.1,0.3-5.4,5.5-5.4c6.1,0,12.3,0.2,18.4,0c3.6-0.1,4.9,1.2,4.9,4.8
+											C326,309.6,326.1,326.5,326.1,343.4z"/>
+										<path d="M180.9,151c34.9,0,69.9,0.1,104.8-0.1c4.4,0,5.9,1.4,5.3,5.5c-0.1,0.8-0.1,1.7,0,2.5c0.5,4-1.2,5.3-5.2,5.3
+											c-60.5-0.1-121-0.1-181.5-0.1c-9.5,0-19-0.1-28.5,0.1c-3.7,0.1-5.3-0.9-5.1-4.9c0.3-9.4-0.8-8.3,8.4-8.3
+											C113,151,146.9,151,180.9,151C180.9,151,180.9,151,180.9,151z"/>
+										<path d="M174.1,365.1c0-9.4,0.1-18.7-0.1-28.1c-0.1-3.7,1.3-4.9,4.9-4.8c6.3,0.2,12.6,0.2,18.9,0c3-0.1,4.3,1.1,4.3,4.2
+											c-0.1,19.4-0.1,38.8,0,58.2c0,3.1-1.3,4.2-4.3,4.1c-6.4-0.1-12.9-0.1-19.3,0c-3.2,0.1-4.5-1.1-4.4-4.4
+											C174.2,384.7,174.1,374.9,174.1,365.1z"/>
+										<path d="M224.5,88.6c-20.4,0-40.8-0.1-61.2,0.1c-4.3,0-5.9-1.3-5.3-5.5c0.1-0.8,0.1-1.7,0-2.5c-0.5-4,1.1-5.3,5.1-5.3
+											c40.8,0.1,81.6,0.1,122.4,0.1c5.6,0,5.6,0,5.6,5.6c0,0.8-0.1,1.7,0,2.5c0.5,3.8-1,5.1-4.9,5.1C265.6,88.5,245,88.6,224.5,88.6
+											C224.5,88.6,224.5,88.6,224.5,88.6z"/>
+										<path d="M224.5,126.4c-20.3,0-40.5,0-60.8,0c-5.7,0-5.7,0-5.7-5.4c0-8.6-0.7-7.7,7.6-7.7c39.8,0,79.7,0,119.5,0
+											c1.9,0,4.9-1.1,5.5,1.4c0.9,3.4,1.1,7.3-0.2,10.7c-0.7,1.6-3,0.9-4.7,0.9C265.3,126.4,244.9,126.4,224.5,126.4z"/>
+										<path d="M136.6,201.9c-20.3,0-40.5-0.1-60.8,0.1c-4.1,0-5.3-1.2-5.2-5.3c0.3-8.9-0.7-7.9,7.9-7.9c39.8,0,79.7,0,119.5-0.1
+											c3.9,0,5.1,1.3,5,5.1c-0.3,9.2,0.8,8.1-8.1,8.1C175.5,201.9,156.1,201.9,136.6,201.9z"/>
+										<path d="M136.4,239.6c-20.1,0-40.2-0.1-60.4,0.1c-4.3,0-5.9-1.4-5.4-5.5c0-0.3,0-0.6,0-0.8c0-6.9,0-6.9,6.8-6.9
+											c39.5,0,79.1,0,118.6,0c2.1,0,5.3-1,6.2,1.1c1.3,3.3,1.2,7.2,0.1,10.7c-0.6,2.1-3.2,1.3-4.9,1.3
+											C177.2,239.6,156.8,239.6,136.4,239.6C136.4,239.6,136.4,239.6,136.4,239.6z"/>
+										<path d="M137,264.2c20.3,0,40.5,0.1,60.8-0.1c4,0,5.4,1.2,5.2,5.3c-0.4,8.9,0.7,7.9-7.9,7.9c-39.3,0.1-78.5,0-117.8,0
+											c-2.1,0-5.2,1.1-6.1-1.3c-1.2-3.4-1.1-7.2,0-10.7c0.6-1.8,3-1.1,4.6-1.1C96.2,264.2,116.6,264.2,137,264.2
+											C137,264.2,137,264.2,137,264.2z"/>
+										<path d="M136.5,319.3c-20.1,0-40.2-0.1-60.4,0.1c-4.2,0-5.7-1.1-5.5-5.4c0.4-8.6-0.6-7.8,7.6-7.8c39.8,0,79.7,0,119.5-0.1
+											c4,0,5.4,1.2,5.2,5.2c-0.3,8.9,0.7,8-7.8,8C175.6,319.3,156.1,319.3,136.5,319.3z"/>
+									</g>
+								</svg>
+									<h3>Reports</h3>
+									<span>Analyse project and staff performance.</span>
+								</div>
+							</div>
+						</section>
+						<section id="features" className="grey-bg" style={{borderTop: "solid 10px #FFC708"}}>
+							<div
+								style={this.state.selectedFeature === "planProject" ? {display: "inherit"} : {display: "none"}}
+								className="feature-page"
+							>
+								<img src="images/gifs/plan-projects2.gif" />
+								<div className="feature-description">
+									<h1 className="fun-text">Plan Hours, Fees & Profit</h1>
+									<p>
+										A simple interface is key to saving time, and setting up timelines, staff hours, budgets, and project fees is super easy in Coincraft.
+										</p><p>
+										You can use Coincraft’s Planning Tool to determine how much you should charge your client for the amount of work planned, or even work backwards from a fixed fee to determine budgeted hours based on your desired profit.
+										</p>
+								</div>
+							</div>
+							<div
+								style={this.state.selectedFeature === "scheduleResources" ? {display: "inherit"} : {display: "none"}}
+								className="feature-page"
+							>
+								<img style={{width: "20%"}} src="images/gifs/staff.gif" />
+								<div className="feature-description">
+ 									<h1 className="fun-text">Know Where to Spend Your Time</h1>
+									<p>
+										As you schedule your staff, Coincraft is informing you who’s over and under utilised, whether or not you’re hitting your project targets and milestones, and can even project how much revenue you can expect to earn.
+									</p>
+									<p>
+										You can also do the reverse, after setting revenue targets, Coincraft can project the expected workload required to hit those targets.
+									</p>
+								</div>
+							</div>
+							<div
+								style={this.state.selectedFeature === "revenueForecast" ? {display: "inherit"} : {display: "none"}}
+								className="feature-page"
+							>
+								<div style={{width: "40%", display: "inline-block"}}>
+									<img src="images/gifs/forecast1.gif" style={{width: '100%'}}/>
+									<img src="images/gifs/forecast2.gif" style={{width: '100%'}}/>
+								</div>
+								<div className="feature-description">
+									<h1 className="fun-text">Know How Much You Can Earn</h1>
+									<p>
+										Know how much revenue you can make in the coming months with Coincraft’s Revenue Forecast. Combining your projects planning with your resource schedule we can accurately predict the revenue you’ll make from each project.
+									</p>
+									<p>
+										Nothing ever goes to plan, and Coincraft is constantly updating your forecasts based on the data from your recorded timesheets and invoices. You can now quickly adapt to ever changing schedules and keep your projects running on time, and on budget.
+									</p>
+								</div>
+							</div>
+							<div
+								style={this.state.selectedFeature === "timeInvoice" ? {display: "inherit"} : {display: "none"}}
+								className="feature-page"
+							>
+								<div>
+									<img src="images/gifs/timesheet2.gif" />
+									<div className="feature-description">
+										<h1 className="fun-text">Track Time &amp; Budgets</h1>
+										<p>
+											Staff can see their hourly budgets fill up as they track time against projects. Allowing them to self manage budgets, save time, and ensure your projects stay on schedule.
+										</p>
+									</div>
+								</div>
+								<div>
+									<img src="images/gifs/invoicing2.gif" />
+									<div className="feature-description">
+										<h1 className="fun-text">Create Invoices</h1>
+										<p>
+											Tracked time can be pulled into your invoices, informing you how much you can bill your clients. Invoices can then be pushed to your favourite accounting system and sent to your clients.
+										</p>
+									</div>
+								</div>
+							</div>
+							<div
+								style={this.state.selectedFeature === "reports" ? {display: "inherit"} : {display: "none"}}
+								className="feature-page"
+							>
+								<img src="images/gifs/reports.png" />
+								<div className="feature-description">
+									<h1 className="fun-text">Analyse Project & Staff Performance</h1>
+									<p>
+										Track the performance of your staff and projects with Coincraft’s reports. See what types of projects perform best, and create benchmarks ensuring your fee proposals are as accurate as possible.
+									</p>
+								</div>
+							</div>
+						</section>
 					</div>
 
 				);
@@ -240,9 +413,8 @@
 
 						<button data-remodal-action="close" className="remodal-close"></button>
 						<p className="contact-details no-backend">
-						  	US: +1 (415) 214-8442
-							<br />AUS: +61 400 411 070
-						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
+							Phone: +61 400 411 070
+						  <br />Email: <a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 						</p>
 						<div style={{display: 'none'}}>
 							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
@@ -270,151 +442,137 @@
 
     	React.render(<SignupModal/>, $('.signup-modal')[0]);
     	React.render(<ContactModal/>, $('.contact-modal')[0]);
+			React.render(<FeatureViewer/>, $('.feature-viewer')[0]);
+
+			$(function(){
+      $(".typed").typed({
+        strings: ["Foresight", "Automation", "Management"],
+        typeSpeed: 100,
+				backSpeed: 50,
+				backDelay: 2000,
+        loop: true
+      });
+  });
 
 	</script>
 
 	<nav id="navigation" class="black-bg">
 		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
 		<ul>
-			<li class="selected">Home</li>
-			<li><a href="features.html">Features</a></li>
+			<li class="selected">Features</li>
 			<li><a href="pricing.html">Pricing</a></li>
-			<!-- <li><a href="blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
-			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
 		</ul>
 	</nav>
-	<section id="intro" class="black-pattern-bg">
+	<section id="intro" class="grey-bg">
 		<div class="tagline-video">
-			<h1 class="fun-text" style="margin: 2em 0 1.5em 0">Custom Practice Management Software<br />for Architects</h1>
-			<div class="sub-for">
-				<img src="images/cc-mac.png" style="width: 35em;"/>
-				<div style="text-align: left; display: inline-block; margin: 0 2em">
-					<p>Subscribe for:</p>
-					<h2>Coincraft's Practice Management Software</h2>
-					<p style="margin-bottom: 2em;color: white">Customised to suit your needs</p>
-					<a href="features.html"><div  style="margin: 1em 1em 1em 0" class="signup-btn">Learn More</div></a>
-					<div style="margin: 1em 1em 1em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div>
-					<div style="margin-top: 2em">
-						<p>+ Plus</p>
-						<ul>
-							<li>Unlimited Updates</li>
-							<li>Lightning Fast Support</li>
-							<li>Data Imports</li>
-						</ul>
-					</div>
+			<div class="tagline">
+				<div>
+					<h1 class="fun-text">Practice &amp; Project <span class="typed"></span></h1>
+					<p style="color: #444">Accurate, real-time, predictions and insights for projects and teams.</p>
 				</div>
 			</div>
+			<div class="video-wrapper">
+				<div>
+		      <iframe  class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+
+		</div>
+		<div class="sign-up">
+			<div>
+				<p class="architext">Currently Coincraft is primarily focussed on building software <u>for architects</u>. If you like us to adapt Coincraft for your industry <a href="#contact-modal">please contact us!</a></p>
+			</div>
+			<div style="margin: 1em 1em 1em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div>
 		</div>
 	</section>
+
 
 	<section id="planning" class="grey-bg">
 		<div class="fun-text">
 			<h1>What people are saying</h1>
 		</div>
-		<div class="client-quote">
-			<div class="client-quote-img" style="background-image:url(images/client-quotes/coda.png)"></div>
-			<div class="client-quote-overlay">
-				<div class="client-quote-heading">
-					<div class="client-quote-heading-img">
-						<img src="images/client-quotes/emma.jpg" />
+		<div class="client-quotes">
+			<div class="client-quote">
+				<div class="client-quote-img" style="background-image:url(images/client-quotes/coda.png)"></div>
+				<div class="client-quote-overlay">
+					<div class="client-quote-heading">
+						<div class="client-quote-heading-img">
+							<img src="images/client-quotes/emma.jpg" />
+						</div>
+						<div class="client-quote-heading-text">
+							<h2>Emma Brain</h2>
+							<p>Practice Manager<br />Coda Studio</p>
+						</div>
 					</div>
-					<div class="client-quote-heading-text">
-						<h2>Emma Brain</h2>
-						<p>Practice Manager<br />Coda Studio</p>
-					</div>
-				</div>
-				<p class="client-quote-body" >"The customer service offered by Coincraft is very impressive. They answer all of our queries in a timely manner and, most importantly, are
-responsive to our suggestions."</p>
+					<p class="client-quote-body" >"The customer service offered by Coincraft is very impressive. They answer all of our queries in a timely manner and, most importantly, are
+	responsive to our suggestions."</p>
 
-			</div>
-		</div>
-		<div class="client-quote">
-			<div class="client-quote-img" style="background-image:url(images/client-quotes/chamberlain.jpg)"></div>
-			<div class="client-quote-overlay">
-				<div class="client-quote-heading">
-					<div class="client-quote-heading-img">
-						<img src="images/client-quotes/glen.jpg" />
-					</div>
-					<div class="client-quote-heading-text">
-						<h2>Glen Chamberlain</h2>
-						<p>Owner / Director<br />Chamberlain Architects</p>
-					</div>
 				</div>
-				<p class="client-quote-body" >"This is the Holy Grail for architects. Being able to plan my practice month-by-month is critical to staying on top of cashflow."<br/>&nbsp;</p>
 			</div>
-		</div>
-		<div class="client-quote">
-			<div class="client-quote-img" style="background-image:url(images/client-quotes/tandem.jpg)"></div>
-			<div class="client-quote-overlay">
-				<div class="client-quote-heading">
-					<div class="client-quote-heading-img">
-						<img src="images/client-quotes/tim.jpg" />
+			<div class="client-quote">
+				<div class="client-quote-img" style="background-image:url(images/client-quotes/chamberlain.jpg)"></div>
+				<div class="client-quote-overlay">
+					<div class="client-quote-heading">
+						<div class="client-quote-heading-img">
+							<img src="images/client-quotes/glen.jpg" />
+						</div>
+						<div class="client-quote-heading-text">
+							<h2>Glen Chamberlain</h2>
+							<p>Owner / Director<br />Chamberlain Architects</p>
+						</div>
 					</div>
-					<div class="client-quote-heading-text">
-						<h2>Tim Hill</h2>
-						<p>Owner / Director<br />Tandem Studio</p>
-					</div>
+					<p class="client-quote-body" >"This is the Holy Grail for architects. Being able to plan my practice month-by-month is critical to staying on top of cashflow."<br/>&nbsp;</p>
 				</div>
-				<p class="client-quote-body" >"It's amazing how frequently Coincraft is updated with new features, and often at my own request. It's great to be able to shape the tool for my own needs!"<br/>&nbsp;</p>
+			</div>
+			<div class="client-quote">
+				<div class="client-quote-img" style="background-image:url(images/client-quotes/tandem.jpg)"></div>
+				<div class="client-quote-overlay">
+					<div class="client-quote-heading">
+						<div class="client-quote-heading-img">
+							<img src="images/client-quotes/tim.jpg" />
+						</div>
+						<div class="client-quote-heading-text">
+							<h2>Tim Hill</h2>
+							<p>Owner / Director<br />Tandem Studio</p>
+						</div>
+					</div>
+					<p class="client-quote-body" >"It's amazing how frequently Coincraft is updated with new features, and often at my own request. It's great to be able to shape the tool for my own needs!"<br/>&nbsp;</p>
+				</div>
 			</div>
 		</div>
 	</section>
 
-	<section id="features" class="grey-bg">
-		<h1 class="fun-text">What can Coincraft do?</h1>
-		<iframe  class="video" src="https://www.youtube.com/embed/cdf4zok2Oro" frameborder="0" allowfullscreen></iframe>
-		<div><div style="margin: 0 1em 2em 0" data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</div></div>
-		<div class="feature-container">
-			<div class="feature">
-				<img src="images/icons/graph.png" />
-				<h3>Cashflow Forecasting</h3>
-				<span>Project revenue, plan ahead, spot problems months before they happen.</span>
+	<div class="feature-viewer">
+
+	</div>
+
+	<section id="integrations" class="black-bg" style="padding-top: 2em">
+		<div class="split">
+			<h1 class="fun-text">Integrates With:</h1>
+			<h1 class="fun-text">Import Data From:</h1>
+		</div>
+		<div class="split">
+			<div class="integrations-image-spread">
+				<img src="images/integrations/xero.png" />
+				<img src="images/integrations/qb.png" />
 			</div>
-			<div class="feature">
-				<img src="images/icons/target.png" />
-				<h3>Milestone Modelling</h3>
-				<span>Set goals for your business and staff.</span>
+			<div class="imports-image-spread">
+				<div><img src="images/imports/wfm.png" /></div>
+				<div><img style="width: 32%" src="images/imports/harvest.png" /></div>
+				<div><img src="images/imports/archioffice.png" /></div>
 			</div>
-			<div class="feature">
-				<img src="images/icons/staff.png" />
-				<h3>Flexible Resource Scheduling</h3>
-				<span>Resource planning that adjusts to changing project schedules.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/project.png" />
-				<h3>Project Management</h3>
-				<span>Plan project fees, expenses, and assign work to staff.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/stopwatch.png" />
-				<h3>Time &amp; Expense Tracking</h3>
-				<span>Track time, expenses and manage project progress.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/invoices.png" />
-				<h3>Invoicing</h3>
-				<span>Invoicing that integrates with your accounting system.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/report.png" />
-				<h3>Reporting</h3>
-				<span>Analyse business performance and benchmark for future projects.</span>
-			</div>
-			<div class="feature">
-				<img src="images/icons/calculator.png" />
-				<h3>Accounting Integration</h3>
-				<span>Integrates with Xero, Quickbooks and MYOB</span>
-			</div>
-		</table>
+		</div>
+		<div class="split">
+			<p>...plus more!</p>
+			<p>...plus more!</p>
+		</div>
 	</section>
 
-	<section id="clients" class="black-pattern-bg">
-		<h1 class="fun-text">How does it work?</h1>
-		<img style="width: 100%; max-width: 50em; padding: 0" src="images/process-w.svg" />
-		<div><div style="margin: 0 1em 2em 0" data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</div></div>
-		</section>
+	<section style="background-color: #fdcd29; padding: 0.8em;">
+		<span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span>
+	</section>
 
 	<section id="clients" class="grey-bg">
 		<h1 class="fun-text">Our Happy Clients</h1>
@@ -422,15 +580,16 @@ responsive to our suggestions."</p>
 			<img src="images/client-logos/coda-b.png" />
 			<img class="smaller"  src="images/client-logos/kta-b.png" />
 			<img src="images/client-logos/fieldwork-b.png" />
+		</div>
+		<div class="client-container">
 			<img src="images/client-logos/chamberlain-b.png" />
 			<img class="smaller" src="images/client-logos/room11-b.png" />
 			<img src="images/client-logos/tandem-b.png" />
+		</div>
+		<div class="client-container">
 			<img src="images/client-logos/dunnhillam-b.png" />
-			<img src="images/client-logos/sibling-b.png" />
-			<img src="images/client-logos/dimase-b.png" />
-			<img src="images/client-logos/chord-b.png" />
 			<img class="smaller" src="images/client-logos/tw-b.png" />
-			<img src="images/client-logos/dwa-b.png" />
+			<img src="images/client-logos/sibling-b.png" />
 		</div>
 	</section>
 

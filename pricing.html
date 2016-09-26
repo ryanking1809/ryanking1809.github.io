@@ -12,6 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="styles/remodal.css">
 	<link rel="stylesheet" href="styles/remodal-default-theme.css">
+	<link rel="shortcut icon" type="image/png" href="/favicon.png"/>
 
 <script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -44,26 +45,15 @@
 
 		var PriceCalculator = React.createClass({
 
-			propTypes: {
-				standardPrice: React.PropTypes.number,
-				adminPrice: React.PropTypes.number,
-				yearlyDiscount: React.PropTypes.number,
-				monthlyDiscount: React.PropTypes.number
-			},
-
-			getDefaultProps: function() {
-				return {
-					standardPrice: 15,
-					adminPrice: 35,
-					yearlyDiscount: .2,
-					monthlyDiscount: 0
-				}
-			},
-
 			getInitialState: function(){
 				return {
 					adminUser: 1,
-					standardUser: 0
+					standardUser: 0,
+					standardPrice: 15,
+					adminPrice: 35,
+					yearlyDiscount: .2,
+					monthlyDiscount: 0,
+					selectedCurrency: 'usd'
 				}
 			},
 
@@ -76,21 +66,50 @@
 			},
 
 			totalStandardPriceMonth: function() {
-				return this.state.adminUser*this.props.adminPrice;
+				return this.state.adminUser*this.state.adminPrice;
 			},
 
 			totalAdminPriceMonth: function() {
-				return this.state.standardUser*this.props.standardPrice;
+				return this.state.standardUser*this.state.standardPrice;
 			},
 
 			totalPriceMonth: function() {
 				return (this.totalAdminPriceMonth() + this.totalStandardPriceMonth());
 			},
 
+			setUSCurrency: function() {
+				this.setState({
+					standardPrice: 15,
+					adminPrice: 35,
+					selectedCurrency: 'usd'
+				});
+			},
+
+			setAusCurrency: function(event) {
+				this.setState({
+					standardPrice: 20,
+					adminPrice: 45,
+					selectedCurrency: 'aud'
+				});
+			},
+
 			render: function(){
 				return (
 
 					<div>
+						<div className="currency-select">
+						<p>Select Currency Below</p>
+							<img
+								src="images/flags/us.png"
+								onClick={this.setUSCurrency}
+								className={this.state.selectedCurrency === "usd" ? "active" : ""}
+							/>
+							<img
+								src="images/flags/aus.png"
+								onClick={this.setAusCurrency}
+								className={this.state.selectedCurrency === "aud" ? "active" : ""}
+							/>
+						</div>
 						<div className="calc-table">
 							<table style={{display: 'inline-table', marginBottom: 0, position: 'relative', zIndex: 2}}>
 								<tbody>
@@ -100,38 +119,38 @@
 									</tr>
 									<tr>
 										<td>
-										<span style={{fontSize:'3em'}}>${this.totalPriceMonth()*(1-this.props.monthlyDiscount)}</span>
+										<span style={{fontSize:'3em'}}>${this.totalPriceMonth()*(1-this.state.monthlyDiscount)}</span>
 										<br />
-										{this.props.monthlyDiscount === 0
+										{this.state.monthlyDiscount === 0
 											? <span className="small" >per month</span>
-											: <span className="small" >per month ( {this.props.monthlyDiscount*100}% discount )</span>
+											: <span className="small" >per month ( {this.state.monthlyDiscount*100}% discount )</span>
 										}
 										</td>
-										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.yearlyDiscount)} </span>
-										<br /><span className="small">per month ( {this.props.yearlyDiscount*100}% discount )</span></td>
+										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.state.yearlyDiscount)} </span>
+										<br /><span className="small">per month ( {this.state.yearlyDiscount*100}% discount )</span></td>
 									</tr>
 									<tr>
-										<td>${(this.totalPriceMonth())*12*(1-this.props.monthlyDiscount)} / year</td>
-										<td>${(this.totalPriceMonth())*12*(1-this.props.yearlyDiscount)} / year</td>
+										<td>${(this.totalPriceMonth())*12*(1-this.state.monthlyDiscount)} / year</td>
+										<td>${(this.totalPriceMonth())*12*(1-this.state.yearlyDiscount)} / year</td>
 									</tr>
 								</tbody>
 							</table>
 							<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
 								<tbody>
-									{this.props.monthlyDiscount === 0
+									{this.state.monthlyDiscount === 0
 											? <tr>
 												<td style={{border: 'none'}}></td>
 												<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '0.5em'}}>
-													Save ${(this.totalPriceMonth())*12*this.props.yearlyDiscount}!
+													Save ${(this.totalPriceMonth())*12*this.state.yearlyDiscount}!
 												</td>
 											</tr>
 											: <tr>
 												<td style={{backgroundColor: "white", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em', borderRight: 'solid 1px #ccc'}}>
-													Save ${(this.totalPriceMonth())*12*this.props.monthlyDiscount}!
+													Save ${(this.totalPriceMonth())*12*this.state.monthlyDiscount}!
 													<br />
 													<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
 												</td>												<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em'}}>
-													Save ${(this.totalPriceMonth())*12*this.props.yearlyDiscount}!
+													Save ${(this.totalPriceMonth())*12*this.state.yearlyDiscount}!
 													<br />
 													<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
 												</td>
@@ -146,11 +165,11 @@
 									<tr>
 										<td>
 											Admin Users
-											<br /><span className="small">( ${this.props.adminPrice} / month )</span>
+											<br /><span className="small">( ${this.state.adminPrice} / month )</span>
 										</td>
 										<td>
 											Standard Users
-											<br /><span className="small">( ${this.props.standardPrice} / month )</span>
+											<br /><span className="small">( ${this.state.standardPrice} / month )</span>
 										</td>
 									</tr>
 									<tr>
@@ -189,7 +208,6 @@
 								</tbody>
 							</table>
 						</div>
-						<span className="small">*Pricing in USD, <a href="mailto:hello@coincraft.co">contact us</a> for Australian pricing</span>
 					</div>
 
 				);
@@ -263,9 +281,8 @@
 
 						<button data-remodal-action="close" className="remodal-close"></button>
 						<p className="contact-details no-backend">
-						  	US: +1 (415) 214-8442
-							<br />AUS: +61 400 411 070
-						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
+							Phone: +61 400 411 070
+						  <br />Email: <a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 						</p>
 						<div style={{display: 'none'}}>
 							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
@@ -300,22 +317,19 @@
 	<nav id="navigation" class="black-bg">
 		<img class="logo" src="images/coincraft-logo-horizontal.svg" />
 		<ul>
-			<li><a href="index.html">Home</a></li>
-			<li><a href="features.html">Features</a></li>
+			<li><a href="index.html">Features</a></li>
 			<li class="selected">Pricing</li>
-			<!-- <li><a href="blog.html">Blog</a></li> -->
 			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
-			<li data-remodal-target="contact-modal">Contact</li>
 			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
 		</ul>
 	</nav>
 
 
 	<section id="price-calc" class="grey-bg">
-		<h1 style="margin: 2.5em 0 0">14-Day Coincraft Trial</h1>
-		<p style="margin: 2em 0 5em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
+		<h1 style="margin: 2em 0 0">14-Day Coincraft Trial</h1>
+		<p style="margin: 2em 0 4em;padding: 0 0 3em 0;border-bottom: solid 1px #ccc;"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
 		<div class='price-widget'> </div>
-		<p style="margin-top: 4em"><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
+		<p><span data-remodal-target="signup-modal" class="signup-btn dark">Try Coincraft for Free!</span></p>
 
 	</section>
 	<section id="footer" class="black-pattern-bg">
