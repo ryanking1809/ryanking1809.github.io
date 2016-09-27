@@ -50,6 +50,7 @@ a, a:visited, a:active {
   background-position: center bottom, top left;
   background-size: contain, auto;*/
   padding: 0;
+  padding-top: 5em;
 }
 
 #intro .tagline-video {
@@ -61,12 +62,13 @@ a, a:visited, a:active {
 }
 
 #intro .tagline{
-  margin: 10em 0 3em 0;
+  margin: 0 0 3em 0;
 }
 
 #intro .tagline > div{
   display: inline-block;
   text-align:left;
+  max-width: 90%;
 }
 
 #intro .tagline h1{
@@ -479,17 +481,17 @@ video#bgvid {
   }
   .logo {
     float: none;
-    margin-top: 2em;
+    margin: 2em 6em 0 6em;
   }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 560px) {
   #intro {
     padding-top: 15em;
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 350px) {
   #intro {
     padding-top: 17em;
   }
