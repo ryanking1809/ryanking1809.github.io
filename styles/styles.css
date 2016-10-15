@@ -193,7 +193,6 @@ video#bgvid {
 }
 
 #planning {
-	background: #E6E6E6;
 	z-index: 5;
 }
 
@@ -878,4 +877,34 @@ input[type=number]::-webkit-outer-spin-button {
 
 .typed {
   border-bottom: solid 3px #ee7650;
+}
+
+.xero-images {
+  display: inline-flex;
+  align-items: center;
+  max-width: 63em;
+}
+
+.xero-images .screen img {
+ box-shadow: 2px 4px 20px -3px rgba(0,0,0,0.4);
+}
+
+.xero-images img {
+  width: 100%;
+}
+
+
+#xero .arrow {
+  width: 3em;
+  margin: 1em;
+}
+
+#xero .screen {
+ margin: 1em;
+ flex-grow: 1;
+}
+
+.xero-partner {
+  float: right;
+  margin-top: 1em;
 }
