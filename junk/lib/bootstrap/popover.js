@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap: popover.js v3.0.0
- * https://twbs.github.com/bootstrap/javascript.html#popovers
+ * http://twbs.github.com/bootstrap/javascript.html#popovers
  * ========================================================================
  * Copyright 2012 Twitter, Inc.
  *
@@ -8,7 +8,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * https://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,102 +17,101 @@
  * limitations under the License.
  * ======================================================================== */
 
-+(function ($) {
-	"use strict";
 
-	// POPOVER PUBLIC CLASS DEFINITION
-	// ===============================
++function ($) { "use strict";
 
-	var Popover = function (element, options) {
-		this.init("popover", element, options);
-	};
+  // POPOVER PUBLIC CLASS DEFINITION
+  // ===============================
 
-	if (!$.fn.tooltip) throw new Error("Popover requires tooltip.js");
+  var Popover = function (element, options) {
+    this.init('popover', element, options)
+  }
 
-	Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
-		placement: "right",
-		trigger: "click",
-		content: "",
-		template:
-			'<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>',
-	});
+  if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-	// NOTE: POPOVER EXTENDS tooltip.js
-	// ================================
+  Popover.DEFAULTS = $.extend({} , $.fn.tooltip.Constructor.DEFAULTS, {
+    placement: 'right'
+  , trigger: 'click'
+  , content: ''
+  , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+  })
 
-	Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype);
 
-	Popover.prototype.constructor = Popover;
+  // NOTE: POPOVER EXTENDS tooltip.js
+  // ================================
 
-	Popover.prototype.getDefaults = function () {
-		return Popover.DEFAULTS;
-	};
+  Popover.prototype = $.extend({}, $.fn.tooltip.Constructor.prototype)
 
-	Popover.prototype.setContent = function () {
-		var $tip = this.tip();
-		var title = this.getTitle();
-		var content = this.getContent();
+  Popover.prototype.constructor = Popover
 
-		$tip.find(".popover-title")[this.options.html ? "html" : "text"](title);
-		$tip.find(".popover-content")[this.options.html ? "html" : "text"](
-			content
-		);
+  Popover.prototype.getDefaults = function () {
+    return Popover.DEFAULTS
+  }
 
-		$tip.removeClass("fade top bottom left right in");
+  Popover.prototype.setContent = function () {
+    var $tip    = this.tip()
+    var title   = this.getTitle()
+    var content = this.getContent()
 
-		// IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
-		// this manually by checking the contents.
-		if (!$tip.find(".popover-title").html())
-			$tip.find(".popover-title").hide();
-	};
+    $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
+    $tip.find('.popover-content')[this.options.html ? 'html' : 'text'](content)
 
-	Popover.prototype.hasContent = function () {
-		return this.getTitle() || this.getContent();
-	};
+    $tip.removeClass('fade top bottom left right in')
 
-	Popover.prototype.getContent = function () {
-		var $e = this.$element;
-		var o = this.options;
+    // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
+    // this manually by checking the contents.
+    if (!$tip.find('.popover-title').html()) $tip.find('.popover-title').hide()
+  }
 
-		return (
-			$e.attr("data-content") ||
-			(typeof o.content == "function" ? o.content.call($e[0]) : o.content)
-		);
-	};
+  Popover.prototype.hasContent = function () {
+    return this.getTitle() || this.getContent()
+  }
 
-	Popover.prototype.arrow = function () {
-		return (this.$arrow = this.$arrow || this.tip().find(".arrow"));
-	};
+  Popover.prototype.getContent = function () {
+    var $e = this.$element
+    var o  = this.options
 
-	Popover.prototype.tip = function () {
-		if (!this.$tip) this.$tip = $(this.options.template);
-		return this.$tip;
-	};
+    return $e.attr('data-content')
+      || (typeof o.content == 'function' ?
+            o.content.call($e[0]) :
+            o.content)
+  }
 
-	// POPOVER PLUGIN DEFINITION
-	// =========================
+  Popover.prototype.arrow = function () {
+    return this.$arrow = this.$arrow || this.tip().find('.arrow')
+  }
 
-	var old = $.fn.popover;
+  Popover.prototype.tip = function () {
+    if (!this.$tip) this.$tip = $(this.options.template)
+    return this.$tip
+  }
 
-	$.fn.popover = function (option) {
-		return this.each(function () {
-			var $this = $(this);
-			var data = $this.data("bs.popover");
-			var options = typeof option == "object" && option;
 
-			if (!data)
-				$this.data("bs.popover", (data = new Popover(this, options)));
-			if (typeof option == "string") data[option]();
-		});
-	};
+  // POPOVER PLUGIN DEFINITION
+  // =========================
 
-	$.fn.popover.Constructor = Popover;
+  var old = $.fn.popover
 
-	// POPOVER NO CONFLICT
-	// ===================
+  $.fn.popover = function (option) {
+    return this.each(function () {
+      var $this   = $(this)
+      var data    = $this.data('bs.popover')
+      var options = typeof option == 'object' && option
 
-	$.fn.popover.noConflict = function () {
-		$.fn.popover = old;
-		return this;
-	};
-})(window.jQuery);
+      if (!data) $this.data('bs.popover', (data = new Popover(this, options)))
+      if (typeof option == 'string') data[option]()
+    })
+  }
+
+  $.fn.popover.Constructor = Popover
+
+
+  // POPOVER NO CONFLICT
+  // ===================
+
+  $.fn.popover.noConflict = function () {
+    $.fn.popover = old
+    return this
+  }
+
+}(window.jQuery);

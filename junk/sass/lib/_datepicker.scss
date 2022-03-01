@@ -3,51 +3,51 @@
  *
  * Copyright 2012 Stefan Petre
  * Licensed under the Apache License v2.0
- * https://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
+ 
 .datepicker {
 	top: 0;
 	left: 0;
 	padding: 4px;
 	margin-top: 1px;
-	color: $gray-dark;
+  color: $gray-dark;
 	@include border-radius($border-radius-base);
 	&:before {
-		content: "";
+		content: '';
 		display: inline-block;
-		border-left: 7px solid transparent;
-		border-right: 7px solid transparent;
+		border-left:   7px solid transparent;
+		border-right:  7px solid transparent;
 		border-bottom: 7px solid #ccc;
-		border-bottom-color: rgba(0, 0, 0, 0.2);
+		border-bottom-color: rgba(0,0,0,.2);
 		position: absolute;
 		top: -7px;
 		left: 6px;
 	}
 	&:after {
-		content: "";
+		content: '';
 		display: inline-block;
-		border-left: 6px solid transparent;
-		border-right: 6px solid transparent;
+		border-left:   6px solid transparent;
+		border-right:  6px solid transparent;
 		border-bottom: 6px solid $white;
 		position: absolute;
 		top: -6px;
 		left: 7px;
 	}
-	> div {
+	>div {
 		display: none;
 	}
-	table {
+	table{
 		width: 100%;
 		margin: 0;
 	}
 	td,
-	th {
+	th{
 		text-align: center;
 		width: 20px;
 		height: 20px;
-		@include border-radius($border-radius-base);
+        @include border-radius($border-radius-base);
 	}
 	td {
 		&.day:hover {
@@ -63,13 +63,13 @@
 		}
 		&.active,
 		&.active:hover {
-			//okendoken. commenting this out
-			//@include buttonBackground($btn-primary-bg, adjust-hue($btn-primary-bg, 20));
-			background: $btn-primary-bg;
-			color: #fff;
-			//okendoken. removed
-			//text-shadow: 0 -1px 0 rgba(0,0,0,.25);
-		}
+            //okendoken. commenting this out
+            //@include buttonBackground($btn-primary-bg, adjust-hue($btn-primary-bg, 20));
+            background: $btn-primary-bg;
+            color: #fff;
+            //okendoken. removed
+            //text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+        }
 		span {
 			display: block;
 			width: 47px;
@@ -78,14 +78,14 @@
 			float: left;
 			margin: 2px;
 			cursor: pointer;
-			@include border-radius($border-radius-base);
+            @include border-radius($border-radius-base);
 			&:hover {
 				background: $gray-lighter;
 			}
 			&.active {
-				//okendoken. commenting this out
-				//@include buttonBackground($btn-primary-bg, adjust-hue($btn-primary-bg, 20));
-				background: $btn-primary-bg;
+              //okendoken. commenting this out
+              //@include buttonBackground($btn-primary-bg, adjust-hue($btn-primary-bg, 20));
+              background: $btn-primary-bg;
 				color: #fff;
 				//text-shadow: 0 -1px 0 rgba(0,0,0,.25);
 			}
@@ -94,7 +94,7 @@
 			}
 		}
 	}
-
+	
 	th {
 		&.switch {
 			width: 145px;
@@ -104,10 +104,10 @@
 			font-size: $font-size-base * 1.5;
 		}
 	}
-
+	
 	thead tr:first-child th {
 		cursor: pointer;
-		&:hover {
+		&:hover{
 			background: $gray-lighter;
 		}
 	}
