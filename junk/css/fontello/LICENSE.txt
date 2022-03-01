@@ -6,7 +6,7 @@ Font license info
    Copyright (C) 2012 by Daniel Bruce
 
    Author:    Daniel Bruce
-   License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://www.entypo.com
+   License:   SIL (https://scripts.sil.org/OFL)
+   Homepage:  https://www.entypo.com
 
 
