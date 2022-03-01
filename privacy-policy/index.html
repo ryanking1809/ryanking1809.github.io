@@ -1,993 +1,3486 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8" />
-	<title>Coincraft - Plan &amp; Track Projects, Cashflow &amp; Resources</title>
-	<meta name="description" content="Simple, visual, all-in-one solution. Plan time, financials, &amp; staff. Make predictions, &amp; gain insights on how to save time &amp; increase revenue. Try Coincraft for Free!">
-	<link rel="stylesheet" type="text/css" href="../styles/styles.css">
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="../styles/remodal.css">
-	<link rel="stylesheet" href="../styles/remodal-default-theme.css">
+	<head>
+		<meta charset="UTF-8" />
+		<title>
+			Coincraft - Plan &amp; Track Projects, Cashflow &amp; Resources
+		</title>
+		<meta
+			name="description"
+			content="Simple, visual, all-in-one solution. Plan time, financials, &amp; staff. Make predictions, &amp; gain insights on how to save time &amp; increase revenue. Try Coincraft for Free!"
+		/>
+		<link rel="stylesheet" type="text/css" href="../styles/styles.css" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic&subset=latin,greek"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="../styles/remodal.css" />
+		<link rel="stylesheet" href="../styles/remodal-default-theme.css" />
 
-<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		<script>
+			(function (i, s, o, g, r, a, m) {
+				i["GoogleAnalyticsObject"] = r;
+				(i[r] =
+					i[r] ||
+					function () {
+						(i[r].q = i[r].q || []).push(arguments);
+					}),
+					(i[r].l = 1 * new Date());
+				(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+				a.async = 1;
+				a.src = g;
+				m.parentNode.insertBefore(a, m);
+			})(
+				window,
+				document,
+				"script",
+				"//www.google-analytics.com/analytics.js",
+				"ga"
+			);
 
-		  ga('create', 'UA-50403864-1', 'coincraft.co');
-		  ga('send', 'pageview');
-
+			ga("create", "UA-50403864-1", "coincraft.co");
+			ga("send", "pageview");
 		</script>
 		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(["_setAccount", "UA-50403864-1"]);
+			_gaq.push(["_trackPageview"]);
 
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-50403864-1']);
-		  _gaq.push(['_trackPageview']);
+			(function () {
+				var ga = document.createElement("script");
+				ga.type = "text/javascript";
+				ga.async = true;
+				ga.src =
+					("https:" == document.location.protocol
+						? "https://ssl"
+						: "https://www") + ".google-analytics.com/ga.js";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
+	</head>
+	<body>
+		<script src="../js/remodal.js"></script>
+		<script type="text/jsx">
 
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-	</script>
-</head>
-<body>
+			var PriceCalculator = React.createClass({
 
+				propTypes: {
+					standardPrice: React.PropTypes.number,
+					adminPrice: React.PropTypes.number,
+					discount: React.PropTypes.number
+				},
 
-	<script src="../js/remodal.js"></script>
-	<script type="text/jsx">
+				getDefaultProps: function() {
+					return {
+						standardPrice: 15,
+						adminPrice: 35,
+						discount: .2
+					}
+				},
 
-		var PriceCalculator = React.createClass({
+				getInitialState: function(){
+					return {
+						adminUser: 1,
+						standardUser: 0
+					}
+				},
 
-			propTypes: {
-				standardPrice: React.PropTypes.number,
-				adminPrice: React.PropTypes.number,
-				discount: React.PropTypes.number
-			},
+				updateAdmin: function(event) {
+					this.setState({adminUser: event.target.value});
+				},
 
-			getDefaultProps: function() {
-				return {
-					standardPrice: 15,
-					adminPrice: 35,
-					discount: .2
-				}
-			},
+				updateStandard: function(event) {
+					this.setState({standardUser: event.target.value});
+				},
 
-			getInitialState: function(){
-				return {
-					adminUser: 1,
-					standardUser: 0
-				}
-			},
+				totalStandardPriceMonth: function() {
+					return this.state.adminUser*this.props.adminPrice;
+				},
 
-			updateAdmin: function(event) {
-				this.setState({adminUser: event.target.value});
-			},
+				totalAdminPriceMonth: function() {
+					return this.state.standardUser*this.props.standardPrice;
+				},
 
-			updateStandard: function(event) {
-				this.setState({standardUser: event.target.value});
-			},
+				totalPriceMonth: function() {
+					return (this.totalAdminPriceMonth() + this.totalStandardPriceMonth());
+				},
 
-			totalStandardPriceMonth: function() {
-				return this.state.adminUser*this.props.adminPrice;
-			},
+				render: function(){
+					return (
 
-			totalAdminPriceMonth: function() {
-				return this.state.standardUser*this.props.standardPrice;
-			},
-
-			totalPriceMonth: function() {
-				return (this.totalAdminPriceMonth() + this.totalStandardPriceMonth());
-			},
-
-			render: function(){
-				return (
-
-					<div>
-						<div className="calc-table">
-							<table style={{display: 'inline-table', marginBottom: 0, position: 'relative', zIndex: 2}}>
-								<tbody>
-									<tr>
-										<td>Monthly Subscription</td>
-										<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
-									</tr>
-									<tr>
-										<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
-										<br /><span className="small" >per month</span></td>
-										<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.discount)} </span>
-										<br /><span className="small">per month ( {this.props.discount*100}% discount )</span></td>
-									</tr>
-									<tr>
-										<td>${(this.totalPriceMonth())*12} / year</td>
-										<td>${(this.totalPriceMonth())*12*(1-this.props.discount)} / year</td>
-									</tr>
-								</tbody>
-							</table>
-							<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
-								<tbody>
-									<tr>
-										<td style={{border: 'none'}}></td>
-										<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
-									</tr>
-								</tbody>
-							</table>
+						<div>
+							<div className="calc-table">
+								<table style={{display: 'inline-table', marginBottom: 0, position: 'relative', zIndex: 2}}>
+									<tbody>
+										<tr>
+											<td>Monthly Subscription</td>
+											<td style={{backgroundColor: "gold"}}>Yearly Subscription</td>
+										</tr>
+										<tr>
+											<td><span style={{fontSize:'3em'}}>${this.totalPriceMonth()}</span>
+											<br /><span className="small" >per month</span></td>
+											<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.props.discount)} </span>
+											<br /><span className="small">per month ( {this.props.discount*100}% discount )</span></td>
+										</tr>
+										<tr>
+											<td>${(this.totalPriceMonth())*12} / year</td>
+											<td>${(this.totalPriceMonth())*12*(1-this.props.discount)} / year</td>
+										</tr>
+									</tbody>
+								</table>
+								<table style={{display: 'inline-table', background: 'transparent', boxShadow: 'none', marginTop: 0, position: 'relative', zIndex: 1, fontSize: '.9em', fontWeight: 'bold', fontStyle: 'italic'}}>
+									<tbody>
+										<tr>
+											<td style={{border: 'none'}}></td>
+											<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)'}}>Save ${(this.totalPriceMonth())*12*this.props.discount}!</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div className="user-table">
+								<table style={{display: 'inline-table'}}>
+									<thead>
+										<tr>
+											<td>
+												Admin Users
+												<br /><span className="small">( ${this.props.adminPrice} / month )</span>
+											</td>
+											<td>
+												Standard Users
+												<br /><span className="small">( ${this.props.standardPrice} / month )</span>
+											</td>
+										</tr>
+										<tr>
+											<td className="user-input">
+												<input type="number" min="1" value={this.state.adminUser} onChange={this.updateAdmin}/>
+												<span className="small">Click to edit number of users.</span>
+											</td>
+											<td className="user-input">
+												<input type="number" min="0" value={this.state.standardUser} onChange={this.updateStandard}/>
+												<span className="small">Click to edit number of users.</span>
+											</td>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>
+												<ul>
+													<li>Plan Business Finances &amp; Workload</li>
+													<li>Plan Project Finances, Workload &amp; Schedules</li>
+													<li>Allocate Project Resources</li>
+													<li>Add Projects / Staff</li>
+													<li>Create Invoices</li>
+													<li>Create Reports</li>
+													<li>Track Time</li>
+												</ul>
+											</td>
+											<td>
+												<ul>
+													<li>View Project Schedules &amp; Milestones</li>
+													<li>Track Allocated Project Hours</li>
+													<li>Create Limited Reports</li>
+													<li>Track Time</li>
+												</ul>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<div className="user-table">
-							<table style={{display: 'inline-table'}}>
-								<thead>
-									<tr>
-										<td>
-											Admin Users
-											<br /><span className="small">( ${this.props.adminPrice} / month )</span>
-										</td>
-										<td>
-											Standard Users
-											<br /><span className="small">( ${this.props.standardPrice} / month )</span>
-										</td>
-									</tr>
-									<tr>
-										<td className="user-input">
-											<input type="number" min="1" value={this.state.adminUser} onChange={this.updateAdmin}/>
-											<span className="small">Click to edit number of users.</span>
-										</td>
-										<td className="user-input">
-											<input type="number" min="0" value={this.state.standardUser} onChange={this.updateStandard}/>
-											<span className="small">Click to edit number of users.</span>
-										</td>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											<ul>
-												<li>Plan Business Finances &amp; Workload</li>
-												<li>Plan Project Finances, Workload &amp; Schedules</li>
-												<li>Allocate Project Resources</li>
-												<li>Add Projects / Staff</li>
-												<li>Create Invoices</li>
-												<li>Create Reports</li>
-												<li>Track Time</li>
-											</ul>
-										</td>
-										<td>
-											<ul>
-												<li>View Project Schedules &amp; Milestones</li>
-												<li>Track Allocated Project Hours</li>
-												<li>Create Limited Reports</li>
-												<li>Track Time</li>
-											</ul>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+
+					);
+				}
+			});
+
+
+			var SignupModal = React.createClass({
+				getInitialState: function(){
+					return {
+						email: ""
+					}
+				},
+
+				updateEmail: function(event) {
+					this.setState({email: event.target.value});
+				},
+
+				submitEmail: function(event) {
+					// email me about this
+					var URL = "https://app.coincraft.co/register?email=" + this.state.email;
+					window.open(URL, "_blank");
+				},
+
+				render: function() {
+					return (
+						<div>
+							<button data-remodal-action="close" className="remodal-close"></button>
+						  	<h2>Try Coincraft for Free</h2>
+						  	<p>
+						    	We first need your email address to get started.
+						  	</p>
+						  	<input type="email" placeholder="corb@corbusier.com" value={this.state.email} onChange={this.updateEmail}/><br />
+						  	<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitEmail}>Create your Coincraft account!</button>
 						</div>
-					</div>
-
-				);
-			}
-		});
-
-
-		var SignupModal = React.createClass({
-			getInitialState: function(){
-				return {
-					email: ""
+					)
 				}
-			},
+			});
 
-			updateEmail: function(event) {
-				this.setState({email: event.target.value});
-			},
+			var ContactModal = React.createClass({
+				getInitialState: function(){
+					return {
+						email: "",
+						phone: "",
+						message: ""
+					}
+				},
 
-			submitEmail: function(event) {
-				// email me about this
-				var URL = "https://app.coincraft.co/register?email=" + this.state.email;
-				window.open(URL, "_blank");
-			},
+				updateEmail: function(event) {
+					this.setState({email: event.target.value});
+				},
 
-			render: function() {
-				return (
-					<div>
-						<button data-remodal-action="close" className="remodal-close"></button>
-					  	<h2>Try Coincraft for Free</h2>
-					  	<p>
-					    	We first need your email address to get started.
-					  	</p>
-					  	<input type="email" placeholder="corb@corbusier.com" value={this.state.email} onChange={this.updateEmail}/><br />
-					  	<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitEmail}>Create your Coincraft account!</button>
-					</div>
-				)
-			}
-		});
+				updatePhone: function(event) {
+					this.setState({phone: event.target.value});
+				},
 
-		var ContactModal = React.createClass({
-			getInitialState: function(){
-				return {
-					email: "",
-					phone: "",
-					message: ""
-				}
-			},
+				updateMessage: function(event) {
+					this.setState({message: event.target.value});
+				},
 
-			updateEmail: function(event) {
-				this.setState({email: event.target.value});
-			},
+				submitMessage: function(event) {
+					// email me about this
+					alert(this.state.email);
+					alert(this.state.phone);
+					alert(this.state.message);
+				},
 
-			updatePhone: function(event) {
-				this.setState({phone: event.target.value});
-			},
+				render: function() {
+					return (
+						<div>
 
-			updateMessage: function(event) {
-				this.setState({message: event.target.value});
-			},
-
-			submitMessage: function(event) {
-				// email me about this
-				alert(this.state.email);
-				alert(this.state.phone);
-				alert(this.state.message);
-			},
-
-			render: function() {
-				return (
-					<div>
-
-						<button data-remodal-action="close" className="remodal-close"></button>
-						<p className="contact-details no-backend"> 
-						  	US: +1 (415) 214-8442
-							<br />AUS: +61 400 411 070
-						  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
-						</p>
-						<div style={{display: 'none'}}>
-							<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
-							<p style={{marginBottom: "3em"}}>
-							  	Feel free to call us, email us or use the contact form below.
+							<button data-remodal-action="close" className="remodal-close"></button>
+							<p className="contact-details no-backend">
+							  	US: +1 (415) 214-8442
+								<br />AUS: +61 400 411 070
+							  	<br /><a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 							</p>
-							<div>
-							  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+							<div style={{display: 'none'}}>
+								<h2 style={{marginTop: "0.5em"}}>Contact Us</h2>
+								<p style={{marginBottom: "3em"}}>
+								  	Feel free to call us, email us or use the contact form below.
+								</p>
+								<div>
+								  	<label>Email Address</label><input type="email" onChange={this.updateEmail} placeholder="corb@corbusier.com"/>
+								</div>
+								<div>
+								  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
+								</div>
+								<div>
+								  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
+								</div>
+								<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
+								</button>
 							</div>
-							<div>
-							  	<label>Phone Number <i>(optional)</i></label><input onChange={this.updatePhone} type="tel" placeholder="0412-123-123"/>
-							</div>
-							<div>
-							  	<label>Message </label><textarea onChange={this.updateMessage} placeholder="Type your message here."></textarea>
-							</div>
-							<button data-remodal-action="confirm" className="remodal-confirm" onClick={this.submitMessage}>Send Message
-							</button>
+						</div>
+					)
+				}
+			});
+
+
+
+			  	React.render(<SignupModal/>, $('.signup-modal')[0]);
+			  	React.render(<ContactModal/>, $('.contact-modal')[0]);
+		</script>
+
+		<nav id="navigation" class="black-bg">
+			<img class="logo" src="../images/coincraft-logo-horizontal.svg" />
+			<ul>
+				<li><a href="../index.html">Tour</a></li>
+				<li><a href="../pricing.html">Pricing</a></li>
+				<!-- <li><a href="../blog.html">Blog</a></li> -->
+				<li>
+					<a href="https://app.coincraft.co/" target="_blank"
+						>Login</a
+					>
+				</li>
+				<li data-remodal-target="contact-modal">Contact</li>
+				<li data-remodal-target="signup-modal" class="boxed">
+					Try Coincraft for Free!
+				</li>
+			</ul>
+		</nav>
+		<section id="intro" class="grey-bg" style="">
+			<div
+				style="
+					margin-top: 5em;
+					text-align: left;
+					display: inline-block;
+					max-width: 920px;
+				"
+			>
+				<p>
+					<!--[if !mso]>
+						<style>
+							v\:* {
+								behavior: url(#default#VML);
+							}
+							o\:* {
+								behavior: url(#default#VML);
+							}
+							w\:* {
+								behavior: url(#default#VML);
+							}
+							.shape {
+								behavior: url(#default#VML);
+							}
+						</style> <!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<o:OfficeDocumentSettings>
+								<o:RelyOnVML />
+								<o:AllowPNG />
+							</o:OfficeDocumentSettings> </xml><!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<w:WordDocument>
+								<w:View>Normal</w:View>
+								<w:Zoom>0</w:Zoom>
+								<w:TrackMoves />
+								<w:TrackFormatting />
+								<w:PunctuationKerning />
+								<w:ValidateAgainstSchemas />
+								<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+								<w:IgnoreMixedContent
+									>false</w:IgnoreMixedContent
+								>
+								<w:AlwaysShowPlaceholderText
+									>false</w:AlwaysShowPlaceholderText
+								>
+								<w:DoNotPromoteQF />
+								<w:LidThemeOther>EN-AU</w:LidThemeOther>
+								<w:LidThemeAsian>JA</w:LidThemeAsian>
+								<w:LidThemeComplexScript
+									>X-NONE</w:LidThemeComplexScript
+								>
+								<w:Compatibility>
+									<w:BreakWrappedTables />
+									<w:SnapToGridInCell />
+									<w:WrapTextWithPunct />
+									<w:UseAsianBreakRules />
+									<w:DontGrowAutofit />
+									<w:SplitPgBreakAndParaMark />
+									<w:EnableOpenTypeKerning />
+									<w:DontFlipMirrorIndents />
+									<w:OverrideTableStyleHps />
+									<w:UseFELayout />
+								</w:Compatibility>
+								<m:mathPr>
+									<m:mathFont m:val="Cambria Math" />
+									<m:brkBin m:val="before" />
+									<m:brkBinSub m:val="&#45;-" />
+									<m:smallFrac m:val="off" />
+									<m:dispDef />
+									<m:lMargin m:val="0" />
+									<m:rMargin m:val="0" />
+									<m:defJc m:val="centerGroup" />
+									<m:wrapIndent m:val="1440" />
+									<m:intLim m:val="subSup" />
+									<m:naryLim m:val="undOvr" /> </m:mathPr
+							></w:WordDocument> </xml><!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<w:LatentStyles
+								DefLockedState="false"
+								DefUnhideWhenUsed="true"
+								DefSemiHidden="true"
+								DefQFormat="false"
+								DefPriority="99"
+								LatentStyleCount="276"
+							>
+								<w:LsdException
+									Locked="false"
+									Priority="0"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Normal"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="heading 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 7"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 8"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 9"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 7"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 8"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 9"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="35"
+									QFormat="true"
+									Name="caption"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="10"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Title"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="1"
+									Name="Default Paragraph Font"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="11"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtitle"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="22"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Strong"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="20"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="59"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Table Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									UnhideWhenUsed="false"
+									Name="Placeholder Text"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="1"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="No Spacing"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									UnhideWhenUsed="false"
+									Name="Revision"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="34"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="List Paragraph"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="29"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Quote"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="30"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Quote"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="19"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtle Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="21"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="31"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtle Reference"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="32"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Reference"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="33"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Book Title"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="37"
+									Name="Bibliography"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									QFormat="true"
+									Name="TOC Heading"
+								/>
+							</w:LatentStyles> </xml><!
+					[endif]--><!--[if gte mso 10]>
+						<style>
+							/* Style Definitions */
+							table.MsoNormalTable {
+								mso-style-name: "Table Normal";
+								mso-tstyle-rowband-size: 0;
+								mso-tstyle-colband-size: 0;
+								mso-style-noshow: yes;
+								mso-style-priority: 99;
+								mso-style-parent: "";
+								mso-padding-alt: 0cm 5.4pt 0cm 5.4pt;
+								mso-para-margin: 0cm;
+								mso-para-margin-bottom: 0.0001pt;
+								mso-pagination: widow-orphan;
+								font-size: 10pt;
+								font-family: Cambria;
+								mso-fareast-language: EN-AU;
+							}
+						</style> <!
+					[endif]--><!--StartFragment-->
+				</p>
+				<h1 class="text-align-center">
+					<!--[if !mso]>
+						<style>
+							v\:* {
+								behavior: url(#default#VML);
+							}
+							o\:* {
+								behavior: url(#default#VML);
+							}
+							w\:* {
+								behavior: url(#default#VML);
+							}
+							.shape {
+								behavior: url(#default#VML);
+							}
+						</style> <!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<o:OfficeDocumentSettings>
+								<o:RelyOnVML />
+								<o:AllowPNG />
+							</o:OfficeDocumentSettings> </xml><!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<w:WordDocument>
+								<w:View>Normal</w:View>
+								<w:Zoom>0</w:Zoom>
+								<w:TrackMoves />
+								<w:TrackFormatting />
+								<w:PunctuationKerning />
+								<w:ValidateAgainstSchemas />
+								<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+								<w:IgnoreMixedContent
+									>false</w:IgnoreMixedContent
+								>
+								<w:AlwaysShowPlaceholderText
+									>false</w:AlwaysShowPlaceholderText
+								>
+								<w:DoNotPromoteQF />
+								<w:LidThemeOther>EN-AU</w:LidThemeOther>
+								<w:LidThemeAsian>JA</w:LidThemeAsian>
+								<w:LidThemeComplexScript
+									>X-NONE</w:LidThemeComplexScript
+								>
+								<w:Compatibility>
+									<w:BreakWrappedTables />
+									<w:SnapToGridInCell />
+									<w:WrapTextWithPunct />
+									<w:UseAsianBreakRules />
+									<w:DontGrowAutofit />
+									<w:SplitPgBreakAndParaMark />
+									<w:EnableOpenTypeKerning />
+									<w:DontFlipMirrorIndents />
+									<w:OverrideTableStyleHps />
+									<w:UseFELayout />
+								</w:Compatibility>
+								<m:mathPr>
+									<m:mathFont m:val="Cambria Math" />
+									<m:brkBin m:val="before" />
+									<m:brkBinSub m:val="&#45;-" />
+									<m:smallFrac m:val="off" />
+									<m:dispDef />
+									<m:lMargin m:val="0" />
+									<m:rMargin m:val="0" />
+									<m:defJc m:val="centerGroup" />
+									<m:wrapIndent m:val="1440" />
+									<m:intLim m:val="subSup" />
+									<m:naryLim m:val="undOvr" /> </m:mathPr
+							></w:WordDocument> </xml><!
+					[endif]--><!--[if gte mso 9
+						]><xml>
+							<w:LatentStyles
+								DefLockedState="false"
+								DefUnhideWhenUsed="true"
+								DefSemiHidden="true"
+								DefQFormat="false"
+								DefPriority="99"
+								LatentStyleCount="276"
+							>
+								<w:LsdException
+									Locked="false"
+									Priority="0"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Normal"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="heading 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 7"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 8"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="9"
+									QFormat="true"
+									Name="heading 9"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 7"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 8"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									Name="toc 9"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="35"
+									QFormat="true"
+									Name="caption"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="10"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Title"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="1"
+									Name="Default Paragraph Font"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="11"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtitle"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="22"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Strong"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="20"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="59"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Table Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									UnhideWhenUsed="false"
+									Name="Placeholder Text"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="1"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="No Spacing"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									UnhideWhenUsed="false"
+									Name="Revision"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="34"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="List Paragraph"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="29"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Quote"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="30"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Quote"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 1"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 2"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 3"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 4"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 5"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="60"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Shading Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="61"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="62"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Light Grid Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="63"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="64"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Shading 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="65"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="66"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium List 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="67"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 1 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="68"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 2 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="69"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Medium Grid 3 Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="70"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Dark List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="71"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Shading Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="72"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful List Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="73"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									Name="Colorful Grid Accent 6"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="19"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtle Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="21"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Emphasis"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="31"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Subtle Reference"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="32"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Intense Reference"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="33"
+									SemiHidden="false"
+									UnhideWhenUsed="false"
+									QFormat="true"
+									Name="Book Title"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="37"
+									Name="Bibliography"
+								/>
+								<w:LsdException
+									Locked="false"
+									Priority="39"
+									QFormat="true"
+									Name="TOC Heading"
+								/>
+							</w:LatentStyles> </xml><!
+					[endif]--><!--[if gte mso 10]>
+						<style>
+							/* Style Definitions */
+							table.MsoNormalTable {
+								mso-style-name: "Table Normal";
+								mso-tstyle-rowband-size: 0;
+								mso-tstyle-colband-size: 0;
+								mso-style-noshow: yes;
+								mso-style-priority: 99;
+								mso-style-parent: "";
+								mso-padding-alt: 0cm 5.4pt 0cm 5.4pt;
+								mso-para-margin: 0cm;
+								mso-para-margin-bottom: 0.0001pt;
+								mso-pagination: widow-orphan;
+								font-size: 10pt;
+								font-family: Cambria;
+								mso-fareast-language: EN-AU;
+							}
+						</style> <!
+					[endif]--><!--StartFragment-->
+				</h1>
+				<h1 class="text-align-center">COINCRAFT<br />PRIVACY POLICY</h1>
+				<h2 class="text-align-center">&nbsp;</h2>
+				<h2>
+					<!--[if !supportLists]-->1. &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp;&nbsp;<!--[endif]-->PURPOSE OF OUR
+					POLICY
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>1.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><span
+						>COINCRAFT PTY LTD ABN 70 600 783 720
+						<strong>(</strong></span
+					><strong>we</strong>, <strong>us</strong> or
+					<strong>our</strong>) has adopted this Privacy Policy to
+					ensure that we have standards in place to protect the
+					Personal Information that we collect about individuals that
+					is necessary and incidental to:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Providing the system and services that
+					CoinCraft offers; and
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->The normal day-to-day operations of our
+					business.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>1.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->This Privacy Policy follows the standards of
+					the Australian Privacy Principles set by the Australian
+					Government for the handling of Personal Information under
+					the <em>Privacy Act 1988</em> (Cth) (<strong
+						>Privacy Act</strong
+					>).
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>1.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->By publishing this Privacy Policy we aim to
+					make it easy for our customers and the public to understand
+					what Personal Information we collect and store, why we do
+					so, how we receive and/or obtain that information, and the
+					rights an individual has with respect to their Personal
+					Information in our possession.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->WHO AND WHAT THIS POLICY APPLIES TO
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Our Privacy Policy deals with how we handle
+					“personal information” as it is defined in the Privacy Act
+					(<strong>Personal Information</strong>).
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We handle Personal Information in our own
+					right and also for and on behalf of our customers and users.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Our Privacy Policy does not apply to
+					information we collect about businesses or companies,
+					however it does apply to information about the people in
+					those businesses or companies which we store.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.4<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->The Privacy Policy applies to all forms of
+					information, physical and digital, whether collected or
+					stored electronically or in hardcopy.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.5<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If, at any time, an individual provides
+					Personal Information or other information about someone
+					other than himself or herself, the individual warrants that
+					they have that person's consent to provide such information
+					for the purpose specified.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>2.6<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Our website and services are unavailable to
+					children (persons under the age of 18 years).
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->THE INFORMATION WE COLLECT
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>3.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->In the course of business it is necessary for
+					us to collect Personal Information. This information allows
+					us to identify who an individual is for the purposes of our
+					business, share Personal Information when asked of us,
+					contact the individual in the ordinary course of business
+					and transact with the individual.&nbsp; Without limitation,
+					the type of information we may collect is:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Personal Information.</strong>&nbsp;
+					We may collect personal details such as an individual’s
+					name, location, date of birth, nationality, family details
+					and other information defined as “Personal Information” in
+					the Privacy Act that allows us to identify who the
+					individual is;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Contact Information.</strong>&nbsp;
+					We may collect information such as an individual’s email
+					address, telephone &amp; fax number, third-party usernames,
+					residential, business and postal address and other
+					information that allows us to contact the individual;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(c)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Financial Information.</strong>&nbsp;
+					We may collect financial information related to an
+					individual such as any bank or credit card details used to
+					transact with us and other information that allows us to
+					transact with the individual and/or provide them with our
+					services;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(d)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Statistical Information.</strong
+					>&nbsp; We may collect information about an individual’s
+					online and offline preferences, habits, movements, trends,
+					decisions, associations, memberships, finances, purchases
+					and other information for statistical purposes; and
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(e)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong
+						>Information an individual sends us.</strong
+					>&nbsp; We may collect any personal correspondence that an
+					individual sends us, or that is sent to us by others about
+					the individual’s activities.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>3.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may collect other Personal Information
+					about an individual, which we will maintain in accordance
+					with this Privacy Policy.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>3.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may also collect non-Personal Information
+					about an individual such as information regarding their
+					computer, network and browser.&nbsp; This may include their
+					IP address. Where non-Personal Information is collected the
+					Australian Privacy Principles do not apply.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->HOW INFORMATION IS COLLECTED
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>4.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Most information will be collected in
+					association with an individual’s use of CoinCraft, an
+					enquiry about CoinCraft or generally dealing with us.&nbsp;
+					However we may also receive Personal Information from
+					sources such as advertising, an individual’s own promotions,
+					public records, mailing lists, contractors, staff,
+					recruitment agencies and our business partners.&nbsp; In
+					particular, information is likely to be collected as
+					follows:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Registrations/Subscriptions.</strong
+					>&nbsp; When an individual registers or subscribes for a
+					service, list, account, connection or other process whereby
+					they enter Personal Information details in order to receive
+					or access something, including a transaction;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Accounts/Memberships.</strong>&nbsp;
+					When an individual submits their details to open an account
+					and/or become a member with us;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(c)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Supply. </strong>&nbsp;When an
+					individual supplies us with goods or services;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(d)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Contact.</strong>&nbsp; When an
+					individual contacts us in any way;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(e)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Access. </strong>&nbsp;When an
+					individual accesses us physically we may require them to
+					provide us with details for us to permit them such
+					access.&nbsp; When an individual accesses us through the
+					internet we may collect information using cookies (if
+					relevant – an individual can adjust their browser’s setting
+					to accept or reject cookies) or analytical services; and/or
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(f)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Pixel Tags. </strong>Pixel tags
+					enable us to send email messages in a format customers can
+					read and they tell us whether mail has been opened.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>4.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->As there are many circumstances in which we
+					may collect information both electronically and physically,
+					we will endeavour to ensure that an individual is always
+					aware of when their Personal Information is being collected.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>4.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Where we obtain Personal Information without
+					an individual’s knowledge (such as by accidental acquisition
+					from a client) we will either delete/destroy the
+					information, or inform the individual that we hold such
+					information, in accordance with the Australian Privacy
+					Principles.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->WHEN PERSONAL INFORMATION IS USED &amp;
+					DISCLOSED
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->In general, the primary principle is that we
+					will not use any Personal Information other than for the
+					purpose for which it was collected other than with the
+					individual’s permission.&nbsp; The purpose of collection is
+					determined by the circumstances in which the information was
+					collected and/or submitted.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We will retain Personal Information for the
+					period necessary to fulfil the purposes outlined in this
+					Privacy Policy unless a longer retention period is required
+					or permitted by law.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If it is necessary for us to disclose an
+					individual’s Personal Information to third parties in a
+					manner compliant with the Australian Privacy Principles in
+					the course of our business, we will inform you that we
+					intend to do so, or have done so, as soon as practical.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.4<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We will not disclose or sell an individual’s
+					Personal Information to unrelated third parties under any
+					circumstances.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.5<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Information is used to enable us to operate
+					our business, especially as it relates to an
+					individual.&nbsp; This may include:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+							&nbsp;&nbsp;(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->The provision of goods and services between
+					an individual and us;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Verifying an individual’s identity;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(c)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Communicating with an individual about:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(d)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Their relationship with us;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(e)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Our goods and services;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(f)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Our own marketing and promotions to customers
+					and prospects;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(g)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Competitions, surveys and questionnaires;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(h)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Investigating any complaints about or made by
+					an individual, or if we have reason to suspect that an
+					individual is
+					<strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong
+					><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong
+					>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />&nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp;in breach of any of our terms and
+					conditions or that an individual is or has been otherwise
+					engaged in any &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;unlawful
+					activity; and/or
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(i)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->As required or permitted by any law
+					(including the Privacy Act).
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.6<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->There are some circumstances in which we must
+					disclose an individual’s information:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Where we reasonably believe that an
+					individual may be engaged in fraudulent, deceptive or
+					unlawful activity that<br />&nbsp;&nbsp; &nbsp; &nbsp;
+					&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					&nbsp;&nbsp;a governmental authority should be made aware
+					of;
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->As required by any law (including the Privacy
+					Act); and/or
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span
+							>(c)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->In order to sell our business (in that we may
+					need to transfer Personal Information to a new owner).
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.7<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We will not disclose an individual’s Personal
+					Information to any entity outside of Australia that is in a
+					jurisdiction that does not have a similar regime to the
+					Australian Privacy Principles or an implemented and
+					enforceable privacy policy similar to this Privacy Policy.
+					We will take reasonable steps to ensure that any disclosure
+					to an entity outside of Australia will not be made until
+					that entity has agreed in writing with us to safeguard
+					Personal Information as we do.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>5.8<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may utilise third-pay service providers
+					(such as Gmail from Google, Inc., and MailChimp from The
+					Rocket Science Group LLC) to communicate with an individual
+					and to store contact details about an individual. These
+					service providers are located in the United States of
+					America. No Health Information is stored in any third-party
+					services in Australia or elsewhere.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->OPTING “IN” OR “OUT”
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>6.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->An individual may opt to not have us collect
+					their Personal Information.&nbsp; This may prevent us from
+					offering them some or all of our services and may terminate
+					their access to some or all of the services they access with
+					or through us.&nbsp; They will be aware of this when:
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(a)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Opt In.</strong>&nbsp; Where
+					relevant, the individual will have the right to choose to
+					have information collected and/or receive information from
+					us; or
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>(b)<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]--><strong>Opt Out.</strong>&nbsp; Where
+					relevant, the individual will have the right to choose to
+					exclude himself or herself from some or all collection of
+					information and/or receiving information from us.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>6.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If an individual believes that they have
+					received information from us that they did not opt in or out
+					to receive, they should contact us on the details below.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->THE SAFETY &amp; SECURITY OF PERSONAL
+					INFORMATION
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may appoint a Privacy Officer to oversee
+					the management of this Privacy Policy and compliance with
+					the Australian Privacy Principles and the Privacy Act.&nbsp;
+					This officer may have other duties within our business and
+					also be assisted by internal and external professionals and
+					advisors.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We will take all reasonable precautions to
+					protect an individual’s Personal Information from
+					unauthorised access.&nbsp; This includes appropriately
+					securing our physical facilities and electronic networks.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->CoinCraft uses SSL encryption to store and
+					transfer Personal Information. Despite this, the security of
+					online transactions and the security of communications sent
+					by electronic means or by post cannot be guaranteed.&nbsp;
+					Each individual that provides information to us via the
+					internet or by post does so at their own risk.&nbsp; We
+					cannot accept responsibility for misuse or loss of, or
+					unauthorised access to, Personal Information where the
+					security of information is not within our control.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.4<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We are not responsible for the privacy or
+					security practices of any third party (including third
+					parties that we are permitted to disclose an individual’s
+					Personal Information to in accordance with this policy or
+					any applicable laws).&nbsp; The collection and use of an
+					individual’s information by such third parties may be
+					subject to separate privacy and security policies.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.5<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If an individual suspects any misuse or loss
+					of, or unauthorised access to, their Personal Information,
+					they should let us know immediately.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>7.6<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We are not liable for any loss, damage or
+					claim arising out of another person’s use of the Personal
+					Information where we were authorised to provide that person
+					with the Personal Information.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->HOW TO ACCESS AND/OR UPDATE INFORMATION
+				</h2>
+				<p>&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>8.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Users of CoinCraft can update their Personal
+					Information from within their CoinCraft account or profile.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>8.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->Subject to the Australian Privacy Principles,
+					an individual has the right to request from us the Personal
+					Information that we have about them, and we have an
+					obligation to provide them with such information within 28
+					days of receiving their written request.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>8.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If an individual cannot update its own
+					information, we will correct any errors in the Personal
+					Information we hold about an individual within 7 days of
+					receiving written notice from them about those errors.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>8.4<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->It is an individual’s responsibility to
+					provide us with accurate and truthful Personal Information.
+					We cannot be liable for any information that is provided to
+					us that is incorrect.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>8.5<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may charge an individual a reasonable fee
+					for our costs incurred in meeting any of their requests to
+					disclose the Personal Information we hold about them.
+				</p>
+				<p>&nbsp;</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->COMPLAINTS AND DISPUTES
+				</h2>
+				<p>&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>9.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If an individual has a complaint about our
+					handling of their Personal Information, they should address
+					their complaint in writing to the details below.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>9.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If we have a dispute regarding an
+					individual’s Personal Information, we both must first
+					attempt to resolve the issue directly between us.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>9.3<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If we become aware of any unauthorised access
+					to an individual’s Personal Information we will inform them
+					at the earliest practical opportunity once we have
+					established what was accessed and how it was accessed.
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					<!--[if !supportLists]-->10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->CONTACTING INDIVIDUALS
+				</h2>
+				<p>&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>10.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->From time to time, we may send an individual
+					important notices, such as changes to our terms, conditions
+					and policies. Because this information is important to the
+					individual’s interaction with us, they may not opt out of
+					receiving these communications.<!--[if !supportLists]-->
+				</p>
+				<p>&nbsp;</p>
+				<h2>
+					11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->CONTACTING US
+				</h2>
+				<p>&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>11.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->All correspondence with regards to privacy
+					should be addressed to:
+				</p>
+				<p style="margin-left: 36pt; text-align: justify">
+					The Privacy Officer<br />CoinCraft Pty Ltd
+				</p>
+				<p style="margin-left: 36pt; text-align: justify">
+					24 Parsons St<br />Kensington<br />VIC 3031, Australia
+				</p>
+				<p style="margin-left: 36pt; text-align: justify">
+					hello@coincraft.co
+				</p>
+				<p
+					style="
+						margin-left: 36pt;
+						margin-right: 0cm;
+						text-align: justify;
+					"
+				>
+					You may contact the Privacy Officer by email in the first
+					instance.
+				</p>
+				<p
+					style="
+						margin-left: 36pt;
+						margin-right: 0cm;
+						text-align: justify;
+					"
+				>
+					&nbsp;
+				</p>
+				<h2>
+					<!--[if !supportLists]-->12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<!--[endif]-->ADDITIONS TO THIS POLICY
+				</h2>
+				<p dir="ltr">&nbsp;</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>12.1<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->If we decide to change this Privacy Policy,
+					we will post the changes on our webpage at www.coincraft.co.
+					Please refer back to this Privacy Policy to review any
+					amendments.
+				</p>
+				<p>
+					<!--[if !supportLists]--><strong
+						><span
+							>12.2<span style="font-size: 7pt"
+								>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</span></span
+						></strong
+					><!--[endif]-->We may do things in addition to what is
+					stated in this Privacy Policy to comply with the Australian
+					Privacy Principles, and nothing in this Privacy Policy shall
+					deem us to have not complied with the Australian Privacy
+					Principles.
+				</p>
+				<p><!--EndFragment--></p>
+				<p><!--EndFragment--></p>
+			</div>
+		</section>
+
+		<section id="footer" class="black-pattern-bg">
+			<img class="cc-icon" src="../images/coincraft-icon.svg" /><br />
+			<p>
+				<span data-remodal-target="mailinglist-modal" class="signup-btn"
+					>Join Our Mailing List</span
+				>
+				<span data-remodal-target="signup-modal" class="signup-btn"
+					>Try Coincraft for Free!</span
+				>
+				<span data-remodal-target="contact-modal" class="signup-btn"
+					>Contact Us</span
+				>
+			</p>
+			<div class="copyright">
+				<span class="copy-text"
+					>Copyright ©2016, Coincraft Pty Ltd. All rights
+					reserved.</span
+				>
+			</div>
+		</section>
+
+		<div class="remodal signup-modal" data-remodal-id="signup-modal"></div>
+
+		<div
+			class="remodal contact-modal"
+			data-remodal-id="contact-modal"
+		></div>
+
+		<div
+			class="remodal mailinglist-modal"
+			data-remodal-id="mailinglist-modal"
+		>
+			<button data-remodal-action="close" class="remodal-close"></button>
+			<h2 style="margin-bottom: 1em">Join Our Mailing List</h2>
+			<!-- Begin MailChimp Signup Form -->
+			<div id="mc_embed_signup">
+				<form
+					action="https://coincraft.us9.list-manage.com/subscribe/post?u=bb7db9e7602566aa5f2ea7f6e&amp;id=b36b5fda76"
+					method="post"
+					id="mc-embedded-subscribe-form"
+					name="mc-embedded-subscribe-form"
+					class="validate"
+					target="_blank"
+					novalidate
+				>
+					<div id="mc_embed_signup_scroll">
+						<div class="mc-field-group">
+							<label for="mce-EMAIL">Email Address </label>
+							<input
+								type="email"
+								value=""
+								name="EMAIL"
+								class="required email"
+								id="mce-EMAIL"
+							/>
+						</div>
+						<div id="mce-responses" class="clear">
+							<div
+								class="response"
+								id="mce-error-response"
+								style="display: none"
+							></div>
+							<div
+								class="response"
+								id="mce-success-response"
+								style="display: none"
+							></div>
+						</div>
+						<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+						<div
+							style="position: absolute; left: -5000px"
+							aria-hidden="true"
+						>
+							<input
+								type="text"
+								name="b_bb7db9e7602566aa5f2ea7f6e_b36b5fda76"
+								tabindex="-1"
+								value=""
+							/>
+						</div>
+						<div class="clear">
+							<input
+								type="submit"
+								value="Subscribe"
+								name="subscribe"
+								id="mc-embedded-subscribe"
+								class="remodal-confirm button"
+							/>
 						</div>
 					</div>
-				)
-			}
-		});
-
-
-
-    	React.render(<SignupModal/>, $('.signup-modal')[0]);
-    	React.render(<ContactModal/>, $('.contact-modal')[0]);
-
-	</script>
-
-	<nav id="navigation" class="black-bg">
-		<img class="logo" src="../images/coincraft-logo-horizontal.svg" />
-		<ul>
-			<li><a href="../index.html">Tour</a></li>
-			<li><a href="../pricing.html">Pricing</a></li>
-			<!-- <li><a href="../blog.html">Blog</a></li> -->
-			<li><a href="https://app.coincraft.co/" target="_blank">Login</a></li>
-			<li data-remodal-target="contact-modal">Contact</li>
-			<li data-remodal-target="signup-modal" class="boxed">Try Coincraft for Free!</li>
-		</ul>
-	</nav>
-	<section id="intro" class="grey-bg" style="">
-		<div style="margin-top: 5em; text-align:left; display: inline-block; max-width: 920px;"><p><!--[if !mso]>
-<style>
-v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
-</style>
-<![endif]--><!--[if gte mso 9]><xml>
- <o:OfficeDocumentSettings>
-<o:RelyOnVML/>
-<o:AllowPNG/>
- </o:OfficeDocumentSettings>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:WordDocument>
-<w:View>Normal</w:View>
-<w:Zoom>0</w:Zoom>
-<w:TrackMoves/>
-<w:TrackFormatting/>
-<w:PunctuationKerning/>
-<w:ValidateAgainstSchemas/>
-<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-<w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-<w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-<w:DoNotPromoteQF/>
-<w:LidThemeOther>EN-AU</w:LidThemeOther>
-<w:LidThemeAsian>JA</w:LidThemeAsian>
-<w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-<w:Compatibility>
- <w:BreakWrappedTables/>
- <w:SnapToGridInCell/>
- <w:WrapTextWithPunct/>
- <w:UseAsianBreakRules/>
- <w:DontGrowAutofit/>
- <w:SplitPgBreakAndParaMark/>
- <w:EnableOpenTypeKerning/>
- <w:DontFlipMirrorIndents/>
- <w:OverrideTableStyleHps/>
- <w:UseFELayout/>
-</w:Compatibility>
-<m:mathPr>
- <m:mathFont m:val="Cambria Math"/>
- <m:brkBin m:val="before"/>
- <m:brkBinSub m:val="&#45;-"/>
- <m:smallFrac m:val="off"/>
- <m:dispDef/>
- <m:lMargin m:val="0"/>
- <m:rMargin m:val="0"/>
- <m:defJc m:val="centerGroup"/>
- <m:wrapIndent m:val="1440"/>
- <m:intLim m:val="subSup"/>
- <m:naryLim m:val="undOvr"/>
-</m:mathPr></w:WordDocument>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
-DefSemiHidden="true" DefQFormat="false" DefPriority="99"
-LatentStyleCount="276">
-<w:LsdException Locked="false" Priority="0" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
-<w:LsdException Locked="false" Priority="9" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 1"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 2"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 3"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 4"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 5"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 6"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 7"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 8"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 9"/>
-<w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
-<w:LsdException Locked="false" Priority="10" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Title"/>
-<w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
-<w:LsdException Locked="false" Priority="11" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
-<w:LsdException Locked="false" Priority="22" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
-<w:LsdException Locked="false" Priority="20" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
-<w:LsdException Locked="false" Priority="59" SemiHidden="false"
- UnhideWhenUsed="false" Name="Table Grid"/>
-<w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
-<w:LsdException Locked="false" Priority="1" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 1"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
-<w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
-<w:LsdException Locked="false" Priority="34" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
-<w:LsdException Locked="false" Priority="29" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
-<w:LsdException Locked="false" Priority="30" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 1"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 2"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 2"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 3"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 3"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 4"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 4"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 5"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 5"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 6"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 6"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
-<w:LsdException Locked="false" Priority="19" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
-<w:LsdException Locked="false" Priority="21" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
-<w:LsdException Locked="false" Priority="31" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
-<w:LsdException Locked="false" Priority="32" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
-<w:LsdException Locked="false" Priority="33" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
-<w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
-<w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
- </w:LatentStyles>
-</xml><![endif]--><!--[if gte mso 10]>
-<style>
- /* Style Definitions */
-table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
-	mso-para-margin:0cm;
-	mso-para-margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:10.0pt;
-	font-family:Cambria;
-	mso-fareast-language:EN-AU;}
-</style>
-<![endif]--><!--StartFragment--></p><h1 class="text-align-center"><!--[if !mso]>
-<style>
-v\:* {behavior:url(#default#VML);}
-o\:* {behavior:url(#default#VML);}
-w\:* {behavior:url(#default#VML);}
-.shape {behavior:url(#default#VML);}
-</style>
-<![endif]--><!--[if gte mso 9]><xml>
- <o:OfficeDocumentSettings>
-<o:RelyOnVML/>
-<o:AllowPNG/>
- </o:OfficeDocumentSettings>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:WordDocument>
-<w:View>Normal</w:View>
-<w:Zoom>0</w:Zoom>
-<w:TrackMoves/>
-<w:TrackFormatting/>
-<w:PunctuationKerning/>
-<w:ValidateAgainstSchemas/>
-<w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
-<w:IgnoreMixedContent>false</w:IgnoreMixedContent>
-<w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
-<w:DoNotPromoteQF/>
-<w:LidThemeOther>EN-AU</w:LidThemeOther>
-<w:LidThemeAsian>JA</w:LidThemeAsian>
-<w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
-<w:Compatibility>
- <w:BreakWrappedTables/>
- <w:SnapToGridInCell/>
- <w:WrapTextWithPunct/>
- <w:UseAsianBreakRules/>
- <w:DontGrowAutofit/>
- <w:SplitPgBreakAndParaMark/>
- <w:EnableOpenTypeKerning/>
- <w:DontFlipMirrorIndents/>
- <w:OverrideTableStyleHps/>
- <w:UseFELayout/>
-</w:Compatibility>
-<m:mathPr>
- <m:mathFont m:val="Cambria Math"/>
- <m:brkBin m:val="before"/>
- <m:brkBinSub m:val="&#45;-"/>
- <m:smallFrac m:val="off"/>
- <m:dispDef/>
- <m:lMargin m:val="0"/>
- <m:rMargin m:val="0"/>
- <m:defJc m:val="centerGroup"/>
- <m:wrapIndent m:val="1440"/>
- <m:intLim m:val="subSup"/>
- <m:naryLim m:val="undOvr"/>
-</m:mathPr></w:WordDocument>
-</xml><![endif]--><!--[if gte mso 9]><xml>
- <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
-DefSemiHidden="true" DefQFormat="false" DefPriority="99"
-LatentStyleCount="276">
-<w:LsdException Locked="false" Priority="0" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
-<w:LsdException Locked="false" Priority="9" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
-<w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 1"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 2"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 3"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 4"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 5"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 6"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 7"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 8"/>
-<w:LsdException Locked="false" Priority="39" Name="toc 9"/>
-<w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
-<w:LsdException Locked="false" Priority="10" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Title"/>
-<w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
-<w:LsdException Locked="false" Priority="11" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
-<w:LsdException Locked="false" Priority="22" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
-<w:LsdException Locked="false" Priority="20" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
-<w:LsdException Locked="false" Priority="59" SemiHidden="false"
- UnhideWhenUsed="false" Name="Table Grid"/>
-<w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
-<w:LsdException Locked="false" Priority="1" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 1"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
-<w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
-<w:LsdException Locked="false" Priority="34" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
-<w:LsdException Locked="false" Priority="29" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
-<w:LsdException Locked="false" Priority="30" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 1"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 2"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 2"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 3"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 3"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 4"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 4"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 5"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 5"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
-<w:LsdException Locked="false" Priority="60" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
-<w:LsdException Locked="false" Priority="61" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light List Accent 6"/>
-<w:LsdException Locked="false" Priority="62" SemiHidden="false"
- UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
-<w:LsdException Locked="false" Priority="63" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="64" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="65" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="66" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="67" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
-<w:LsdException Locked="false" Priority="68" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
-<w:LsdException Locked="false" Priority="69" SemiHidden="false"
- UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
-<w:LsdException Locked="false" Priority="70" SemiHidden="false"
- UnhideWhenUsed="false" Name="Dark List Accent 6"/>
-<w:LsdException Locked="false" Priority="71" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
-<w:LsdException Locked="false" Priority="72" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
-<w:LsdException Locked="false" Priority="73" SemiHidden="false"
- UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
-<w:LsdException Locked="false" Priority="19" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
-<w:LsdException Locked="false" Priority="21" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
-<w:LsdException Locked="false" Priority="31" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
-<w:LsdException Locked="false" Priority="32" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
-<w:LsdException Locked="false" Priority="33" SemiHidden="false"
- UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
-<w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
-<w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
- </w:LatentStyles>
-</xml><![endif]--><!--[if gte mso 10]>
-<style>
- /* Style Definitions */
-table.MsoNormalTable
-	{mso-style-name:"Table Normal";
-	mso-tstyle-rowband-size:0;
-	mso-tstyle-colband-size:0;
-	mso-style-noshow:yes;
-	mso-style-priority:99;
-	mso-style-parent:"";
-	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
-	mso-para-margin:0cm;
-	mso-para-margin-bottom:.0001pt;
-	mso-pagination:widow-orphan;
-	font-size:10.0pt;
-	font-family:Cambria;
-	mso-fareast-language:EN-AU;}
-</style>
-<![endif]--><!--StartFragment--></h1><h1 class="text-align-center">COINCRAFT<br>PRIVACY POLICY</h1><h2 class="text-align-center">&nbsp;</h2><h2><!--[if !supportLists]-->1. &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<!--[endif]-->PURPOSE OF OUR POLICY</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>1.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><span>COINCRAFT PTY LTD ABN 70 600 783 720 <strong>(</strong></span><strong>we</strong>, <strong>us</strong> or <strong>our</strong>) has adopted this Privacy Policy to ensure that we have standards in place to protect the Personal Information that we collect about individuals that is necessary and incidental to:</p><p><!--[if !supportLists]--><strong><span>(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Providing the system and services that CoinCraft offers; and</p><p><!--[if !supportLists]--><strong><span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->The normal day-to-day operations of our business.</p><p><!--[if !supportLists]--><strong><span>1.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->This Privacy Policy follows the standards of the Australian Privacy Principles set by the Australian Government for the handling of Personal Information under the <em>Privacy Act 1988</em> (Cth) (<strong>Privacy Act</strong>).</p><p><!--[if !supportLists]--><strong><span>1.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->By publishing this Privacy Policy we aim to make it easy for our customers and the public to understand what Personal Information we collect and store, why we do so, how we receive and/or obtain that information, and the rights an individual has with respect to their Personal Information in our possession.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->WHO AND WHAT THIS POLICY APPLIES TO</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>2.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Our Privacy Policy deals with how we handle “personal information” as it is defined in the Privacy Act (<strong>Personal Information</strong>).</p><p><!--[if !supportLists]--><strong><span>2.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We handle Personal Information in our own right and also for and on behalf of our customers and users.</p><p><!--[if !supportLists]--><strong><span>2.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Our Privacy Policy does not apply to information we collect about businesses or companies, however it does apply to information about the people in those businesses or companies which we store.</p><p><!--[if !supportLists]--><strong><span>2.4<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->The Privacy Policy applies to all forms of information, physical and digital, whether collected or stored electronically or in hardcopy.</p><p><!--[if !supportLists]--><strong><span>2.5<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If, at any time, an individual provides Personal Information or other information about someone other than himself or herself, the individual warrants that they have that person's consent to provide such information for the purpose specified.</p><p><!--[if !supportLists]--><strong><span>2.6<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Our website and services are unavailable to children (persons under the age of 18 years).</p><p>&nbsp;</p><h2><!--[if !supportLists]-->3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->THE INFORMATION WE COLLECT</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>3.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->In the course of business it is necessary for us to collect Personal Information. This information allows us to identify who an individual is for the purposes of our business, share Personal Information when asked of us, contact the individual in the ordinary course of business and transact with the individual.&nbsp; Without limitation, the type of information we may collect is:</p><p><!--[if !supportLists]--><strong><span>(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Personal Information.</strong>&nbsp; We may collect personal details such as an individual’s name, location, date of birth, nationality, family details and other information defined as “Personal Information” in the Privacy Act that allows us to identify who the individual is;</p><p><!--[if !supportLists]--><strong><span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Contact Information.</strong>&nbsp; We may collect information such as an individual’s email address, telephone &amp; fax number, third-party usernames, residential, business and postal address and other information that allows us to contact the individual;</p><p><!--[if !supportLists]--><strong><span>(c)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Financial Information.</strong>&nbsp; We may collect financial information related to an individual such as any bank or credit card details used to transact with us and other information that allows us to transact with the individual and/or provide them with our services;</p><p><!--[if !supportLists]--><strong><span>(d)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Statistical Information.</strong>&nbsp; We may collect information about an individual’s online and offline preferences, habits, movements, trends, decisions, associations, memberships, finances, purchases and other information for statistical purposes; and</p><p><!--[if !supportLists]--><strong><span>(e)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Information an individual sends us.</strong>&nbsp; We may collect any personal correspondence that an individual sends us, or that is sent to us by others about the individual’s activities.</p><p><!--[if !supportLists]--><strong><span>3.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may collect other Personal Information about an individual, which we will maintain in accordance with this Privacy Policy.</p><p><!--[if !supportLists]--><strong><span>3.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may also collect non-Personal Information about an individual such as information regarding their computer, network and browser.&nbsp; This may include their IP address. Where non-Personal Information is collected the Australian Privacy Principles do not apply.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->HOW INFORMATION IS COLLECTED</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>4.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Most information will be collected in association with an individual’s use of CoinCraft, an enquiry about CoinCraft or generally dealing with us.&nbsp; However we may also receive Personal Information from sources such as advertising, an individual’s own promotions, public records, mailing lists, contractors, staff, recruitment agencies and our business partners.&nbsp; In particular, information is likely to be collected as follows:</p><p><!--[if !supportLists]--><strong><span>(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Registrations/Subscriptions.</strong>&nbsp; When an individual registers or subscribes for a service, list, account, connection or other process whereby they enter Personal Information details in order to receive or access something, including a transaction;</p><p><!--[if !supportLists]--><strong><span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Accounts/Memberships.</strong>&nbsp; When an individual submits their details to open an account and/or become a member with us;</p><p><!--[if !supportLists]--><strong><span>(c)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Supply. </strong>&nbsp;When an individual supplies us with goods or services;</p><p><!--[if !supportLists]--><strong><span>(d)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Contact.</strong>&nbsp; When an individual contacts us in any way;</p><p><!--[if !supportLists]--><strong><span>(e)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Access. </strong>&nbsp;When an individual accesses us physically we may require them to provide us with details for us to permit them such access.&nbsp; When an individual accesses us through the internet we may collect information using cookies (if relevant – an individual can adjust their browser’s setting to accept or reject cookies) or analytical services; and/or</p><p><!--[if !supportLists]--><strong><span>(f)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Pixel Tags. </strong>Pixel tags enable us to send email messages in a format customers can read and they tell us whether mail has been opened.</p><p><!--[if !supportLists]--><strong><span>4.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->As there are many circumstances in which we may collect information both electronically and physically, we will endeavour to ensure that an individual is always aware of when their Personal Information is being collected.</p><p><!--[if !supportLists]--><strong><span>4.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Where we obtain Personal Information without an individual’s knowledge (such as by accidental acquisition from a client) we will either delete/destroy the information, or inform the individual that we hold such information, in accordance with the Australian Privacy Principles.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->WHEN PERSONAL INFORMATION IS USED &amp; DISCLOSED</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>5.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->In general, the primary principle is that we will not use any Personal Information other than for the purpose for which it was collected other than with the individual’s permission.&nbsp; The purpose of collection is determined by the circumstances in which the information was collected and/or submitted.</p><p><!--[if !supportLists]--><strong><span>5.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We will retain Personal Information for the period necessary to fulfil the purposes outlined in this Privacy Policy unless a longer retention period is required or permitted by law.</p><p><!--[if !supportLists]--><strong><span>5.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If it is necessary for us to disclose an individual’s Personal Information to third parties in a manner compliant with the Australian Privacy Principles in the course of our business, we will inform you that we intend to do so, or have done so, as soon as practical.</p><p><!--[if !supportLists]--><strong><span>5.4<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We will not disclose or sell an individual’s Personal Information to unrelated third parties under any circumstances.</p><p><!--[if !supportLists]--><strong><span>5.5<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Information is used to enable us to operate our business, especially as it relates to an individual.&nbsp; This may include:</p><p><!--[if !supportLists]--><strong><span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->The provision of goods and services between an individual and us;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Verifying an individual’s identity;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(c)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Communicating with an individual about:</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(d)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Their relationship with us;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(e)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Our goods and services;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(f)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Our own marketing and promotions to customers and prospects;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(g)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Competitions, surveys and questionnaires;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(h)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Investigating any complaints about or made by an individual, or if we have reason to suspect that an individual is <strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</strong>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;in breach of any of our terms and conditions or that an individual is or has been otherwise engaged in any &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;unlawful activity; and/or</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(i)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->As required or permitted by any law (including the Privacy Act).</p><p><!--[if !supportLists]--><strong><span>5.6<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->There are some circumstances in which we must disclose an individual’s information:</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Where we reasonably believe that an individual may be engaged in fraudulent, deceptive or unlawful activity that<br>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;a governmental authority should be made aware of;</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->As required by any law (including the Privacy Act); and/or</p><p><!--[if !supportLists]--><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span>(c)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->In order to sell our business (in that we may need to transfer Personal Information to a new owner).</p><p><!--[if !supportLists]--><strong><span>5.7<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We will not disclose an individual’s Personal Information to any entity outside of Australia that is in a jurisdiction that does not have a similar regime to the Australian Privacy Principles or an implemented and enforceable privacy policy similar to this Privacy Policy. We will take reasonable steps to ensure that any disclosure to an entity outside of Australia will not be made until that entity has agreed in writing with us to safeguard Personal Information as we do.</p><p><!--[if !supportLists]--><strong><span>5.8<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may utilise third-pay service providers (such as Gmail from Google, Inc., and MailChimp from The Rocket Science Group LLC) to communicate with an individual and to store contact details about an individual. These service providers are located in the United States of America. No Health Information is stored in any third-party services in Australia or elsewhere.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->OPTING “IN” OR “OUT”</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>6.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->An individual may opt to not have us collect their Personal Information.&nbsp; This may prevent us from offering them some or all of our services and may terminate their access to some or all of the services they access with or through us.&nbsp; They will be aware of this when:</p><p><!--[if !supportLists]--><strong><span>(a)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Opt In.</strong>&nbsp; Where relevant, the individual will have the right to choose to have information collected and/or receive information from us; or</p><p><!--[if !supportLists]--><strong><span>(b)<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]--><strong>Opt Out.</strong>&nbsp; Where relevant, the individual will have the right to choose to exclude himself or herself from some or all collection of information and/or receiving information from us.</p><p><!--[if !supportLists]--><strong><span>6.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If an individual believes that they have received information from us that they did not opt in or out to receive, they should contact us on the details below.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->THE SAFETY &amp; SECURITY OF PERSONAL INFORMATION</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>7.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may appoint a Privacy Officer to oversee the management of this Privacy Policy and compliance with the Australian Privacy Principles and the Privacy Act.&nbsp; This officer may have other duties within our business and also be assisted by internal and external professionals and advisors.</p><p><!--[if !supportLists]--><strong><span>7.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We will take all reasonable precautions to protect an individual’s Personal Information from unauthorised access.&nbsp; This includes appropriately securing our physical facilities and electronic networks.</p><p><!--[if !supportLists]--><strong><span>7.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->CoinCraft uses SSL encryption to store and transfer Personal Information. Despite this, the security of online transactions and the security of communications sent by electronic means or by post cannot be guaranteed.&nbsp; Each individual that provides information to us via the internet or by post does so at their own risk.&nbsp; We cannot accept responsibility for misuse or loss of, or unauthorised access to, Personal Information where the security of information is not within our control.</p><p><!--[if !supportLists]--><strong><span>7.4<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We are not responsible for the privacy or security practices of any third party (including third parties that we are permitted to disclose an individual’s Personal Information to in accordance with this policy or any applicable laws).&nbsp; The collection and use of an individual’s information by such third parties may be subject to separate privacy and security policies.</p><p><!--[if !supportLists]--><strong><span>7.5<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If an individual suspects any misuse or loss of, or unauthorised access to, their Personal Information, they should let us know immediately.</p><p><!--[if !supportLists]--><strong><span>7.6<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We are not liable for any loss, damage or claim arising out of another person’s use of the Personal Information where we were authorised to provide that person with the Personal Information.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->HOW TO ACCESS AND/OR UPDATE INFORMATION</h2><p>&nbsp;</p><p><!--[if !supportLists]--><strong><span>8.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Users of CoinCraft can update their Personal Information from within their CoinCraft account or profile.</p><p><!--[if !supportLists]--><strong><span>8.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->Subject to the Australian Privacy Principles, an individual has the right to request from us the Personal Information that we have about them, and we have an obligation to provide them with such information within 28 days of receiving their written request.</p><p><!--[if !supportLists]--><strong><span>8.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If an individual cannot update its own information, we will correct any errors in the Personal Information we hold about an individual within 7 days of receiving written notice from them about those errors.</p><p><!--[if !supportLists]--><strong><span>8.4<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->It is an individual’s responsibility to provide us with accurate and truthful Personal Information. We cannot be liable for any information that is provided to us that is incorrect.</p><p><!--[if !supportLists]--><strong><span>8.5<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may charge an individual a reasonable fee for our costs incurred in meeting any of their requests to disclose the Personal Information we hold about them.</p><p>&nbsp;</p><p>&nbsp;</p><h2><!--[if !supportLists]-->9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->COMPLAINTS AND DISPUTES</h2><p>&nbsp;</p><p><!--[if !supportLists]--><strong><span>9.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If an individual has a complaint about our handling of their Personal Information, they should address their complaint in writing to the details below.</p><p><!--[if !supportLists]--><strong><span>9.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If we have a dispute regarding an individual’s Personal Information, we both must first attempt to resolve the issue directly between us.</p><p><!--[if !supportLists]--><strong><span>9.3<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If we become aware of any unauthorised access to an individual’s Personal Information we will inform them at the earliest practical opportunity once we have established what was accessed and how it was accessed.</p><p>&nbsp;</p><h2><!--[if !supportLists]-->10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->CONTACTING INDIVIDUALS</h2><p>&nbsp;</p><p><!--[if !supportLists]--><strong><span>10.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->From time to time, we may send an individual important notices, such as changes to our terms, conditions and policies. Because this information is important to the individual’s interaction with us, they may not opt out of receiving these communications.<!--[if !supportLists]--></p><p>&nbsp;</p><h2>11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->CONTACTING US</h2><p>&nbsp;</p><p><!--[if !supportLists]--><strong><span>11.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->All correspondence with regards to privacy should be addressed to:</p><p style="margin-left:36.0pt; text-align:justify">The Privacy Officer<br>CoinCraft Pty Ltd</p><p style="margin-left:36.0pt; text-align:justify">24 Parsons St<br>Kensington<br>VIC 3031, Australia</p><p style="margin-left:36.0pt; text-align:justify">hello@coincraft.co</p><p style="margin-left:36.0pt; margin-right:0cm; text-align:justify">You may contact the Privacy Officer by email in the first instance.</p><p style="margin-left:36.0pt; margin-right:0cm; text-align:justify">&nbsp;</p><h2><!--[if !supportLists]-->12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!--[endif]-->ADDITIONS TO THIS POLICY</h2><p dir="ltr">&nbsp;</p><p><!--[if !supportLists]--><strong><span>12.1<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->If we decide to change this Privacy Policy, we will post the changes on our webpage at www.coincraft.co. Please refer back to this Privacy Policy to review any amendments.</p><p><!--[if !supportLists]--><strong><span>12.2<span style="font-size:7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></strong><!--[endif]-->We may do things in addition to what is stated in this Privacy Policy to comply with the Australian Privacy Principles, and nothing in this Privacy Policy shall deem us to have not complied with the Australian Privacy Principles.</p><p><!--EndFragment--></p><p><!--EndFragment--></p></div>
-	</section>
-
-	<section id="footer" class="black-pattern-bg">
-		<img class="cc-icon" src="../images/coincraft-icon.svg" /><br />
-		<p>
-			<span data-remodal-target="mailinglist-modal" class="signup-btn">Join Our Mailing List</span>
-			<span data-remodal-target="signup-modal" class="signup-btn">Try Coincraft for Free!</span>
-			<span data-remodal-target="contact-modal" class="signup-btn">Contact Us</span>
-		</p>
-		<div class="copyright">
-			<span class="copy-text">Copyright ©2016, Coincraft Pty Ltd. All rights reserved.</span>
+				</form>
+			</div>
+			<script
+				type="text/javascript"
+				src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"
+			></script>
+			<script type="text/javascript">
+				(function ($) {
+					window.fnames = new Array();
+					window.ftypes = new Array();
+					fnames[0] = "EMAIL";
+					ftypes[0] = "email";
+					fnames[1] = "FNAME";
+					ftypes[1] = "text";
+					fnames[2] = "LNAME";
+					ftypes[2] = "text";
+					fnames[3] = "MMERGE3";
+					ftypes[3] = "text";
+				})(jQuery);
+			</script>
+			<!--End mc_embed_signup-->
 		</div>
-	</section>
-
-
-
-	<div class="remodal signup-modal" data-remodal-id="signup-modal">
-	</div>
-
-	<div class="remodal contact-modal" data-remodal-id="contact-modal">
-	</div>
-
-	<div class="remodal mailinglist-modal" data-remodal-id="mailinglist-modal">
-	  <button data-remodal-action="close" class="remodal-close"></button>
-	  <h2 style="margin-bottom:1em">Join Our Mailing List</h2>
-	  <!-- Begin MailChimp Signup Form -->
-		<div id="mc_embed_signup">
-			<form action="http://coincraft.us9.list-manage.com/subscribe/post?u=bb7db9e7602566aa5f2ea7f6e&amp;id=b36b5fda76" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-			<div id="mc_embed_signup_scroll">
-				<div class="mc-field-group">
-					<label for="mce-EMAIL">Email Address </label>
-					<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
-				</div>
-				<div id="mce-responses" class="clear">
-					<div class="response" id="mce-error-response" style="display:none"></div>
-					<div class="response" id="mce-success-response" style="display:none"></div>
-				</div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-		    	<div style="position: absolute; left: -5000px;" aria-hidden="true">
-		    		<input type="text" name="b_bb7db9e7602566aa5f2ea7f6e_b36b5fda76" tabindex="-1" value="">
-		    	</div>
-		    	<div class="clear">
-		    		<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="remodal-confirm button">
-		    	</div>
-		    </div>
-		</form>
-		</div>
-		<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
-		<script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='MMERGE3';ftypes[3]='text';}(jQuery));</script>
-		<!--End mc_embed_signup-->
-	</div>
-
-
-</body>
+	</body>
 </html>

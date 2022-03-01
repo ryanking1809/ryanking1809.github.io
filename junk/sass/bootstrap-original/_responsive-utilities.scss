@@ -2,7 +2,6 @@
 // Responsive: Utility classes
 // --------------------------------------------------
 
-
 // IE10 in Windows (Phone) 8
 //
 // Support for responsive views via media queries is kind of borked in IE10, for
@@ -14,61 +13,61 @@
 // For more information, see the following:
 //
 // Issue: https://github.com/twbs/bootstrap/issues/10497
-// Docs: http://getbootstrap.com/getting-started/#browsers
-// Source: http://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/
+// Docs: https://getbootstrap.com/getting-started/#browsers
+// Source: https://timkadlec.com/2012/10/ie10-snap-mode-and-responsive-design/
 
 @-ms-viewport {
-  width: device-width;
+	width: device-width;
 }
-
 
 // Visibility utilities
 
-@include responsive-invisibility('.visible-xs, .visible-sm, .visible-md, .visible-lg');
+@include responsive-invisibility(
+	".visible-xs, .visible-sm, .visible-md, .visible-lg"
+);
 
 @media (max-width: $screen-xs-max) {
-  @include responsive-visibility('.visible-xs');
+	@include responsive-visibility(".visible-xs");
 }
 
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-  @include responsive-visibility('.visible-sm');
+	@include responsive-visibility(".visible-sm");
 }
 
 @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-  @include responsive-visibility('.visible-md');
+	@include responsive-visibility(".visible-md");
 }
 
 @media (min-width: $screen-lg-min) {
-  @include responsive-visibility('.visible-lg');
+	@include responsive-visibility(".visible-lg");
 }
 
 @media (max-width: $screen-xs-max) {
-  @include responsive-invisibility('.hidden-xs');
+	@include responsive-invisibility(".hidden-xs");
 }
 
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-  @include responsive-invisibility('.hidden-sm');
+	@include responsive-invisibility(".hidden-sm");
 }
 
 @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-  @include responsive-invisibility('.hidden-md');
+	@include responsive-invisibility(".hidden-md");
 }
 
 @media (min-width: $screen-lg-min) {
-  @include responsive-invisibility('.hidden-lg');
+	@include responsive-invisibility(".hidden-lg");
 }
-
 
 // Print utilities
 //
 // Media queries are placed on the inside to be mixin-friendly.
 
-@include responsive-invisibility('.visible-print');
+@include responsive-invisibility(".visible-print");
 
 @media print {
-  @include responsive-visibility('.visible-print');
+	@include responsive-visibility(".visible-print");
 }
 
 @media print {
-  @include responsive-invisibility('.hidden-print');
+	@include responsive-invisibility(".hidden-print");
 }
