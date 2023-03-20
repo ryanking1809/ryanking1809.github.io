@@ -73,14 +73,24 @@
 		<script src="js/remodal.js"></script>
 		<script type="text/jsx">
 
+			const formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+
+			// These options are needed to round to whole numbers if that's what you want.
+			//minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+			//maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+			});
+			const format = (value) => formatter.format(value);
+
 			var PriceCalculator = React.createClass({
 
 				getInitialState: function(){
 					return {
 						adminUser: 1,
 						standardUser: 0,
-						standardPrice: 15,
-						adminPrice: 35,
+						standardPrice: 29,
+						adminPrice: 29,
 						yearlyDiscount: .15,
 						monthlyDiscount: 0,
 						selectedCurrency: 'aud'
@@ -109,16 +119,16 @@
 
 				setUSCurrency: function() {
 					this.setState({
-						standardPrice: 15,
-						adminPrice: 35,
+						standardPrice: 19,
+						adminPrice: 19,
 						selectedCurrency: 'usd'
 					});
 				},
 
 				setAusCurrency: function(event) {
 					this.setState({
-						standardPrice: 20,
-						adminPrice: 45,
+						standardPrice: 29,
+						adminPrice: 29,
 						selectedCurrency: 'aud'
 					});
 				},
@@ -149,19 +159,19 @@
 										</tr>
 										<tr>
 											<td>
-											<span style={{fontSize:'3em'}}>${this.totalPriceMonth()*(1-this.state.monthlyDiscount)}</span>
+											<span style={{fontSize:'3em'}}>{format(this.totalPriceMonth()*(1-this.state.monthlyDiscount))}</span>
 											<br />
 											{this.state.monthlyDiscount === 0
 												? <span className="small" >per month</span>
 												: <span className="small" >per month ( {this.state.monthlyDiscount*100}% discount )</span>
 											}
 											</td>
-											<td><span style={{fontSize:'3em'}}>${(this.totalPriceMonth())*(1-this.state.yearlyDiscount)} </span>
+											<td><span style={{fontSize:'3em'}}>{format((this.totalPriceMonth())*(1-this.state.yearlyDiscount))} </span>
 											<br /><span className="small">per month ( {this.state.yearlyDiscount*100}% discount )</span></td>
 										</tr>
 										<tr>
-											<td>${(this.totalPriceMonth())*12*(1-this.state.monthlyDiscount)} / year</td>
-											<td>${(this.totalPriceMonth())*12*(1-this.state.yearlyDiscount)} / year</td>
+											<td>{format((this.totalPriceMonth())*12*(1-this.state.monthlyDiscount))} / year</td>
+											<td>{format((this.totalPriceMonth())*12*(1-this.state.yearlyDiscount))} / year</td>
 										</tr>
 									</tbody>
 								</table>
@@ -171,16 +181,16 @@
 												? <tr>
 													<td style={{border: 'none'}}></td>
 													<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '0.5em'}}>
-														Save ${(this.totalPriceMonth())*12*this.state.yearlyDiscount}!
+														Save {format((this.totalPriceMonth())*12*this.state.yearlyDiscount)}!
 													</td>
 												</tr>
 												: <tr>
 													<td style={{backgroundColor: "white", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em', borderRight: 'solid 1px #ccc'}}>
-														Save ${(this.totalPriceMonth())*12*this.state.monthlyDiscount}!
+														Save {format((this.totalPriceMonth())*12*this.state.monthlyDiscount)}!
 														<br />
 														<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
 													</td>												<td style={{backgroundColor: "gold", border: 'none', boxShadow: '4px 4px 10px 0px rgba(0,0,0,0.4)', paddingTop: '1em'}}>
-														Save ${(this.totalPriceMonth())*12*this.state.yearlyDiscount}!
+														Save {format((this.totalPriceMonth())*12*this.state.yearlyDiscount)}!
 														<br />
 														<span style={{fontSize: '.8em', fontWeight: 400}}>over 12 months</span>
 													</td>
@@ -194,21 +204,13 @@
 									<thead>
 										<tr>
 											<td>
-												Admin Users
-												<br /><span className="small">( ${this.state.adminPrice} / month )</span>
-											</td>
-											<td>
-												Standard Users
-												<br /><span className="small">( ${this.state.standardPrice} / month )</span>
+												Users
+												<br /><span className="small">( {format(this.state.adminPrice)} / month )</span>
 											</td>
 										</tr>
 										<tr>
 											<td className="user-input">
 												<input type="number" min="1" value={this.state.adminUser} onChange={this.updateAdmin}/>
-												<span className="small">Click to edit number of users.</span>
-											</td>
-											<td className="user-input">
-												<input type="number" min="0" value={this.state.standardUser} onChange={this.updateStandard}/>
 												<span className="small">Click to edit number of users.</span>
 											</td>
 										</tr>
@@ -223,14 +225,6 @@
 													<li>Add Projects / Staff</li>
 													<li>Create Invoices</li>
 													<li>Create Reports</li>
-													<li>Track Time</li>
-												</ul>
-											</td>
-											<td>
-												<ul>
-													<li>View Project Schedules &amp; Milestones</li>
-													<li>Track Allocated Project Hours</li>
-													<li>Create Limited Reports</li>
 													<li>Track Time</li>
 												</ul>
 											</td>
