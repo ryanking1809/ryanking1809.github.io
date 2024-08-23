@@ -291,10 +291,6 @@ var ContactModal = React.createClass({
 					className="remodal-close"
 				></button>
 				<p className="contact-details">
-					US: +1 (415) 214-8442
-					<br />
-					AUS: +61 400 411 070
-					<br />
 					<a href="mailto:hello@coincraft.co">hello@coincraft.co</a>
 				</p>
 				<h2 style={{ marginTop: "0.5em" }}>Contact Us</h2>
