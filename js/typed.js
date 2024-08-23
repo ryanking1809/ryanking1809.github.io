@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 
-// Typed.js | Copyright (c) 2016 Matt Boldt | www.mattboldt.com
+// Typed.js | Copyright (c) 2024 Matt Boldt | www.mattboldt.com
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,15 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
-
-
-! function($) {
-
+!(function ($) {
 	"use strict";
 
-	var Typed = function(el, options) {
-
+	var Typed = function (el, options) {
 		// chosen element to manipulate text
 		this.el = $(el);
 
@@ -36,7 +31,7 @@
 		this.options = $.extend({}, $.fn.typed.defaults, options);
 
 		// attribute to type into
-		this.isInput = this.el.is('input');
+		this.isInput = this.el.is("input");
 		this.attr = this.options.attr;
 
 		// show cursor
@@ -98,29 +93,35 @@
 	};
 
 	Typed.prototype = {
-
 		constructor: Typed,
 
-		init: function() {
+		init: function () {
 			// begin the loop w/ first current string (global self.strings)
 			// current string will be passed as an argument each time after this
 			var self = this;
-			self.timeout = setTimeout(function() {
-				for (var i=0;i<self.strings.length;++i) self.sequence[i]=i;
+			self.timeout = setTimeout(function () {
+				for (var i = 0; i < self.strings.length; ++i)
+					self.sequence[i] = i;
 
 				// shuffle the array if true
-				if(self.shuffle) self.sequence = self.shuffleArray(self.sequence);
+				if (self.shuffle)
+					self.sequence = self.shuffleArray(self.sequence);
 
 				// Start typing
-				self.typewrite(self.strings[self.sequence[self.arrayPos]], self.strPos);
+				self.typewrite(
+					self.strings[self.sequence[self.arrayPos]],
+					self.strPos
+				);
 			}, self.startDelay);
 		},
 
-		build: function() {
+		build: function () {
 			var self = this;
 			// Insert cursor
 			if (this.showCursor === true) {
-				this.cursor = $("<span class=\"typed-cursor\">" + this.cursorChar + "</span>");
+				this.cursor = $(
+					'<span class="typed-cursor">' + this.cursorChar + "</span>"
+				);
 				this.el.after(this.cursor);
 			}
 			if (this.stringsElement) {
@@ -128,7 +129,7 @@
 				this.stringsElement.hide();
 				console.log(this.stringsElement.children());
 				var strings = this.stringsElement.children();
-				$.each(strings, function(key, value){
+				$.each(strings, function (key, value) {
 					self.strings.push($(value).html());
 				});
 			}
@@ -136,7 +137,7 @@
 		},
 
 		// pass current string state to each function, types 1 char per call
-		typewrite: function(curString, curStrPos) {
+		typewrite: function (curString, curStrPos) {
 			// exit when stopped
 			if (this.stop === true) {
 				return;
@@ -144,7 +145,8 @@
 
 			// varying values for setTimeout during typing
 			// can't be global since number changes each time loop is executed
-			var humanize = Math.round(Math.random() * (100 - 30)) + this.typeSpeed;
+			var humanize =
+				Math.round(Math.random() * (100 - 30)) + this.typeSpeed;
 			var self = this;
 
 			// ------------- optional ------------- //
@@ -156,13 +158,13 @@
 			// else{ self.backDelay = 500; }
 
 			// contain typing function in a timeout humanize'd delay
-			self.timeout = setTimeout(function() {
+			self.timeout = setTimeout(function () {
 				// check for an escape character before a pause value
 				// format: \^\d+ .. eg: ^1000 .. should be able to print the ^ too using ^^
 				// single ^ are removed from string
 				var charPause = 0;
 				var substr = curString.substr(curStrPos);
-				if (substr.charAt(0) === '^') {
+				if (substr.charAt(0) === "^") {
 					var skip = 1; // skip atleast 1
 					if (/^\^\d+/.test(substr)) {
 						substr = /\d+/.exec(substr)[0];
@@ -171,25 +173,30 @@
 					}
 
 					// strip out the escape character and pause value so they're not printed
-					curString = curString.substring(0, curStrPos) + curString.substring(curStrPos + skip);
+					curString =
+						curString.substring(0, curStrPos) +
+						curString.substring(curStrPos + skip);
 				}
 
-				if (self.contentType === 'html') {
+				if (self.contentType === "html") {
 					// skip over html tags while typing
-					var curChar = curString.substr(curStrPos).charAt(0)
-					if (curChar === '<' || curChar === '&') {
-						var tag = '';
-						var endTag = '';
-						if (curChar === '<') {
-							endTag = '>'
+					var curChar = curString.substr(curStrPos).charAt(0);
+					if (curChar === "<" || curChar === "&") {
+						var tag = "";
+						var endTag = "";
+						if (curChar === "<") {
+							endTag = ">";
+						} else {
+							endTag = ";";
 						}
-						else {
-							endTag = ';'
-						}
-						while (curString.substr(curStrPos + 1).charAt(0) !== endTag) {
+						while (
+							curString.substr(curStrPos + 1).charAt(0) !== endTag
+						) {
 							tag += curString.substr(curStrPos).charAt(0);
 							curStrPos++;
-							if (curStrPos + 1 > curString.length) { break; }
+							if (curStrPos + 1 > curString.length) {
+								break;
+							}
 						}
 						curStrPos++;
 						tag += endTag;
@@ -197,7 +204,7 @@
 				}
 
 				// timeout for any pause after a character
-				self.timeout = setTimeout(function() {
+				self.timeout = setTimeout(function () {
 					if (curStrPos === curString.length) {
 						// fires callback function
 						self.options.onStringTyped(self.arrayPos);
@@ -210,16 +217,17 @@
 							self.curLoop++;
 
 							// quit if we wont loop back
-							if (self.loop === false || self.curLoop === self.loopCount)
+							if (
+								self.loop === false ||
+								self.curLoop === self.loopCount
+							)
 								return;
 						}
 
-						self.timeout = setTimeout(function() {
+						self.timeout = setTimeout(function () {
 							self.backspace(curString, curStrPos);
 						}, self.backDelay);
-
 					} else {
-
 						/* call before functions if applicable */
 						if (curStrPos === 0) {
 							self.options.preStringTyped(self.arrayPos);
@@ -233,7 +241,7 @@
 						} else {
 							if (self.isInput) {
 								self.el.val(nextString);
-							} else if (self.contentType === 'html') {
+							} else if (self.contentType === "html") {
 								self.el.html(nextString);
 							} else {
 								self.el.text(nextString);
@@ -250,10 +258,9 @@
 
 				// humanized value for typing
 			}, humanize);
-
 		},
 
-		backspace: function(curString, curStrPos) {
+		backspace: function (curString, curStrPos) {
 			// exit when stopped
 			if (this.stop === true) {
 				return;
@@ -261,11 +268,11 @@
 
 			// varying values for setTimeout during typing
 			// can't be global since number changes each time loop is executed
-			var humanize = Math.round(Math.random() * (100 - 30)) + this.backSpeed;
+			var humanize =
+				Math.round(Math.random() * (100 - 30)) + this.backSpeed;
 			var self = this;
 
-			self.timeout = setTimeout(function() {
-
+			self.timeout = setTimeout(function () {
 				// ----- this part is optional ----- //
 				// check string array position
 				// on the first string, only delete one word
@@ -279,17 +286,21 @@
 				//  self.stopNum = 0;
 				// }
 
-				if (self.contentType === 'html') {
+				if (self.contentType === "html") {
 					// skip over html tags while backspacing
-					if (curString.substr(curStrPos).charAt(0) === '>') {
-						var tag = '';
-						while (curString.substr(curStrPos - 1).charAt(0) !== '<') {
+					if (curString.substr(curStrPos).charAt(0) === ">") {
+						var tag = "";
+						while (
+							curString.substr(curStrPos - 1).charAt(0) !== "<"
+						) {
 							tag -= curString.substr(curStrPos).charAt(0);
 							curStrPos--;
-							if (curStrPos < 0) { break; }
+							if (curStrPos < 0) {
+								break;
+							}
 						}
 						curStrPos--;
-						tag += '<';
+						tag += "<";
 					}
 				}
 
@@ -301,7 +312,7 @@
 				} else {
 					if (self.isInput) {
 						self.el.val(nextString);
-					} else if (self.contentType === 'html') {
+					} else if (self.contentType === "html") {
 						self.el.html(nextString);
 					} else {
 						self.el.text(nextString);
@@ -325,30 +336,36 @@
 						self.arrayPos = 0;
 
 						// Shuffle sequence again
-						if(self.shuffle) self.sequence = self.shuffleArray(self.sequence);
+						if (self.shuffle)
+							self.sequence = self.shuffleArray(self.sequence);
 
 						self.init();
 					} else
-						self.typewrite(self.strings[self.sequence[self.arrayPos]], curStrPos);
+						self.typewrite(
+							self.strings[self.sequence[self.arrayPos]],
+							curStrPos
+						);
 				}
 
 				// humanized value for typing
 			}, humanize);
-
 		},
 		/**
 		 * Shuffles the numbers in the given array.
 		 * @param {Array} array
 		 * @returns {Array}
 		 */
-		shuffleArray: function(array) {
-			var tmp, current, top = array.length;
-			if(top) while(--top) {
-				current = Math.floor(Math.random() * (top + 1));
-				tmp = array[current];
-				array[current] = array[top];
-				array[top] = tmp;
-			}
+		shuffleArray: function (array) {
+			var tmp,
+				current,
+				top = array.length;
+			if (top)
+				while (--top) {
+					current = Math.floor(Math.random() * (top + 1));
+					tmp = array[current];
+					array[current] = array[top];
+					array[top] = tmp;
+				}
 			return array;
 		},
 
@@ -371,36 +388,42 @@
 		// }
 
 		// Reset and rebuild the element
-		reset: function() {
+		reset: function () {
 			var self = this;
 			clearInterval(self.timeout);
-			var id = this.el.attr('id');
+			var id = this.el.attr("id");
 			this.el.empty();
-			if (typeof this.cursor !== 'undefined') {
-        this.cursor.remove();
-      }
+			if (typeof this.cursor !== "undefined") {
+				this.cursor.remove();
+			}
 			this.strPos = 0;
 			this.arrayPos = 0;
 			this.curLoop = 0;
 			// Send the callback
 			this.options.resetCallback();
-		}
-
+		},
 	};
 
-	$.fn.typed = function(option) {
-		return this.each(function() {
+	$.fn.typed = function (option) {
+		return this.each(function () {
 			var $this = $(this),
-				data = $this.data('typed'),
-				options = typeof option == 'object' && option;
-			if (data) { data.reset(); }
-			$this.data('typed', (data = new Typed(this, options)));
-			if (typeof option == 'string') data[option]();
+				data = $this.data("typed"),
+				options = typeof option == "object" && option;
+			if (data) {
+				data.reset();
+			}
+			$this.data("typed", (data = new Typed(this, options)));
+			if (typeof option == "string") data[option]();
 		});
 	};
 
 	$.fn.typed.defaults = {
-		strings: ["These are the default values...", "You know what you should do?", "Use your own!", "Have a great day!"],
+		strings: [
+			"These are the default values...",
+			"You know what you should do?",
+			"Use your own!",
+			"Have a great day!",
+		],
 		stringsElement: null,
 		// typing speed
 		typeSpeed: 0,
@@ -423,16 +446,14 @@
 		// attribute to type (null == text)
 		attr: null,
 		// either html or text
-		contentType: 'html',
+		contentType: "html",
 		// call when done callback function
-		callback: function() {},
+		callback: function () {},
 		// starting callback function before each string
-		preStringTyped: function() {},
+		preStringTyped: function () {},
 		//callback for every typed string
-		onStringTyped: function() {},
+		onStringTyped: function () {},
 		// callback for reset
-		resetCallback: function() {}
+		resetCallback: function () {},
 	};
-
-
-}(window.jQuery);
+})(window.jQuery);
